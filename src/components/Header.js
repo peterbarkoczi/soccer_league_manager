@@ -7,12 +7,33 @@ const HeaderDiv = styled.div`
 `
 
 function Header() {
-    return(
-        <HeaderDiv>
-            <Link to="/">
-                <h1>Soccer League Manager</h1>
-            </Link>
-        </HeaderDiv>
+    return (
+        <HeaderStyle>
+            <div className="header">
+                <div className="logo">
+                    <Link to="/">
+                        <h4>Soccer
+                            League
+                            Manager</h4>
+                    </Link>
+                </div>
+                <div className="menu">
+                    <Link to="/bajnoksag">
+                        <h4>Bajnokság</h4>
+                    </Link>
+                    <Link to="/kupak">
+                        <h4>Kupák</h4>
+                    </Link>
+                    <Link to="/csapatok">
+                        <h4>Csapatok</h4>
+                    </Link>
+                </div>
+                <div className="login">
+                    <button>Login</button>
+                    <button>Register</button>
+                </div>
+            </div>
+        </HeaderStyle>
     );
 }
 
