@@ -10,6 +10,10 @@ const HeaderStyle = styled.div`
    display: flex;
    justify-content: space-between;
    
+   a {
+      text-decoration: none;
+   }
+   
    .logo h4 {
     color: green;
     
