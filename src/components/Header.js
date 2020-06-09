@@ -2,9 +2,28 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const HeaderDiv = styled.div`
-   font-size: 2em;
-`
+const HeaderStyle = styled.div`
+   text-align: center;
+   padding: 2%;
+   margin: 2%;
+   border: dotted aquamarine;
+   display: flex;
+   justify-content: space-between;
+   
+   .logo h4 {
+    color: green;
+    
+    &:hover {
+       color: blue;
+    }
+   }
+   
+   .menu h4 {
+      color: red;
+      margin: 1%;
+   }
+    
+`;
 
 function Header() {
     return (
