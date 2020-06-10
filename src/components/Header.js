@@ -10,9 +10,9 @@ const HeaderStyle = styled.div`
    display: flex;
    justify-content: space-between;
    
-   a {
-      text-decoration: none;
-   }
+   //a {
+   //   text-decoration: none;
+   //}
    
    .logo h4 {
     color: green;
@@ -35,21 +35,13 @@ function Header() {
             <div className="header">
                 <div className="logo">
                     <Link to="/">
-                        <h4>Soccer
-                            League
-                            Manager</h4>
+                        <h4>Soccer League Manager</h4>
                     </Link>
                 </div>
                 <div className="menu">
-                    <Link to="/bajnoksag">
-                        <h4>Bajnokság</h4>
-                    </Link>
-                    <Link to="/kupak">
-                        <h4>Kupák</h4>
-                    </Link>
-                    <Link to="/csapatok">
-                        <h4>Csapatok</h4>
-                    </Link>
+                    <Link to="/bajnoksag"><h4>Bajnokság</h4></Link>
+                    <Link to="/kupak"><h4>Kupák</h4></Link>
+                    <Link to="/csapatok"><h4>Csapatok</h4></Link>
                 </div>
                 <div className="login">
                     <button>Login</button>
