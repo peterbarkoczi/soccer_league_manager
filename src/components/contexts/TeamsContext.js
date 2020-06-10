@@ -5,46 +5,46 @@ export const TeamsContext = createContext();
 export const TeamsProvider = props => {
     const [teams, setTeams] = useState([
         {
-            team: 'Kiss Team',
+            teamName: 'Kiss Team',
             id: 1
         },
         {
-            team: 'Kopacky',
+            teamName: 'Kopacky',
             id: 2
         },
         {
-            team: 'AC Calciopoli',
+            teamName: 'AC Calciopoli',
             id: 3
         },
         {
-            team: 'Green-Go',
+            teamName: 'Green-Go',
             id: 4
         },
         {
-            team: 'Avengers',
+            teamName: 'Avengers',
             id: 5
         },
         {
-            team: 'TÖFC',
+            teamName: 'TÖFC',
             id: 6
         },
         {
-            team: 'FociFenZ',
+            teamName: 'FociFenZ',
             id: 7
         },
         {
-            team: 'Faláb Se',
+            teamName: 'Faláb Se',
             id: 8
         },
         {
-            team: 'Dave Krokodiljai',
+            teamName: 'Dave Krokodiljai',
             id: 9
         },
         {
-            team: 'Májer München',
+            teamName: 'Májer München',
             id: 10
         },{
-            team: 'X-Taki',
+            teamName: 'X-Taki',
             id: 11
         }
     ]);
