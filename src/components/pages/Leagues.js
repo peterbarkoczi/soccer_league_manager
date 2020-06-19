@@ -3,8 +3,9 @@ import {LeagueContext} from "../contexts/LeagueContext";
 import {Link} from "react-router-dom";
 
 function Leagues() {
-    const { leaguesList } = useContext(LeagueContext);
-    const [leagues, setLeagues] = leaguesList;
+    const {leagues, setLeagues} = useContext(LeagueContext);
+    const [isLoading, setIsLoading] = useState(false);
+    const [showLeaguesDiv, setShowLeaguesDiv] = useState(true);
 
     return (
         <div className="leagues">

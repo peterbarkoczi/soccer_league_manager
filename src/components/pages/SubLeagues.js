@@ -2,9 +2,9 @@ import React, {useState, useContext} from "react";
 import {LeagueContext} from "../contexts/LeagueContext";
 import {Link} from "react-router-dom";
 
-function SubLeagues() {
-    const {subLeaguesList} = useContext(LeagueContext);
-    const [subLeagues, setSubLeague] = subLeaguesList;
+const SubLeagues = (props) => {
+    const {subLeagues, setSubLeagues} = useContext(LeagueContext);
+    const [isLoading, setIsLoading] = useState(false);
 
     return (
         <div className="subLeagues">

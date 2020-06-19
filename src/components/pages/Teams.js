@@ -3,7 +3,7 @@ import {TeamsContext} from "../contexts/TeamsContext";
 import AddTeam from "../util/AddTeam"
 
 function Teams() {
-    const [teams, setTeams] = useContext(TeamsContext);
+    const {teams, setTeams} = useContext(TeamsContext);
     const [showAddTeam, setShowAddTeam] = useState(false);
     const clickOnAddNewTeam = () => setShowAddTeam(true);
 
