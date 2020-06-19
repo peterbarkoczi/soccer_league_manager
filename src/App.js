@@ -7,6 +7,8 @@ import Leagues from "./components/pages/Leagues";
 import {TeamsProvider} from "./components/contexts/TeamsContext";
 import {LeagueProvider} from "./components/contexts/LeagueContext";
 import SubLeagues from "./components/pages/SubLeagues";
+import LeagueDetails from "./components/pages/LeagueDetails";
+import Cups from "./components/pages/Cups";
 
 function App() {
     return (
@@ -15,9 +17,11 @@ function App() {
                 <Router>
                     <div className="App">
                         <Header/>
+                        <Leagues />
                         <Route exact path="/csapatok" component={Teams}/>
-                        <Route exact path="/bajnoksag" component={Leagues}/>
-                        <Route exact path="/bajnoksag/:leagueName" component={SubLeagues}/>
+                        <Route exact path="/liga/:league/" component={SubLeagues}/>
+                        <Route exact path="/liga/:league/:subLeague" component={LeagueDetails}/>
+                        <Route exact path="/kupak" component={Cups}/>
                     </div>
                 </Router>
             </LeagueProvider>
