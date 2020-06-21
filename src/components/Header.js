@@ -81,11 +81,13 @@ function Header() {
                         <h2>Soccer League Manager</h2>
                     </Link>
                 </div>
-                <div className="menu">
-                    <Link to="/bajnoksag"><h3>Bajnokság</h3></Link>
-                    <Link to="/kupak"><h3>Kupák</h3></Link>
-                    <Link to="/csapatok"><h3>Csapatok</h3></Link>
-                </div>
+                {isSelected ? (
+                    <div className="menu">
+                        <Link to={`/${localStorage.getItem("path")}/bajnoksag`}><h3>Bajnokság</h3></Link>
+                        <Link to={`/${localStorage.getItem("path")}/kupak`}><h3>Kupák</h3></Link>
+                        <Link to={`/${localStorage.getItem("path")}/csapatok`}><h3>Csapatok</h3></Link>
+                    </div>
+                ) : null}
             </div>
         </HeaderStyle>
     );
