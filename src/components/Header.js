@@ -19,12 +19,19 @@ const HeaderStyle = styled.div`
       color: whitesmoke;
       font-size: 5em;
       margin-top: 0;
-      margin-bottom: 2%;
+      margin-bottom: 0;
+      padding-left: 1%;
+   }
+   
+   .title h3 {
+      color: floralwhite;
+      font-size: 3em;
       padding-left: 1%;
    }
    
    .menu {
      position: absolute;
+     margin-bottom: 2%;
    }
    
    .menu h3 {
