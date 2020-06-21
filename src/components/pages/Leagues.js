@@ -1,19 +1,9 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, {useContext} from "react";
 import {LeagueContext} from "../contexts/LeagueContext";
 import {Link} from "react-router-dom";
-import axios from "axios";
 
 function Leagues() {
-    const {leagues, setLeagues} = useContext(LeagueContext);
-    const [isLoading, setIsLoading] = useState(false);
-    const [showLeaguesDiv, setShowLeaguesDiv] = useState(true);
-
-    useEffect(() => {
-        setIsLoading(true);
-        axios.get("http://localhost:3000/leagues")
-            .then((response) => setLeagues(response.data))
-            .then(() => setIsLoading(false));
-    }, [setLeagues]);
+    const {leagues, isLoading, setIsSelected, showLeaguesDiv, setShowLeaguesDiv} = useContext(LeagueContext);
 
     const LeaguesDiv = () => (
         <div className="leagues">
@@ -22,9 +12,15 @@ function Leagues() {
                 {leagues.map(league => (
                     <li className="team" key={league.name}>
                         <Link to={{
-                            pathname: `liga/${league.name.split(" ").join("")}`,
-                            id: league.id
-                        }} onClick={() => setShowLeaguesDiv(false)}>{league.name}</Link>
+                            pathname: `liga/${league.name.split(" ").join("")}/bajnoksag`,
+                            leagueId: league.id
+                        }} onClick={() => {
+                            setShowLeaguesDiv(false);
+                            setIsSelected(true);
+                            localStorage.setItem("leagueId", league.id);
+                            localStorage.setItem("path", `liga/${league.name.split(" ").join("")}`);
+                            localStorage.setItem("leagueName", league.name);
+                        }}>{league.name}</Link>
                     </li>))
                 }
             </ul>

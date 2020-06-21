@@ -12,7 +12,7 @@ function Teams() {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get(`http://localhost:3000/teams`)
+        axios.get(`http://localhost:3000/teams?leagueId=${localStorage.getItem("leagueId")}`)
             .then((response) => setTeams(response.data))
             .then(() => setIsLoading(false));
     }, [setTeams]);
