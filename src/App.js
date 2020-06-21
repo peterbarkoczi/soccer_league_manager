@@ -18,10 +18,10 @@ function App() {
                     <div className="App">
                         <Header/>
                         <Leagues />
-                        <Route exact path="/csapatok" component={Teams}/>
-                        <Route exact path="/liga/:league/" component={SubLeagues}/>
-                        <Route exact path="/liga/:league/:subLeague" component={LeagueDetails}/>
-                        <Route exact path="/kupak" component={Cups}/>
+                        <Route exact path="/liga/:league/csapatok" component={Teams}/>
+                        <Route exact path="/liga/:league/bajnoksag" component={SubLeagues}/>
+                        <Route exact path="/liga/:league/bajnoksag/:subLeague" component={LeagueDetails}/>
+                        <Route exact path="/liga/:league/kupak" component={Cups}/>
                     </div>
                 </Router>
             </LeagueProvider>

@@ -59,7 +59,8 @@
       "id": 10,
       "leagueId": 1,
       "subLeague": "Kedd"
-    },{
+    },
+    {
       "teamName": "X-Taki",
       "id": 11,
       "leagueId": 1,
@@ -177,5 +178,8 @@
       "name": "2.osztály",
       "leagueId": 2
     }
+  ],
+  "cups": [
+
   ]
 }

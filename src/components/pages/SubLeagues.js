@@ -3,17 +3,16 @@ import {LeagueContext} from "../contexts/LeagueContext";
 import {Link} from "react-router-dom";
 import axios from "axios";
 
-const SubLeagues = (props) => {
+const SubLeagues = () => {
     const {subLeagues, setSubLeagues} = useContext(LeagueContext);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        console.log(props)
         setIsLoading(true);
-        axios.get(`http://localhost:3000/subLeagues?leagueId=${props.location.id}`)
+        axios.get(`http://localhost:3000/subLeagues?leagueId=${localStorage.getItem("leagueId")}`)
             .then((response) => setSubLeagues(response.data))
             .then(() => setIsLoading(false));
-    }, [props, setSubLeagues]);
+    }, [setSubLeagues]);
 
     if (isLoading) {
         return (<h1>Loading...</h1>)
@@ -27,7 +26,7 @@ const SubLeagues = (props) => {
                     {subLeagues.map(subLeague => (
                         <li className="team" key={subLeague.name}>
                             <Link to={{
-                                pathname: `${props.location.pathname}/${subLeague.name.split(" ").join("")}`,
+                                pathname: `/${localStorage.getItem("path")}/bajnoksag/${subLeague.name.split(" ").join("")}`,
                                 subLeagueName: subLeague.name
                             }}>{subLeague.name}</Link>
                         </li>))
