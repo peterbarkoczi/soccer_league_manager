@@ -1,7 +1,8 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 import background from "../red-soccer-bg2.jpg"
+import {LeagueContext} from "./contexts/LeagueContext";
 
 const HeaderStyle = styled.div`
    display: flex;
@@ -69,6 +70,15 @@ const HeaderStyle = styled.div`
 `;
 
 function Header() {
+
+    const {isSelected, setIsSelected, setShowLeaguesDiv} = useContext(LeagueContext);
+
+    function clickOnTitle() {
+        setShowLeaguesDiv(true);
+        setIsSelected(false);
+        localStorage.clear();
+    }
+
     return (
         <HeaderStyle>
             <div className="header">
@@ -77,9 +87,10 @@ function Header() {
                     <button>Register</button>
                 </div>
                 <div className="title">
-                    <Link to="/">
+                    <Link to="/" onClick={clickOnTitle}>
                         <h2>Soccer League Manager</h2>
                     </Link>
+                    <h3>{localStorage.getItem("leagueName") != null ? localStorage.getItem("leagueName") : null}</h3>
                 </div>
                 {isSelected ? (
                     <div className="menu">
