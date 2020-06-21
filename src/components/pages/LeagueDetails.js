@@ -60,7 +60,7 @@ const LeagueDetails = (props) => {
                         <tbody>
                             <tr>
                                 <td>{position++}</td>
-                                <td><Link to={`csapatok/${team.teamName.split(" ").join("")}`}>{team.teamName}</Link></td>
+                                <td><Link to={`/${localStorage.getItem("path")}/csapatok/${team.teamName.split(" ").join("")}`}>{team.teamName}</Link></td>
                             </tr>
                         </tbody>
                     ))}

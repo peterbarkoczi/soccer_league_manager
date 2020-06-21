@@ -27,7 +27,7 @@ const SubLeagues = (props) => {
                     {subLeagues.map(subLeague => (
                         <li className="team" key={subLeague.name}>
                             <Link to={{
-                                pathname: `${props.location.pathname}/${subLeague.name.split(" ").join("")}`,
+                                pathname: `/${localStorage.getItem("path")}/bajnoksag/${subLeague.name.split(" ").join("")}`,
                                 subLeagueName: subLeague.name
                             }}>{subLeague.name}</Link>
                         </li>))
