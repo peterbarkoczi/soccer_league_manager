@@ -4,7 +4,7 @@ import {TeamsContext} from "../contexts/TeamsContext";
 function AddTeam() {
     const [teamName, setTeamName] = useState("");
     const [id, setId] = useState("");
-    const [teams, setTeams] = useContext(TeamsContext);
+    const {teams, setTeams} = useContext(TeamsContext);
 
     const updateTeamName = e => {
         setTeamName(e.target.value);
