@@ -58,7 +58,13 @@ const HeaderStyle = styled.div`
     color: #515151;
     background: #d3d3d3;
     border-radius: 30px;
-}
+    }
+    
+    .selectedLeague {
+      float: left;
+      clear: left;
+      margin-top: 1%;
+    }
     
 `;
 
