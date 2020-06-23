@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import styled from "styled-components";
 import background from "../red-soccer-bg2.jpg"
 import {LeagueContext} from "./contexts/LeagueContext";
+import {Button} from "react-bootstrap";
 
 const HeaderStyle = styled.div`
    display: flex;
@@ -10,6 +11,7 @@ const HeaderStyle = styled.div`
    .header {
      width: 100%;
      background-image: url(${background});
+     margin-bottom: 3%;
    }
    
    .title {
@@ -32,6 +34,7 @@ const HeaderStyle = styled.div`
    
    .menu {
      position: absolute;
+     margin-top: 0.5%;
      margin-bottom: 2%;
    }
    
@@ -47,21 +50,8 @@ const HeaderStyle = styled.div`
       margin: 1%;
       float: right;
    }
-   
-   .login button {
-    display: inline-block;
-    position: relative;
-    margin: 10px;
-    padding: 0 20px;
-    text-align: center;
-    text-decoration: none;
-    font: bold 12px/25px Arial, sans-serif;
-    color: #515151;
-    background: #d3d3d3;
-    border-radius: 30px;
-    }
     
-    .selectedLeague {
+   .selectedLeague {
       float: left;
       clear: left;
       margin-top: 1%;
@@ -83,8 +73,8 @@ function Header() {
         <HeaderStyle>
             <div className="header">
                 <div className="login">
-                    <button>Login</button>
-                    <button>Register</button>
+                    <Button variant="secondary">Bejelentkezés</Button>{' '}
+                    <Button variant="secondary">Regisztráció</Button>
                 </div>
                 <div className="title">
                     <Link to="/" onClick={clickOnTitle}>
