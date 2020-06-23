@@ -1,13 +1,14 @@
 import React, {useState, useContext, useEffect} from "react";
 import {TeamsContext} from "../contexts/TeamsContext";
-import AddTeam from "../util/AddTeam"
 import axios from "axios";
 import {Link} from "react-router-dom";
+import AddTeamModal from "../modals/AddTeamModal";
+import {SubLeaguesProvider} from "../contexts/SubLeagueContext";
 
 function Teams() {
     const {teams, setTeams} = useContext(TeamsContext);
-    const [showAddTeam, setShowAddTeam] = useState(false);
-    const clickOnAddNewTeam = () => setShowAddTeam(true);
+    // const [showAddTeam, setShowAddTeam] = useState(false);
+    // const clickOnAddNewTeam = () => setShowAddTeam(true);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -26,9 +27,9 @@ function Teams() {
                     Csapatok
                 </h1>
                 <div className="addTeam">
-                    <input id="addNewTeamButton" type="submit" value="Új csapat hozzáadása"
-                           onClick={clickOnAddNewTeam}/>
-                    {showAddTeam ? <AddTeam/> : null}
+                    <SubLeaguesProvider>
+                        <AddTeamModal teams={teams}/>
+                    </SubLeaguesProvider>
                 </div>
                 <ul className="list" id="teamsList">
                     {teams.map(team => (
