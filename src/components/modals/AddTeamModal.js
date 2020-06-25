@@ -52,7 +52,7 @@ function AddTeamModal() {
 
     return (
         <>
-            <Button variant="danger" onClick={handleShow}>
+            <Button variant="danger" onClick={handleShow} id="addTeamButton">
                 Új csapat hozzáadása
             </Button>
 
@@ -62,7 +62,7 @@ function AddTeamModal() {
                 </Modal.Header>
                 <Modal.Body>
                     <Form onSubmit={addTeam}>
-                        <Form.Group controlId="exampleForm.ControlInput1">
+                        <Form.Group controlId="addName">
                             <Form.Label>Csapat neve</Form.Label>
                             <Form.Control
                                 type="text"
@@ -70,7 +70,7 @@ function AddTeamModal() {
                                 value={teamName}
                                 onChange={updateTeamName}/>
                         </Form.Group>
-                        <Form.Group controlId="exampleForm.ControlSelect1">
+                        <Form.Group controlId="addLeague">
                             <Form.Label>Bajnokság</Form.Label>
                             <Form.Control as="select" onChange={updateSubLeague}>
                                 <option selected>Válassz bajnokságot</option>
@@ -84,7 +84,7 @@ function AddTeamModal() {
                         <Button variant="primary" type="submit" onClick={(e) => {
                             addTeam(e);
                             handleClose()
-                        }}>
+                        }} id="addTeamSubmit">
                             Save Changes
                         </Button>
                     </Form>

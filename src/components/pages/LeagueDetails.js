@@ -3,6 +3,7 @@ import {TeamsContext} from "../contexts/TeamsContext";
 import axios from "axios";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import {Table} from "react-bootstrap";
 
 const LeagueTable = styled.table`
 
@@ -41,30 +42,36 @@ const LeagueDetails = (props) => {
     } else {
         return (
             <div className="leagueDetail">
-                <h1>{props.location.subLeagueName}</h1>
-                <LeagueTable id="leagueTable">
+                <h1 id="leagueDetailTitle">{props.location.subLeagueName}</h1>
+                <Table responsive striped bordered hover variant="dark" id="leagueDetailTable">
                     <thead>
-                        <tr>
-                            <th>Helyezés</th>
-                            <th>Csapat</th>
-                            <th>Lejátszott meccs</th>
-                            <th>Győzelem</th>
-                            <th>Vereség</th>
-                            <th>Rúgott gól</th>
-                            <th>Kapott gól</th>
-                            <th>Gólkülönbség</th>
-                            <th>Pont</th>
-                        </tr>
+                    <tr>
+                        <th>Helyezés</th>
+                        <th>Csapat</th>
+                        <th>Lejátszott meccs</th>
+                        <th>Győzelem</th>
+                        <th>Vereség</th>
+                        <th>Rúgott gól</th>
+                        <th>Kapott gól</th>
+                        <th>Gólkülönbség</th>
+                        <th>Pont</th>
+                    </tr>
                     </thead>
+                    <tbody>
                     {teams.map(team => (
-                        <tbody>
-                            <tr>
-                                <td>{position++}</td>
-                                <td><Link to={`/${localStorage.getItem("path")}/csapatok/${team.teamName.split(" ").join("")}`}>{team.teamName}</Link></td>
-                            </tr>
-                        </tbody>
+                        <tr>
+                            <td>{position++}</td>
+                            <td className="team">
+                                <Link
+                                    to={`/${localStorage.getItem("path")}/csapatok/${team.teamName.split(" ").join("")}`}>
+                                    {team.teamName}
+                                </Link>
+                            </td>
+                        </tr>
+
                     ))}
-                </LeagueTable>
+                    </tbody>
+                </Table>
             </div>
         )
     }

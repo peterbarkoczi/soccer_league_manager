@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import styled from "styled-components";
 import background from "../red-soccer-bg2.jpg"
 import {LeagueContext} from "./contexts/LeagueContext";
-import {Button} from "react-bootstrap";
+import {Button, ButtonGroup} from "react-bootstrap";
 
 const HeaderStyle = styled.div`
    display: flex;
@@ -11,7 +11,8 @@ const HeaderStyle = styled.div`
    .header {
      width: 100%;
      background-image: url(${background});
-     margin-bottom: 3%;
+     margin-bottom: 4%;
+     padding: 0.2%;
    }
    
    .title {
@@ -38,10 +39,8 @@ const HeaderStyle = styled.div`
      margin-bottom: 2%;
    }
    
-   .menu h3 {
-      color: black;
-      margin: 1%;
-      border: 1px solid red;
+   .menu a {
+      color: white;
       display: inline;
       
    }
@@ -78,16 +77,22 @@ function Header() {
                 </div>
                 <div className="title">
                     <Link to="/" onClick={clickOnTitle}>
-                        <h2>Soccer League Manager</h2>
+                        <h2 id="appTitle">Soccer League Manager</h2>
                     </Link>
-                    <h3>{localStorage.getItem("leagueName") != null ? localStorage.getItem("leagueName") : null}</h3>
+                    {localStorage.getItem("leagueName") != null ? (<h3 id="leagueName">{localStorage.getItem("leagueName")}</h3>) : null}
                 </div>
                 {isSelected ? (
-                    <div className="menu">
-                        <Link to={`/${localStorage.getItem("path")}/bajnoksag`}><h3>Bajnokság</h3></Link>
-                        <Link to={`/${localStorage.getItem("path")}/kupak`}><h3>Kupák</h3></Link>
-                        <Link to={`/${localStorage.getItem("path")}/csapatok`}><h3>Csapatok</h3></Link>
-                    </div>
+                    <ButtonGroup className="menu">
+                        <Link to={`/${localStorage.getItem("path")}/bajnoksag`}>
+                            <Button variant="danger" size="lg" id="navButtonSubLeague">Bajnokság</Button>
+                        </Link>
+                        <Link to={`/${localStorage.getItem("path")}/kupak`}>
+                            <Button variant="danger" size="lg" id="navButtonCups">Kupák</Button>
+                        </Link>
+                        <Link to={`/${localStorage.getItem("path")}/csapatok`}>
+                            <Button variant="danger" size="lg" id="navButtonTeams">Csapatok</Button>
+                        </Link>
+                    </ButtonGroup>
                 ) : null}
             </div>
         </HeaderStyle>

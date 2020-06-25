@@ -1,16 +1,17 @@
 import React, {useContext} from "react";
 import {LeagueContext} from "../contexts/LeagueContext";
 import {Link} from "react-router-dom";
+import {ListGroup} from "react-bootstrap";
 
 function Leagues() {
     const {leagues, isLoading, setIsSelected, showLeaguesDiv, setShowLeaguesDiv} = useContext(LeagueContext);
 
     const LeaguesDiv = () => (
         <div className="leagues">
-            <h1>Liga:</h1>
-            <ul className="list" id="leaguesList">
+            <h1 id="leagueTitle">Liga:</h1>
+            <ListGroup className="list" id="leaguesList">
                 {leagues.map(league => (
-                    <li className="team" key={league.name}>
+                    <ListGroup.Item className="league" key={league.name}>
                         <Link to={{
                             pathname: `liga/${league.name.split(" ").join("")}/bajnoksag`,
                             leagueId: league.id
@@ -21,9 +22,9 @@ function Leagues() {
                             localStorage.setItem("path", `liga/${league.name.split(" ").join("")}`);
                             localStorage.setItem("leagueName", league.name);
                         }}>{league.name}</Link>
-                    </li>))
+                    </ListGroup.Item>))
                 }
-            </ul>
+            </ListGroup>
         </div>
     )
 
