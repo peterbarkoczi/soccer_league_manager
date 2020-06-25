@@ -2,6 +2,7 @@ import React, {useState, useContext, useEffect} from "react";
 import {LeagueContext} from "../contexts/LeagueContext";
 import {Link} from "react-router-dom";
 import axios from "axios";
+import {ListGroup} from "react-bootstrap";
 
 const SubLeagues = () => {
     const {subLeagues, setSubLeagues} = useContext(LeagueContext);
@@ -20,18 +21,20 @@ const SubLeagues = () => {
         return (
             <div className="subLeagues">
                 <div className="title">
-                    <h1>Bajnokság</h1>
+                    <h1 id="subLeagueTitle">Bajnokság</h1>
                 </div>
-                <ul className="list" id="subLeaguesList">
+                <ListGroup className="list" id="subLeaguesList">
                     {subLeagues.map(subLeague => (
-                        <li className="team" key={subLeague.name}>
-                            <Link to={{
-                                pathname: `/${localStorage.getItem("path")}/bajnoksag/${subLeague.name.split(" ").join("")}`,
-                                subLeagueName: subLeague.name
-                            }}>{subLeague.name}</Link>
-                        </li>))
+                        <Link to={{
+                            pathname: `/${localStorage.getItem("path")}/bajnoksag/${subLeague.name.split(" ").join("")}`,
+                            subLeagueName: subLeague.name
+                        }} className="subLeague">
+                            <ListGroup.Item variant="dark" key={subLeague.name}>
+                                {subLeague.name}</ListGroup.Item>
+                            </Link>
+                    ))
                     }
-                </ul>
+                </ListGroup>
             </div>
         )
     }
