@@ -9,3 +9,7 @@ a:hover {
 .subLeagues {
     float: left;
 }
+
+.leagueDetail a {
+    color: white;
+}
