@@ -180,6 +180,51 @@
     }
   ],
   "cups": [
-
+    {
+      "name": "I.Újbuda Liga Tengo Turnament",
+      "leagueId": 1,
+      "teams": [
+        {
+          "teamName": "DINAMIKUS DUO"
+        },
+        {
+          "teamName": "GYILKOS MENDEZ"
+        },
+        {
+          "teamName": "KL TEAM"
+        },
+        {
+          "teamName": "RIZIKÓ"
+        },
+        {
+          "teamName": "KOPI&ILIE"
+        },
+        {
+          "teamName": "CSAPATNÉV"
+        },
+        {
+          "teamName": "LEVELCEF"
+        },
+        {
+          "teamName": "LEGUÁNKOMMANDÓ"
+        },
+        {
+          "teamName": "VIKTOM"
+        },
+        {
+          "teamName": "ALMABOMBA"
+        }
+      ]
+    },
+    {
+      "name": "Másik kupa",
+      "leagueId": 1,
+      "teams": []
+    },
+    {
+      "name": "Harmadik kupa",
+      "leagueId": 2,
+      "teams": []
+    }
   ]
 }
