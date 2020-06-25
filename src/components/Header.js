@@ -3,7 +3,7 @@ import {Link} from "react-router-dom";
 import styled from "styled-components";
 import background from "../red-soccer-bg2.jpg"
 import {LeagueContext} from "./contexts/LeagueContext";
-import {Button} from "react-bootstrap";
+import {Button, ButtonGroup} from "react-bootstrap";
 
 const HeaderStyle = styled.div`
    display: flex;
@@ -11,7 +11,8 @@ const HeaderStyle = styled.div`
    .header {
      width: 100%;
      background-image: url(${background});
-     margin-bottom: 3%;
+     margin-bottom: 4%;
+     padding: 0.2%;
    }
    
    .title {
