@@ -39,10 +39,8 @@ const HeaderStyle = styled.div`
      margin-bottom: 2%;
    }
    
-   .menu h3 {
-      color: black;
-      margin: 1%;
-      border: 1px solid red;
+   .menu a {
+      color: white;
       display: inline;
       
    }
@@ -79,9 +77,9 @@ function Header() {
                 </div>
                 <div className="title">
                     <Link to="/" onClick={clickOnTitle}>
-                        <h2>Soccer League Manager</h2>
+                        <h2 id="appTitle">Soccer League Manager</h2>
                     </Link>
-                    <h3>{localStorage.getItem("leagueName") != null ? localStorage.getItem("leagueName") : null}</h3>
+                    {localStorage.getItem("leagueName") != null ? (<h3 id="leagueName">{localStorage.getItem("leagueName")}</h3>) : null}
                 </div>
                 {isSelected ? (
                     <ButtonGroup className="menu">
