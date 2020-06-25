@@ -83,11 +83,17 @@ function Header() {
                     <h3>{localStorage.getItem("leagueName") != null ? localStorage.getItem("leagueName") : null}</h3>
                 </div>
                 {isSelected ? (
-                    <div className="menu">
-                        <Link to={`/${localStorage.getItem("path")}/bajnoksag`}><h3>Bajnokság</h3></Link>
-                        <Link to={`/${localStorage.getItem("path")}/kupak`}><h3>Kupák</h3></Link>
-                        <Link to={`/${localStorage.getItem("path")}/csapatok`}><h3>Csapatok</h3></Link>
-                    </div>
+                    <ButtonGroup className="menu">
+                        <Link to={`/${localStorage.getItem("path")}/bajnoksag`}>
+                            <Button variant="danger" size="lg" id="navButtonSubLeague">Bajnokság</Button>
+                        </Link>
+                        <Link to={`/${localStorage.getItem("path")}/kupak`}>
+                            <Button variant="danger" size="lg" id="navButtonCups">Kupák</Button>
+                        </Link>
+                        <Link to={`/${localStorage.getItem("path")}/csapatok`}>
+                            <Button variant="danger" size="lg" id="navButtonTeams">Csapatok</Button>
+                        </Link>
+                    </ButtonGroup>
                 ) : null}
             </div>
         </HeaderStyle>
