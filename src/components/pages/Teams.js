@@ -1,34 +1,42 @@
-import React, {useContext} from "react";
-import {TeamsContext} from "../contexts/TeamsContext";
+import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import AddTeamModal from "../modals/AddTeamModal";
-import {SubLeaguesProvider} from "../contexts/SubLeagueContext";
 import {ListGroup} from "react-bootstrap";
+import axios from "axios";
 
 function Teams() {
-    const {teams} = useContext(TeamsContext);
+    const [teams, setTeams] = useState([]);
+    const [isAdded, setIsAdded] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    return (
-        <div className="teams">
-            <h1 className="title" id="teamsTitle">
-                Csapatok
-            </h1>
-            <SubLeaguesProvider>
+    useEffect(() => {
+        setIsLoading(true);
+        axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
+            .then((response) => setTeams(response.data))
+            .then(() => setIsLoading(false))
+    }, [isAdded]);
+
+    if (isLoading) {
+        return (<h1>Loading...</h1>)
+    } else {
+        return (
+            <div className="teams">
+                <h1 className="title" id="teamsTitle">
+                    Csapatok
+                </h1>
                 <div className="addTeam">
-                    <AddTeamModal teams={teams}/>
+                    <AddTeamModal isAdded={isAdded} setIsAdded={setIsAdded}/>
                 </div>
-            </SubLeaguesProvider>
-            <ListGroup variant="flush" className="list" id="teamsList">
-                {teams.map(team => (
-                    team.leagueId === parseInt(localStorage.getItem("leagueId")) ?
+                <ListGroup variant="flush" className="list" id="teamsList">
+                    {teams.map(team => (
                         <ListGroup.Item className="team" key={team.id}>
-                            <Link to={`csapatok/${team.teamName.split(" ").join("")}`}>{team.teamName}</Link>
-                        </ListGroup.Item>
-                        : null)
-                )}
-            </ListGroup>
-        </div>
-    );
+                            <Link to={`csapatok/${team.name.split(" ").join("")}`}>{team.name}</Link>
+                        </ListGroup.Item>)
+                    )}
+                </ListGroup>
+            </div>
+        );
+    }
 }
 
 export default Teams;

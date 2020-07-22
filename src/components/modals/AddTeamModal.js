@@ -1,8 +1,7 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
 import axios from "axios";
-import {TeamsContext} from "../contexts/TeamsContext";
-import {SubLeaguesContext} from "../contexts/SubLeagueContext";
+import {DataPackContext} from "../contexts/DataPackContext";
 
 function AddTeamModal() {
     const [show, setShow] = useState(false);
@@ -11,23 +10,31 @@ function AddTeamModal() {
     const handleShow = () => setShow(true);
 
 
-    const {teams, setTeams} = useContext(TeamsContext);
-    const {subLeagues} = useContext(SubLeaguesContext);
-    const [isAdded, setIsAdded] = useState(false);
+    const {dataPack, setIsSelected} = useContext(DataPackContext);
+    const [leagues, setLeagues] = useState([]);
     const [teamName, setTeamName] = useState("");
-    const [subLeague, setSubLeague] = useState("");
+    const [league, setLeague] = useState("");
+    const [isAdded, setIsAdded] = useState(false);
+
+    useEffect(() => {
+        dataPack.forEach(location => {
+            if (location.id === Number(localStorage.getItem("locationId"))) {
+                setLeagues(location.leagues)
+            }
+        })
+    }, [dataPack])
 
     useEffect(() => {
         if (isAdded) {
-            axios.post('http://localhost:3000/teams', {
+            axios.post('http://localhost:8080/teams/add_team', {
                 teamName: teamName,
-                id: "",
-                leagueId: parseInt(localStorage.getItem("leagueId")),
-                subLeague: subLeague
+                locationId: parseInt(localStorage.getItem("locationId")),
+                leagueName: league
             })
                 .then(response => console.log("team added" + response))
                 .then(() => setIsAdded(false));
         }
+        setIsSelected(true);
     }, [isAdded])
 
     const updateTeamName = e => {
@@ -35,19 +42,7 @@ function AddTeamModal() {
     }
 
     const updateSubLeague = e => {
-        setSubLeague(e.target.value);
-    }
-
-    function addTeam(e) {
-        console.log("add team");
-        e.preventDefault();
-        setTeams(prevTeams => [...teams, {
-            teamName: teamName,
-            id: "",
-            leagueId: parseInt(localStorage.getItem("leagueId")),
-            subLeague: subLeague
-        }]);
-        setIsAdded(true);
+        setLeague(e.target.value);
     }
 
     return (
@@ -61,7 +56,7 @@ function AddTeamModal() {
                     <Modal.Title>Új csapat hozzáadása</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form onSubmit={addTeam}>
+                    <Form>
                         <Form.Group controlId="addName">
                             <Form.Label>Csapat neve</Form.Label>
                             <Form.Control
@@ -74,18 +69,18 @@ function AddTeamModal() {
                             <Form.Label>Bajnokság</Form.Label>
                             <Form.Control as="select" onChange={updateSubLeague}>
                                 <option selected>Válassz bajnokságot</option>
-                                {subLeagues.map(subLeague => (
+                                {leagues.map(league => (
                                     <option
-                                        key={subLeague.name}
-                                        value={subLeague.name}>{subLeague.name}</option>
+                                        key={league.name}
+                                        value={league.name}>{league.name}</option>
                                 ))}
                             </Form.Control>
                         </Form.Group>
-                        <Button variant="primary" type="submit" onClick={(e) => {
-                            addTeam(e);
+                        <Button variant="primary" type="submit" onClick={() => {
+                            setIsAdded(true);
                             handleClose()
                         }} id="addTeamSubmit">
-                            Save Changes
+                            Add team
                         </Button>
                     </Form>
                 </Modal.Body>

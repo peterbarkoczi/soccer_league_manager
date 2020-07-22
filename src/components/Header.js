@@ -2,7 +2,7 @@ import React, {useContext} from "react";
 import {Link} from "react-router-dom";
 import styled from "styled-components";
 import background from "../red-soccer-bg2.jpg"
-import {LeagueContext} from "./contexts/LeagueContext";
+import {DataPackContext} from "./contexts/DataPackContext";
 import {Button, ButtonGroup} from "react-bootstrap";
 
 const HeaderStyle = styled.div`
@@ -60,10 +60,10 @@ const HeaderStyle = styled.div`
 
 function Header() {
 
-    const {isSelected, setIsSelected, setShowLeaguesDiv} = useContext(LeagueContext);
+    const {isSelected, setIsSelected, setShowLocationDiv} = useContext(DataPackContext);
 
-    function clickOnTitle() {
-        setShowLeaguesDiv(true);
+    function reset() {
+        setShowLocationDiv(true);
         setIsSelected(false);
         localStorage.clear();
     }
@@ -76,10 +76,10 @@ function Header() {
                     <Button variant="secondary">Regisztráció</Button>
                 </div>
                 <div className="title">
-                    <Link to="/" onClick={clickOnTitle}>
+                    <Link to="/" onClick={reset}>
                         <h2 id="appTitle">Soccer League Manager</h2>
                     </Link>
-                    {localStorage.getItem("leagueName") != null ? (<h3 id="leagueName">{localStorage.getItem("leagueName")}</h3>) : null}
+                    {localStorage.getItem("location") != null ? (<h3 id="location">{localStorage.getItem("location")}</h3>) : null}
                 </div>
                 {isSelected ? (
                     <ButtonGroup className="menu">
