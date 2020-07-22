@@ -24,24 +24,24 @@ const LeagueTable = styled.table`
 
 `
 
-const LeagueDetails = (props) => {
-    const {teams, setTeams} = useContext(TeamsContext);
+const LeagueDetails = () => {
+
+    const [teams, setTeams] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     let position = 1;
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get(`http://localhost:3000/teams?subLeague=${props.location.subLeagueName}`)
-            .then((response) => setTeams(response.data))
-            .then(() => setIsLoading(false));
-    }, [props.location.subLeagueName, setTeams]);
+        setTeams(JSON.parse(localStorage.getItem("teams")));
+        setIsLoading(false);
+    }, [])
 
     if (isLoading) {
         return (<h1>Loading...</h1>)
     } else {
         return (
             <div className="leagueDetail">
-                <h1 id="leagueDetailTitle">{props.location.subLeagueName}</h1>
+                <h1 id="leagueDetailTitle">{localStorage.getItem("leagueName")}</h1>
                 <Table responsive striped bordered hover variant="dark" id="leagueDetailTable">
                     <thead>
                     <tr>
@@ -62,8 +62,8 @@ const LeagueDetails = (props) => {
                             <td>{position++}</td>
                             <td className="team">
                                 <Link
-                                    to={`/${localStorage.getItem("path")}/csapatok/${team.teamName.split(" ").join("")}`}>
-                                    {team.teamName}
+                                    to={`/${localStorage.getItem("path")}/csapatok/${team.name.split(" ").join("")}`}>
+                                    {team.name}
                                 </Link>
                             </td>
                         </tr>
