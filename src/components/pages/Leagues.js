@@ -16,12 +16,22 @@ const Leagues = () => {
         });
     }, [dataPack]);
 
-    const LeaguesDiv = () => (
-        <div className="leagues">
-            <h1 id="leagueTitle">Liga:</h1>
-            <ListGroup className="list" id="leaguesList">
-                {leagues.map(league => (
-                    <ListGroup.Item className="league" key={league.name}>
+    function clearLocalStorage() {
+        localStorage.removeItem("teams");
+        localStorage.removeItem("leagueName");
+        setIsTeamsCleared(true);
+    }
+
+    if (!isTeamsCleared) {
+        clearLocalStorage();
+    } else {
+        return (
+            <div className="leagues">
+                <div className="title">
+                    <h1 id="leagueTitle">Bajnokság</h1>
+                </div>
+                <ListGroup className="list" id="leaguesList">
+                    {leagues.map(league => (
                         <Link to={{
                             pathname: `/${localStorage.getItem("path")}/bajnoksag/${league.name.split(" ").join("")}`,
                         }} onClick={() => {
