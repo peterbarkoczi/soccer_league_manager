@@ -1,9 +1,20 @@
 import React, {useState, useEffect, useContext} from "react";
 import {Link} from "react-router-dom";
 import {ListGroup} from "react-bootstrap";
+import {DataPackContext} from "../contexts/DataPackContext";
 
-function Leagues() {
-    const {leagues, isLoading, setIsSelected, showLeaguesDiv, setShowLeaguesDiv} = useContext(LeagueContext);
+const Leagues = () => {
+    const {dataPack} = useContext(DataPackContext);
+    const [leagues, setLeagues] = useState([]);
+    const [isTeamsCleared, setIsTeamsCleared] = useState(false);
+
+    useEffect(() => {
+        dataPack.forEach(location => {
+            if (location.id === Number(localStorage.getItem("locationId"))) {
+                setLeagues(location.leagues)
+            }
+        });
+    }, [dataPack]);
 
     const LeaguesDiv = () => (
         <div className="leagues">
@@ -12,26 +23,18 @@ function Leagues() {
                 {leagues.map(league => (
                     <ListGroup.Item className="league" key={league.name}>
                         <Link to={{
-                            pathname: `liga/${league.name.split(" ").join("")}/bajnoksag`,
-                            leagueId: league.id
+                            pathname: `/${localStorage.getItem("path")}/bajnoksag/${league.name.split(" ").join("")}`,
                         }} onClick={() => {
-                            setShowLeaguesDiv(false);
-                            setIsSelected(true);
-                            localStorage.setItem("leagueId", league.id);
-                            localStorage.setItem("path", `liga/${league.name.split(" ").join("")}`);
+                            localStorage.setItem("teams", JSON.stringify(league.teams));
                             localStorage.setItem("leagueName", league.name);
-                        }}>{league.name}</Link>
-                    </ListGroup.Item>))
-                }
-            </ListGroup>
-        </div>
-    )
-
-    if (isLoading) {
-        return (<h1>Loading...</h1>)
-    } else {
-        return (
-            showLeaguesDiv ? <LeaguesDiv/> : null
+                        }}
+                              className="league" key={league.name}>
+                            <ListGroup.Item variant="dark">{league.name}</ListGroup.Item>
+                        </Link>
+                    ))
+                    }
+                </ListGroup>
+            </div>
         )
     }
 }
