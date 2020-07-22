@@ -1,5 +1,4 @@
-import React, {useContext} from "react";
-import {LeagueContext} from "../contexts/LeagueContext";
+import React, {useState, useEffect, useContext} from "react";
 import {Link} from "react-router-dom";
 import {ListGroup} from "react-bootstrap";
 
