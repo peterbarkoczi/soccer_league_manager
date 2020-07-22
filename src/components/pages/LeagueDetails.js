@@ -1,6 +1,5 @@
 import React, {useState, useContext, useEffect} from "react";
-import {TeamsContext} from "../contexts/TeamsContext";
-import axios from "axios";
+
 import styled from "styled-components";
 import {Link} from "react-router-dom";
 import {Table} from "react-bootstrap";
