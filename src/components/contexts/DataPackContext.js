@@ -11,7 +11,7 @@ export const DataPackProvider = props => {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get("http://localhost:8080/liga/list")
+        axios.get("http://localhost:8080/location/list")
             .then((response) => setDataPack(response.data))
             .then(() => setIsLoading(false));
     }, [setDataPack]);
