@@ -25,7 +25,7 @@ function Teams() {
                     Csapatok
                 </h1>
                 <div className="addTeam">
-                    <AddTeamModal isAdded={isAdded} setIsAdded={setIsAdded}/>
+                    <AddTeamModal/>
                 </div>
                 <ListGroup variant="flush" className="list" id="teamsList">
                     {teams.map(team => (
