@@ -1,28 +1,8 @@
-import React, {useState, useContext, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 
-import styled from "styled-components";
 import {Link} from "react-router-dom";
 import {Table} from "react-bootstrap";
 
-const LeagueTable = styled.table`
-
-    tr {
-      text-align: center;
-    }
-    
-    th {
-      font-weight: bold;
-    }
-    
-    tbody:nth-child(even) { 
-      background-color: whitesmoke; 
-    }
-    
-    a {
-      color: black;
-    }
-
-`
 
 const LeagueDetails = () => {
 
