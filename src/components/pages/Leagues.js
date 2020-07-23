@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 import {Link} from "react-router-dom";
 import {ListGroup} from "react-bootstrap";
 import {DataPackContext} from "../contexts/DataPackContext";
+import AddLeagueModal from "../modals/AddLeagueModal";
 
 const Leagues = () => {
     const {dataPack} = useContext(DataPackContext);
@@ -29,6 +30,9 @@ const Leagues = () => {
             <div className="leagues">
                 <div className="title">
                     <h1 id="leagueTitle">Bajnokság</h1>
+                </div>
+                <div className="addTeam">
+                    <AddLeagueModal/>
                 </div>
                 <ListGroup className="list" id="leaguesList">
                     {leagues.map(league => (
