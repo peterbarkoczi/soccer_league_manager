@@ -1,22 +1,27 @@
-import React, {useContext, useEffect} from "react";
-import {CupsContext} from "../contexts/CupsContext";
+import React, {useContext, useEffect, useState} from "react";
 import CreateCupModal from "../modals/CreateCupModal";
 import {ListGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import axios from "axios";
+import {DataPackContext} from "../contexts/DataPackContext";
 
 const Cups = () => {
-    const {cups, setCups} = useContext(CupsContext);
+    const {dataPack} = useContext(DataPackContext);
+    const [cups, setCups] = useState([]);
+    const [teams, setTeams] = useState([]);
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/cups?leagueId=${localStorage.getItem("leagueId")}`)
-            .then((response) => setCups(response.data));
-    }, [setCups]);
+        dataPack.forEach(location => {
+            if (location.id === Number(localStorage.getItem("locationId"))) {
+                setCups(location.cups);
+                setTeams(location.teams);
+            }
+        });
+    }, [dataPack]);
 
     return (
         <div className="cups">
             <h1 id="cupsTitle">Kupák</h1>
-            <CreateCupModal/>
+            <CreateCupModal teams={teams}/>
             <ListGroup id="cupsList">
                 {cups.map(cup => (
                     <ListGroup.Item key={cup.name}>
