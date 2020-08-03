@@ -2,7 +2,9 @@ import React, {useContext, useEffect, useState} from "react";
 import CreateCupModal from "../../modals/CreateCupModal";
 import {ListGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
-import {DataPackContext} from "../contexts/DataPackContext";
+import {DataPackContext} from "../../contexts/DataPackContext";
+import {CupContext} from "../../contexts/CupContext";
+import axios from "axios";
 
 const Cups = () => {
     const {dataPack} = useContext(DataPackContext);
