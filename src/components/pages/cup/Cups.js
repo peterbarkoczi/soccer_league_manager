@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import CreateCupModal from "../modals/CreateCupModal";
+import CreateCupModal from "../../modals/CreateCupModal";
 import {ListGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {DataPackContext} from "../contexts/DataPackContext";
