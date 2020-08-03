@@ -14,21 +14,21 @@ import {CupProvider} from "./components/contexts/CupContext";
 
 function App() {
     return (
-            <DataPackProvider>
-                <CupsProvider>
-                    <Router>
-                        <div className="App">
-                            <Header/>
-                            <Route exact path="/" component={Location}/>
-                            <Route exact path="/liga/:league/csapatok" component={Teams}/>
-                            <Route exact path="/liga/:league/bajnoksag" component={Leagues}/>
-                            <Route exact path="/liga/:league/bajnoksag/:subLeague" component={LeagueDetails}/>
-                            <Route exact path="/liga/:league/kupak" component={Cups}/>
-                            <Route exact path="/liga/:league/kupak/:cup" component={CupDetails}/>
-                        </div>
-                    </Router>
-                </CupsProvider>
-            </DataPackProvider>
+        <DataPackProvider>
+            <CupProvider>
+                <Router>
+                    <div className="App">
+                        <Header/>
+                        <Route exact path="/" component={Location}/>
+                        <Route exact path="/liga/:league/csapatok" component={Teams}/>
+                        <Route exact path="/liga/:league/bajnoksag" component={Leagues}/>
+                        <Route exact path="/liga/:league/bajnoksag/:subLeague" component={LeagueDetails}/>
+                        <Route exact path="/liga/:league/kupak" component={Cups}/>
+                        <Route exact path="/liga/:league/kupak/:cup" component={CupDetails}/>
+                    </div>
+                </Router>
+            </CupProvider>
+        </DataPackProvider>
     );
 }
 
