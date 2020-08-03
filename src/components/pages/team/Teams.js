@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
-import AddTeamModal from "../modals/AddTeamModal";
+import AddTeamModal from "../../modals/AddTeamModal";
 import {ListGroup} from "react-bootstrap";
 import axios from "axios";
 

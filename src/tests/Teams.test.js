@@ -1,6 +1,6 @@
 import React from "react";
 import {mount} from "enzyme";
-import Teams from "../components/pages/Teams";
+import Teams from "../components/pages/team/Teams";
 import {TeamsProvider} from "../components/contexts/TeamsContext";
 
 describe('Teams', () => {

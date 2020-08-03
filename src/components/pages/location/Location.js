@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from "react";
-import {DataPackContext} from "../contexts/DataPackContext";
+import {DataPackContext} from "../../contexts/DataPackContext";
 import {Link} from "react-router-dom";
 import {ListGroup} from "react-bootstrap";
-import AddLocationModal from "../modals/AddLocationModal";
+import AddLocationModal from "../../modals/AddLocationModal";
 
 function Location() {
     const {dataPack, setIsSelected, showLocationDiv, setShowLocationDiv, isLoading} = useContext(DataPackContext);

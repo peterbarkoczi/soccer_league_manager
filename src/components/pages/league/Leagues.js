@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useContext} from "react";
 import {Link} from "react-router-dom";
 import {ListGroup} from "react-bootstrap";
-import {DataPackContext} from "../contexts/DataPackContext";
-import AddLeagueModal from "../modals/AddLeagueModal";
+import {DataPackContext} from "../../contexts/DataPackContext";
+import AddLeagueModal from "../../modals/AddLeagueModal";
 
 const Leagues = () => {
     const {dataPack} = useContext(DataPackContext);

@@ -3,14 +3,14 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import Header from "./components/Header";
-import Teams from "./components/pages/Teams";
-import Location from "./components/pages/Location";
+import Teams from "./components/pages/team/Teams";
+import Location from "./components/pages/location/Location";
 import {DataPackProvider} from "./components/contexts/DataPackContext";
-import Leagues from "./components/pages/Leagues";
-import LeagueDetails from "./components/pages/LeagueDetails";
-import Cups from "./components/pages/Cups";
-import CupDetails from "./components/pages/CupDetails"
-import {CupsProvider} from "./components/contexts/CupsContext";
+import Leagues from "./components/pages/league/Leagues";
+import LeagueDetails from "./components/pages/league/LeagueDetails";
+import Cups from "./components/pages/cup/Cups";
+import CupDetails from "./components/pages/cup/CupDetails"
+import {CupProvider} from "./components/contexts/CupContext";
 
 function App() {
     return (
