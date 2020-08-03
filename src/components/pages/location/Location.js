@@ -40,6 +40,7 @@ function Location() {
     if (isLoading) {
         return (<h1>Loading...</h1>)
     } else {
+        localStorage.clear();
         return (
             showLocationDiv ? <LocationDiv/> : null
         )
