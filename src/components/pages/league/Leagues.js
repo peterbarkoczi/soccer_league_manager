@@ -10,11 +10,11 @@ const Leagues = () => {
     const [isTeamsCleared, setIsTeamsCleared] = useState(false);
 
     useEffect(() => {
-        dataPack.forEach(location => {
+        for (let location of dataPack){
             if (location.id === Number(localStorage.getItem("locationId"))) {
                 setLeagues(location.leagues)
             }
-        });
+        }
     }, [dataPack]);
 
     function clearLocalStorage() {
