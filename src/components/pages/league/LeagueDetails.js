@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 
 import {Link} from "react-router-dom";
 import {Table} from "react-bootstrap";
@@ -7,11 +7,14 @@ import {DataPackContext} from "../../contexts/DataPackContext";
 
 const LeagueDetails = () => {
 
+    const {setIsSelected} = useContext(DataPackContext);
+
     const [teams, setTeams] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     let position = 1;
 
     useEffect(() => {
+        setIsSelected(true);
         setIsLoading(true);
         setTeams(JSON.parse(localStorage.getItem("teams")));
         setIsLoading(false);
