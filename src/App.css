@@ -13,3 +13,23 @@ a:hover {
 .leagueDetail a {
     color: white;
 }
+
+#cupName {
+    text-align: center;
+}
+
+.matchTable th, td {
+    text-align: center;
+}
+
+.teamCell {
+    width: 43%;
+}
+
+.scoreCell {
+    width: 7%;
+}
+
+#scorer {
+    white-space:pre
+}
