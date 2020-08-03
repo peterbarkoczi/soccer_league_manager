@@ -115,6 +115,14 @@ function CreateCupModal(props) {
                                 value={startTime}
                                 onChange={updateStartTime}/>
                         </Form.Group>
+                        <Form.Group controlId="addCupMatchTime">
+                            <Form.Label>Meccsek ideje(perc)</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="20"
+                                value={matchTime}
+                                onChange={updateMatchTime}/>
+                        </Form.Group>
                         <Button variant="primary" type="submit" onClick={() => {
                             setIsAdded(true);
                             handleClose();
