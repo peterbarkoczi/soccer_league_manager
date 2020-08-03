@@ -14,6 +14,7 @@ function CreateCupModal(props) {
     const [numOfTeams, setNumOfTeams] = useState("");
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
+    const [matchTime, setMatchTime] = useState("");
     const [isAdded, setIsAdded] = useState(false);
     const [teamList, setTeamList] = useState([])
     let teams = [];
@@ -26,7 +27,9 @@ function CreateCupModal(props) {
                 teamList: teamList,
                 date: date,
                 startTime: startTime,
-                locationId: Number(localStorage.getItem("locationId"))
+                matchTime: matchTime,
+                locationId: Number(localStorage.getItem("locationId")),
+                matchType: "q"
             })
                 .then(response => console.log("league added" + response))
                 .then(() => setIsAdded(false))
@@ -42,13 +45,16 @@ function CreateCupModal(props) {
         setStartTime(e.target.value);
     }
 
+    const updateMatchTime = e => {
+        setMatchTime(e.target.value);
+    }
+
     const updateCupName = e => {
         setCupName(e.target.value);
     }
 
     const updateNumOfTeams = e => {
         setNumOfTeams(e.target.value);
-        console.log(e.target.value);
     }
 
     const addTeamToCup = e => {
@@ -57,7 +63,7 @@ function CreateCupModal(props) {
             console.log(e.target.value);
             console.log(teams.length);
         }
-        if (teams.length === 8) {
+        if (teams.length === Number(numOfTeams)) {
             setTeamList(teams);
         }
     }
