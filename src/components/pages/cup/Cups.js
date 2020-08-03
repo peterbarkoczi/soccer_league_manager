@@ -8,16 +8,20 @@ import axios from "axios";
 
 const Cups = () => {
     const {dataPack} = useContext(DataPackContext);
+    const {setCupId} = useContext(CupContext);
     const [cups, setCups] = useState([]);
     const [teams, setTeams] = useState([]);
 
     useEffect(() => {
-        dataPack.forEach(location => {
+        localStorage.removeItem("cupId");
+        axios.get("http://localhost:8080/cups/list")
+            .then((response) => setCups(response.data))
+        for (let location of dataPack) {
             if (location.id === Number(localStorage.getItem("locationId"))) {
-                setCups(location.cups);
+                // setCups(location.cups);
                 setTeams(location.teams);
             }
-        });
+        }
     }, [dataPack]);
 
     return (
@@ -29,7 +33,8 @@ const Cups = () => {
                     <ListGroup.Item key={cup.name}>
                         <Link to={{
                             pathname: `/${localStorage.getItem("path")}/kupak/${cup.name.split(" ").join("")}`,
-                            cup: cup
+                        }} onClick={() => {
+                            setCupId(cup.id)
                         }}>{cup.name}</Link>
                     </ListGroup.Item>
                 ))}
