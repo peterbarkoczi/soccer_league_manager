@@ -16,6 +16,7 @@ a:hover {
 
 #cupName {
     text-align: center;
+    padding: 1%;
 }
 
 .matchTable th, td {
@@ -32,4 +33,9 @@ a:hover {
 
 #scorer {
     white-space:pre
+}
+
+.matchTypeTitle {
+    text-align: center;
+    padding: 2%;
 }
