@@ -17,6 +17,8 @@ export const CupProvider = props => {
     const [scoreIsAdded, setScoreIsAdded] = useState(false);
     const [matchIsFinished, setMatchIsFinished] = useState(false);
 
+    const [isDeleted, setIsDeleted] = useState(false);
+
     useEffect(() => {
         setIsLoading(true);
         if (cupId !== "") {
@@ -38,7 +40,8 @@ export const CupProvider = props => {
             score1, setScore1,
             score2, setScore2,
             scoreIsAdded, setScoreIsAdded,
-            matchIsFinished, setMatchIsFinished
+            matchIsFinished, setMatchIsFinished,
+            isDeleted, setIsDeleted
         }}>
             {props.children}
         </CupContext.Provider>
