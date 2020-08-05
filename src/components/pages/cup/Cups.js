@@ -5,10 +5,11 @@ import {Link} from "react-router-dom";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import {CupContext} from "../../contexts/CupContext";
 import axios from "axios";
+import DeleteModal from "../../modals/DeleteModal";
 
 const Cups = () => {
     const {dataPack} = useContext(DataPackContext);
-    const {setCupId} = useContext(CupContext);
+    const {setCupId, isDeleted} = useContext(CupContext);
     const [cups, setCups] = useState([]);
     const [teams, setTeams] = useState([]);
 
@@ -21,7 +22,7 @@ const Cups = () => {
                 setTeams(location.teams);
             }
         }
-    }, [dataPack]);
+    }, [dataPack, isDeleted]);
 
     return (
         <div className="cups">
@@ -35,6 +36,7 @@ const Cups = () => {
                         }} onClick={() => {
                             setCupId(cup.id)
                         }}>{cup.name}</Link>
+                        {'   '}<DeleteModal id={cup.id} url="cups"/>
                     </ListGroup.Item>
                 ))}
             </ListGroup>
