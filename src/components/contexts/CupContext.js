@@ -17,6 +17,8 @@ export const CupProvider = props => {
     const [scoreIsAdded, setScoreIsAdded] = useState(false);
     const [matchIsFinished, setMatchIsFinished] = useState(false);
 
+    const [isDeleted, setIsDeleted] = useState(false);
+
     useEffect(() => {
         setIsLoading(true);
         if (cupId !== "") {
