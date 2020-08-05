@@ -18,7 +18,6 @@ const Cups = () => {
             .then((response) => setCups(response.data))
         for (let location of dataPack) {
             if (location.id === Number(localStorage.getItem("locationId"))) {
-                // setCups(location.cups);
                 setTeams(location.teams);
             }
         }
