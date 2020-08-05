@@ -6,7 +6,9 @@ export const CupContext = createContext();
 export const CupProvider = props => {
 
     const [cup, setCup] = useState([]);
-    const [matches, setMatches] = useState([]);
+    const [matchId, setMatchId] = useState([]);
+    const [qualifierMatches, setQualifierMatches] = useState([]);
+    const [semiFinalMatches, setSemiFinalMatches] = useState([]);
     const [currentMatch, setCurrentMatch] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [score1, setScore1] = useState("");
@@ -28,8 +30,10 @@ export const CupProvider = props => {
     return (
         <CupContext.Provider value={{
             isLoading, setIsLoading,
-            cup, setCupId,
-            matches, setMatches,
+            cup, cupId, setCupId,
+            matchId, setMatchId,
+            qualifierMatches, setQualifierMatches,
+            semiFinalMatches, setSemiFinalMatches,
             currentMatch, setCurrentMatch,
             score1, setScore1,
             score2, setScore2,

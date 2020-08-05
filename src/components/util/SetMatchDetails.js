@@ -4,7 +4,7 @@ import {CupContext} from "../contexts/CupContext";
 import axios from "axios";
 
 
-export function AddScorer(props) {
+function AddScorer(props) {
 
     const {setScoreIsAdded} = useContext(CupContext);
     const [isAdded, setIsAdded] = useState(false);
@@ -12,12 +12,9 @@ export function AddScorer(props) {
     useEffect(() => {
         if (isAdded) {
             let currentScore = setData();
-            console.log("currentScore");
-            console.log(currentScore);
             axios.post("http://localhost:8080/match/update_score",
                 currentScore
             )
-                .then(() => console.log(currentScore))
                 .then(() => setScoreIsAdded(true))
                 .then(() => setIsAdded(false))
         }
@@ -81,3 +78,5 @@ export function AddScorer(props) {
         </>
     );
 }
+
+export {AddScorer};
