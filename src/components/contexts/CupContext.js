@@ -40,7 +40,8 @@ export const CupProvider = props => {
             score1, setScore1,
             score2, setScore2,
             scoreIsAdded, setScoreIsAdded,
-            matchIsFinished, setMatchIsFinished
+            matchIsFinished, setMatchIsFinished,
+            isDeleted, setIsDeleted
         }}>
             {props.children}
         </CupContext.Provider>
