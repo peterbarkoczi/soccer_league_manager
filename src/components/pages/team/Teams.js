@@ -1,20 +1,23 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import AddTeamModal from "../../modals/AddTeamModal";
 import {ListGroup} from "react-bootstrap";
 import axios from "axios";
+import DeleteModal from "../../modals/DeleteModal";
+import {DataPackContext} from "../../contexts/DataPackContext";
 
 function Teams() {
     const [teams, setTeams] = useState([]);
     const [isAdded, setIsAdded] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const {teamIsDeleted} = useContext(DataPackContext);
 
     useEffect(() => {
         setIsLoading(true);
         axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
             .then((response) => setTeams(response.data))
             .then(() => setIsLoading(false))
-    }, [isAdded]);
+    }, [isAdded, teamIsDeleted]);
 
     if (isLoading) {
         return (<h1>Loading...</h1>)
@@ -31,6 +34,7 @@ function Teams() {
                     {teams.map(team => (
                         <ListGroup.Item className="team" key={team.id}>
                             <Link to={`csapatok/${team.name.split(" ").join("")}`}>{team.name}</Link>
+                            {'   '}<DeleteModal id={team.id} url="teams"/>
                         </ListGroup.Item>)
                     )}
                 </ListGroup>
