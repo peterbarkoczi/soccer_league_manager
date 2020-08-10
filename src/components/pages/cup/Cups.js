@@ -15,7 +15,7 @@ const Cups = () => {
 
     useEffect(() => {
         localStorage.removeItem("cupId");
-        axios.get("http://localhost:8080/cups/list")
+        axios.get(`http://localhost:8080/cups/list?locationId=${Number(localStorage.getItem("locationId"))}`)
             .then((response) => setCups(response.data))
         for (let location of dataPack) {
             if (location.id === Number(localStorage.getItem("locationId"))) {

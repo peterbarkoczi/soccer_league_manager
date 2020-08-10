@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
 import axios from "axios";
 import {CupContext} from "../contexts/CupContext";
+import {DataPackContext} from "../contexts/DataPackContext";
 
 
 function DeleteModal(props) {
@@ -11,20 +12,37 @@ function DeleteModal(props) {
     const handleShow = () => setShow(true);
 
     const {isDeleted, setIsDeleted} = useContext(CupContext);
-    const [deletedId, setDeletedId] = useState(Number);
+    const {
+        locationIsDeleted, setLocationIsDeleted,
+        teamIsDeleted, setTeamIsDeleted
+    } = useContext(DataPackContext);
+    const [deletedId, setDeletedId] = useState(0);
 
     useEffect(() => {
-        if (isDeleted && deletedId !== 0) {
+        if ((isDeleted || locationIsDeleted || teamIsDeleted) && deletedId !== 0) {
             axios.delete(`http://localhost:8080/${props.url}/${deletedId}`)
                 .then((response) => console.log(response.data))
             console.log(deletedId);
             setIsDeleted(false);
+            setLocationIsDeleted(false);
+            setTeamIsDeleted(false);
+            setDeletedId(0);
         }
-    }, [isDeleted])
+    }, [isDeleted, locationIsDeleted, teamIsDeleted])
 
-    function deleteCup(id) {
-        setIsDeleted(true);
+    function deleteById(id) {
+        if (props.url === "cups") {
+            setIsDeleted(true);
+            console.log("setIsDeleted");
+        } else if (props.url === "location") {
+            setLocationIsDeleted(true);
+            console.log("setLocationIsDeleted");
+        } else if (props.url === "teams") {
+            setTeamIsDeleted(true);
+            console.log("setTeamIsDeleted");
+        }
         setDeletedId(id);
+        console.log("deletedId: " + id);
     }
 
     return (
@@ -44,7 +62,8 @@ function DeleteModal(props) {
                     </Button>
                     <Button variant="primary" onClick={() => {
                         handleClose();
-                        deleteCup(props.id)}}>
+                        deleteById(props.id)
+                    }}>
                         Törlés
                     </Button>
                 </Modal.Footer>

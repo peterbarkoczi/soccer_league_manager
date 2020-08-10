@@ -27,7 +27,7 @@ function AddLocationModal() {
 
     return (
         <>
-            <Button variant="danger" onClick={handleShow} id="addTeamButton">
+            <Button variant="danger" onClick={handleShow} id="addLocationButton">
                 Új helyszín hozzáadása
             </Button>
 
@@ -49,13 +49,13 @@ function AddLocationModal() {
                             setIsAdded(true);
                             console.log("isAdded: " + isAdded);
                             handleClose();
-                        }} id="addTeamSubmit">
+                        }} id="addLocationSubmit">
                             Add location
                         </Button>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" id="addLocationClose" onClick={handleClose}>
                         Close
                     </Button>
                 </Modal.Footer>
