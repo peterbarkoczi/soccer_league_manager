@@ -3,9 +3,14 @@ import {DataPackContext} from "../../contexts/DataPackContext";
 import {Link} from "react-router-dom";
 import {ListGroup} from "react-bootstrap";
 import AddLocationModal from "../../modals/AddLocationModal";
+import DeleteModal from "../../modals/DeleteModal";
 
 function Location() {
-    const {dataPack, setIsSelected, showLocationDiv, setShowLocationDiv, isLoading} = useContext(DataPackContext);
+    const {
+        dataPack,
+        setIsSelected,
+        showLocationDiv, setShowLocationDiv,
+        isLoading} = useContext(DataPackContext);
     const [location, setLocation] = useState([]);
 
     useEffect(() => {
@@ -30,7 +35,8 @@ function Location() {
                             localStorage.setItem("locationId", location.id);
                             localStorage.setItem("path", `liga/${location.name.split(" ").join("")}`);
                             localStorage.setItem("location", location.name)
-                        }}>{location.name}</Link>
+                        }} className="locationLink">{location.name}</Link>
+                        {'   '}<DeleteModal id={location.id} url="location"/>
                     </ListGroup.Item>))
                 }
             </ListGroup>
