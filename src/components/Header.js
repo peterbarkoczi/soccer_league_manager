@@ -72,14 +72,15 @@ function Header() {
         <HeaderStyle>
             <div className="header">
                 <div className="login">
-                    <Button variant="secondary">Bejelentkezés</Button>{' '}
-                    <Button variant="secondary">Regisztráció</Button>
+                    <Button variant="secondary" id="logInButton">Bejelentkezés</Button>{' '}
+                    <Button variant="secondary" id="signInButton">Regisztráció</Button>
                 </div>
                 <div className="title">
                     <Link to="/" onClick={reset}>
                         <h2 id="appTitle">Soccer League Manager</h2>
                     </Link>
-                    {localStorage.getItem("location") != null ? (<h3 id="location">{localStorage.getItem("location")}</h3>) : null}
+                    {localStorage.getItem("location") != null ?
+                        (<h3 id="locationHeaderTitle">{localStorage.getItem("location")}</h3>) : null}
                 </div>
                 {isSelected ? (
                     <ButtonGroup className="menu">
