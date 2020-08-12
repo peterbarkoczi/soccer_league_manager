@@ -24,11 +24,15 @@ a:hover {
 }
 
 .teamCell {
-    width: 43%;
+    width: 39%;
 }
 
 .scoreCell {
     width: 7%;
+}
+
+.cardIconCell {
+    width: 4%;
 }
 
 #scorer {
@@ -38,4 +42,8 @@ a:hover {
 .matchTypeTitle {
     text-align: center;
     padding: 2%;
+}
+
+.cardImage {
+    cursor: pointer;
 }
