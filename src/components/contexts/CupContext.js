@@ -13,8 +13,11 @@ export const CupProvider = props => {
     const [isLoading, setIsLoading] = useState(false);
     const [score1, setScore1] = useState("");
     const [score2, setScore2] = useState("");
+    const [card1, setCard1] = useState("")
+    const [card2, setCard2] = useState("")
     const [cupId, setCupId] = useState("");
     const [scoreIsAdded, setScoreIsAdded] = useState(false);
+    const [cardIsAdded, setCardIsAdded] = useState(false);
     const [matchIsFinished, setMatchIsFinished] = useState(false);
 
     const [isDeleted, setIsDeleted] = useState(false);
@@ -27,7 +30,7 @@ export const CupProvider = props => {
                 .then(() => setIsLoading(false))
                 .then(() => setScoreIsAdded(false));
         }
-    }, [cupId, scoreIsAdded]);
+    }, [cupId, scoreIsAdded, cardIsAdded]);
 
     return (
         <CupContext.Provider value={{
@@ -39,7 +42,10 @@ export const CupProvider = props => {
             currentMatch, setCurrentMatch,
             score1, setScore1,
             score2, setScore2,
+            card1, setCard1,
+            card2, setCard2,
             scoreIsAdded, setScoreIsAdded,
+            cardIsAdded, setCardIsAdded,
             matchIsFinished, setMatchIsFinished,
             isDeleted, setIsDeleted
         }}>
