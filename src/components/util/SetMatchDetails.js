@@ -2,6 +2,8 @@ import React, {useContext, useEffect, useState} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
 import {CupContext} from "../contexts/CupContext";
 import axios from "axios";
+import cardIcon from "../../yellow-red card icon.png";
+import styled from "styled-components";
 
 
 function AddScorer(props) {
