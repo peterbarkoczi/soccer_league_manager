@@ -11,23 +11,17 @@ const Cups = () => {
     const {dataPack} = useContext(DataPackContext);
     const {setCupId, isDeleted} = useContext(CupContext);
     const [cups, setCups] = useState([]);
-    const [teams, setTeams] = useState([]);
 
     useEffect(() => {
         localStorage.removeItem("cupId");
         axios.get(`http://localhost:8080/cups/list?locationId=${Number(localStorage.getItem("locationId"))}`)
             .then((response) => setCups(response.data))
-        for (let location of dataPack) {
-            if (location.id === Number(localStorage.getItem("locationId"))) {
-                setTeams(location.teams);
-            }
-        }
     }, [dataPack, isDeleted]);
 
     return (
         <div className="cups">
             <h1 id="cupsTitle">Kupák</h1>
-            <CreateCupModal teams={teams}/>
+            <CreateCupModal />
             <ListGroup id="cupsList">
                 {cups.map(cup => (
                     <ListGroup.Item key={cup.name}>

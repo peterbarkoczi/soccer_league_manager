@@ -1,23 +1,29 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Button, Form, Modal} from "react-bootstrap";
+import {Button, Form, Modal, ProgressBar} from "react-bootstrap";
 import axios from "axios";
 import {DataPackContext} from "../contexts/DataPackContext";
 
-function CreateCupModal(props) {
+function CreateCupModal() {
     const [showCreateCupModal, setShowCreateCupModal] = useState(false);
 
     const handleClose = () => setShowCreateCupModal(false);
     const handleShow = () => setShowCreateCupModal(true);
 
     const {setIsSelected} = useContext(DataPackContext);
+    const [teams, setTeams] = useState([]);
     const [cupName, setCupName] = useState("");
-    const [numOfTeams, setNumOfTeams] = useState("");
+    const [numOfTeams, setNumOfTeams] = useState("8");
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [matchTime, setMatchTime] = useState("");
     const [isAdded, setIsAdded] = useState(false);
-    const [teamList, setTeamList] = useState([])
-    let teams = [];
+    const [teamList, setTeamList] = useState([]);
+    const [percentage, setPercentage] = useState(0);
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
+            .then((response) => setTeams(response.data))
+    }, []);
 
     useEffect(() => {
         if (isAdded) {
@@ -57,14 +63,24 @@ function CreateCupModal(props) {
         setNumOfTeams(e.target.value);
     }
 
-    const addTeamToCup = e => {
-        if (!teams.includes(e.target.value)) {
-            teams.push(e.target.value);
-            console.log(e.target.value);
-            console.log(teams.length);
+    const deleteFromTeamList = team => {
+        for (let i = 0; i < teamList.length; i++) {
+            if (teamList[i] === team) {
+                setTeamList(teamList => teamList.splice(i,1))
+            }
         }
-        if (teams.length === Number(numOfTeams)) {
-            setTeamList(teams);
+    }
+
+    const menageTeams = e => {
+        let team = e.target.value;
+        console.log(team);
+        if (!teamList.includes(team) && teamList.length < Number(numOfTeams)) {
+            setTeamList(teamList => [...teamList, team]);
+            setPercentage(percentage + (100/Number(numOfTeams)));
+            console.log("add team");
+        } else if (teamList.includes(team) && e.target.checked === false) {
+            deleteFromTeamList(team);
+            setPercentage(percentage - (100/Number(numOfTeams)));
         }
     }
 
@@ -90,20 +106,23 @@ function CreateCupModal(props) {
                         </Form.Group>
                         <Form.Group controlId="addCupNumberOfTeams">
                             <Form.Label>Csapatok száma</Form.Label>
-                            <Form.Control as="select" onChange={updateNumOfTeams}>
-                                <option>Csapatok száma</option>
-                                <option>8</option>
-                            </Form.Control>
+                            <Form.Control
+                                type="number"
+                                placeholder="Csapatok száma"
+                                value={numOfTeams}
+                                onChange={updateNumOfTeams}/>
                         </Form.Group>
-                        <Form.Group controlId="addCupSelectLeague">
-                            <Form.Label>Csapatok</Form.Label>
-                            <Form.Control as="select" onChange={addTeamToCup} multiple>
-                                {props.teams.map(team => (
-                                    <option
-                                        key={team.name}
-                                        value={team.name}>{team.name}</option>
-                                ))}
-                            </Form.Control>
+                        <Form.Group>
+                            {teams.map(team => (
+                                <Form.Check type="checkbox">
+                                    <Form.Check.Input
+                                        type="checkbox"
+                                        value={team.name}
+                                        onChange={menageTeams} isValid/>
+                                    <Form.Check.Label>{team.name}</Form.Check.Label>
+                                </Form.Check>
+                            ))}
+                            <ProgressBar animated now={percentage} />
                         </Form.Group>
                         <Form.Group controlId="addCupDate">
                             <Form.Label>Dátum</Form.Label>
