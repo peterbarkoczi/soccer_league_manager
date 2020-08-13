@@ -46,7 +46,10 @@ const LeagueDetails = () => {
                             <td>{position++}</td>
                             <td className="team">
                                 <Link
-                                    to={`/${localStorage.getItem("path")}/csapatok/${team.name.split(" ").join("")}`}>
+                                    to={{
+                                        pathname: `/${localStorage.getItem("path")}/csapatok/${team.name.split(" ").join("")}`,
+                                        teamId: team.id,
+                                        teamName: team.name}}>
                                     {team.name}
                                 </Link>
                             </td>

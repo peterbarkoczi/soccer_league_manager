@@ -33,7 +33,10 @@ function Teams() {
                 <ListGroup variant="flush" className="list" id="teamsList">
                     {teams.map(team => (
                         <ListGroup.Item className="team" key={team.id}>
-                            <Link to={`csapatok/${team.name.split(" ").join("")}`}>{team.name}</Link>
+                            <Link to={{
+                                pathname: `csapatok/${team.name.split(" ").join("")}`,
+                                teamId: team.id,
+                                teamName: team.name}}>{team.name}</Link>
                             {'   '}<DeleteModal id={team.id} url="teams"/>
                         </ListGroup.Item>)
                     )}
