@@ -73,14 +73,16 @@ function CreateCupModal() {
 
     const menageTeams = e => {
         let team = e.target.value;
+        let checked = e.target.checked;
         console.log(team);
-        if (!teamList.includes(team) && teamList.length < Number(numOfTeams)) {
+        if (!teamList.includes(team) && teamList.length < Number(numOfTeams) && checked) {
             setTeamList(teamList => [...teamList, team]);
             setPercentage(percentage + (100/Number(numOfTeams)));
             console.log("add team");
-        } else if (teamList.includes(team) && e.target.checked === false) {
+        } else if (teamList.includes(team) && !checked) {
             deleteFromTeamList(team);
             setPercentage(percentage - (100/Number(numOfTeams)));
+            console.log("delete team");
         }
     }
 
