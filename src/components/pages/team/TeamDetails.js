@@ -34,11 +34,13 @@ const TeamDetails = (props) => {
     let index = 1;
 
     useEffect(() => {
+        setIsSelected(true);
         setIsLoading(true);
-        axios.get(`http://localhost:8080/player/list/${Number(props.location.teamId)}`)
+        axios.get(`http://localhost:8080/player/list/${localStorage.getItem("teamId")}`)
             .then((response) => setPlayerList(response.data))
-            .then(() => setIsLoading(false));
-    }, [props.location.teamId])
+            .then(() => setIsLoading(false))
+            .then(() => setPlayerAdded(false));
+    }, [playerAdded])
 
     if (isLoading) {
         return (<h1>Loading...</h1>)
