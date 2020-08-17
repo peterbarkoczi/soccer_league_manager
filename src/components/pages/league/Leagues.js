@@ -20,7 +20,7 @@ const Leagues = () => {
     }, [dataPack]);
 
     function clearLocalStorage() {
-        localStorage.removeItem("teams");
+        localStorage.removeItem("leagueId");
         localStorage.removeItem("leagueName");
         setIsTeamsCleared(true);
     }
@@ -41,7 +41,7 @@ const Leagues = () => {
                         <Link to={{
                             pathname: `/${localStorage.getItem("path")}/bajnoksag/${league.name.split(" ").join("")}`,
                         }} onClick={() => {
-                            localStorage.setItem("teams", JSON.stringify(league.teams));
+                            localStorage.setItem("leagueId", league.id);
                             localStorage.setItem("leagueName", league.name);
                         }}
                               className="league" key={league.name}>
