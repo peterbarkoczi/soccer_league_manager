@@ -45,7 +45,8 @@ const TeamDetails = (props) => {
     } else {
         return (
             <div id={playerList}>
-                <h1>{props.location.teamName}</h1>
+                <h1>{localStorage.getItem("teamName")}</h1>
+                <AddPlayerModal teamId={localStorage.getItem("teamId")}/>
                 <TableStyle>
                     <Table striped bordered hover size="sm">
                         <colgroup>

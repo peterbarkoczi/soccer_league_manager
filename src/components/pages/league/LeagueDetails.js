@@ -1,5 +1,4 @@
 import React, {useState, useEffect, useContext} from "react";
-
 import {Link} from "react-router-dom";
 import {Table} from "react-bootstrap";
 import {DataPackContext} from "../../contexts/DataPackContext";
@@ -15,12 +14,18 @@ const LeagueDetails = () => {
     let position = 1;
 
     useEffect(() => {
+        removeTeamsFromLocalStorage();
         setIsSelected(true);
         setIsLoading(true);
         axios.get(`http://localhost:8080/teams/${localStorage.getItem("leagueId")}`)
             .then((response) => setTeams(response.data))
             .then(() => setIsLoading(false));
     }, [])
+
+    const removeTeamsFromLocalStorage = () => {
+        localStorage.removeItem("teamId");
+        localStorage.removeItem("teamName");
+    }
 
     if (isLoading) {
         return (<h1>Loading...</h1>)
@@ -49,9 +54,11 @@ const LeagueDetails = () => {
                             <td className="team">
                                 <Link
                                     to={{
-                                        pathname: `/${localStorage.getItem("path")}/csapatok/${team.name.split(" ").join("")}`,
-                                        teamId: team.id,
-                                        teamName: team.name}}>
+                                        pathname: `/${localStorage.getItem("path")}/csapatok/${team.name.split(" ").join("")}`}}
+                                    onClick={() => {
+                                        localStorage.setItem("teamId", team.id);
+                                        localStorage.setItem("teamName", team.name);
+                                    }}>
                                     {team.name}
                                 </Link>
                             </td>
