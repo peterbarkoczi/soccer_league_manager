@@ -3,6 +3,7 @@ import React, {useState, useEffect, useContext} from "react";
 import {Link} from "react-router-dom";
 import {Table} from "react-bootstrap";
 import {DataPackContext} from "../../contexts/DataPackContext";
+import axios from "axios";
 
 
 const LeagueDetails = () => {
@@ -16,8 +17,9 @@ const LeagueDetails = () => {
     useEffect(() => {
         setIsSelected(true);
         setIsLoading(true);
-        setTeams(JSON.parse(localStorage.getItem("teams")));
-        setIsLoading(false);
+        axios.get(`http://localhost:8080/teams/${localStorage.getItem("leagueId")}`)
+            .then((response) => setTeams(response.data))
+            .then(() => setIsLoading(false));
     }, [])
 
     if (isLoading) {
