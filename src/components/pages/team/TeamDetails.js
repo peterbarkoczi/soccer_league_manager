@@ -1,7 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Table} from "react-bootstrap";
 import axios from "axios";
 import styled from "styled-components";
+import AddPlayerModal from "../../modals/AddPlayerModal";
+import {DataPackContext} from "../../contexts/DataPackContext";
 
 const TeamDetails = (props) => {
 
@@ -29,6 +31,7 @@ const TeamDetails = (props) => {
 
     `;
 
+    const {playerAdded, setPlayerAdded, setIsSelected} = useContext(DataPackContext);
     const [playerList, setPlayerList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     let index = 1;
