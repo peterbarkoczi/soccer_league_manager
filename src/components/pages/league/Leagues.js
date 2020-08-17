@@ -10,6 +10,8 @@ const Leagues = () => {
     const [isTeamsCleared, setIsTeamsCleared] = useState(false);
 
     useEffect(() => {
+        localStorage.removeItem("teamId");
+        localStorage.removeItem("teamName");
         for (let location of dataPack){
             if (location.id === Number(localStorage.getItem("locationId"))) {
                 setLeagues(location.leagues)
@@ -18,7 +20,7 @@ const Leagues = () => {
     }, [dataPack]);
 
     function clearLocalStorage() {
-        localStorage.removeItem("teams");
+        localStorage.removeItem("leagueId");
         localStorage.removeItem("leagueName");
         setIsTeamsCleared(true);
     }
@@ -39,7 +41,7 @@ const Leagues = () => {
                         <Link to={{
                             pathname: `/${localStorage.getItem("path")}/bajnoksag/${league.name.split(" ").join("")}`,
                         }} onClick={() => {
-                            localStorage.setItem("teams", JSON.stringify(league.teams));
+                            localStorage.setItem("leagueId", league.id);
                             localStorage.setItem("leagueName", league.name);
                         }}
                               className="league" key={league.name}>

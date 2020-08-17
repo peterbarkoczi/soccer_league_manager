@@ -45,12 +45,6 @@ function DisplayMatches(props) {
             <tbody>
                 <tr>
                     <td>{props.match.team1}</td>
-                    {/*<td><Image*/}
-                    {/*    className="cardImage"*/}
-                    {/*    id="cardImage1"*/}
-                    {/*    src={cardIcon}*/}
-                    {/*    onClick={() => console.log("clicked on card1")}*/}
-                    {/*    thumbnail /></td>*/}
                     <td>
                         <AddCard
                             team={"team1"}

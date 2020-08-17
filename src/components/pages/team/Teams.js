@@ -13,6 +13,8 @@ function Teams() {
     const {teamIsDeleted} = useContext(DataPackContext);
 
     useEffect(() => {
+        localStorage.removeItem("teamId");
+        localStorage.removeItem("teamName");
         setIsLoading(true);
         axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
             .then((response) => setTeams(response.data))
@@ -33,7 +35,12 @@ function Teams() {
                 <ListGroup variant="flush" className="list" id="teamsList">
                     {teams.map(team => (
                         <ListGroup.Item className="team" key={team.id}>
-                            <Link to={`csapatok/${team.name.split(" ").join("")}`}>{team.name}</Link>
+                            <Link to={{
+                                pathname: `csapatok/${team.name.split(" ").join("")}`}}
+                                onClick={() => {
+                                    localStorage.setItem("teamId", team.id);
+                                    localStorage.setItem("teamName", team.name)
+                                }}>{team.name}</Link>
                             {'   '}<DeleteModal id={team.id} url="teams"/>
                         </ListGroup.Item>)
                     )}

@@ -11,6 +11,7 @@ import LeagueDetails from "./components/pages/league/LeagueDetails";
 import Cups from "./components/pages/cup/Cups";
 import CupDetails from "./components/pages/cup/CupDetails"
 import {CupProvider} from "./components/contexts/CupContext";
+import TeamDetails from "./components/pages/team/TeamDetails";
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                         <Header/>
                         <Route exact path="/" component={Location}/>
                         <Route exact path="/liga/:league/csapatok" component={Teams}/>
+                        <Route exact path="/liga/:league/csapatok/:csapat" component={TeamDetails}/>
                         <Route exact path="/liga/:league/bajnoksag" component={Leagues}/>
                         <Route exact path="/liga/:league/bajnoksag/:subLeague" component={LeagueDetails}/>
                         <Route exact path="/liga/:league/kupak" component={Cups}/>
