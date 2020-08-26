@@ -33,14 +33,14 @@ function Teams() {
                     <AddTeamModal/>
                 </div>
                 <ListGroup variant="flush" className="list" id="teamsList">
-                    {teams.map(team => (
-                        <ListGroup.Item className="team" key={team.id}>
+                    {teams.map((team, i) => (
+                        <ListGroup.Item className="team" key={i}>
                             <Link to={{
                                 pathname: `csapatok/${team.name.split(" ").join("")}`}}
                                 onClick={() => {
                                     localStorage.setItem("teamId", team.id);
                                     localStorage.setItem("teamName", team.name)
-                                }}>{team.name}</Link>
+                                }}>{(i+1) + ". " + team.name}</Link>
                             {'   '}<DeleteModal id={team.id} url="teams"/>
                         </ListGroup.Item>)
                     )}
