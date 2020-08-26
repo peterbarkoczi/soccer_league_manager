@@ -17,12 +17,26 @@ function AddTeamModal() {
     const [isAdded, setIsAdded] = useState(false);
 
     useEffect(() => {
-        for (let location of dataPack) {
-            if (location.id === Number(localStorage.getItem("locationId"))) {
-                setLeagues(location.leagues)
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
+        const loadData = () => {
+            try {
+                axios.get(`http://localhost:8080/league/get_league_list/${localStorage.getItem("locationId")}`,
+                    {cancelToken: source.token})
+                    .then(response => setLeagues(response.data));
+            } catch (error) {
+                if (axios.isCancel(error)) {
+                    console.log("cancelled");
+                } else {
+                    throw error;
+                }
             }
-        }
-    }, [dataPack])
+        };
+
+        loadData();
+        return () => {source.cancel()}
+    }, [])
 
     useEffect(() => {
         if (isAdded) {
