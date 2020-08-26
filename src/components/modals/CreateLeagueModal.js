@@ -75,7 +75,7 @@ function CreateLeagueModal() {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Group controlId="addLeague">
+                        <Form.Group controlId="addLeagueName">
                             <Form.Label>Bajnokság neve</Form.Label>
                             <Form.Control
                                 type="text"
