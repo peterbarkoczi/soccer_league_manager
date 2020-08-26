@@ -15,9 +15,12 @@ function CreateLeagueModal() {
 
     const [teams, setTeams] = useState([]);
     const [teamList, setTeamList] = useState([]);
+    const selectedTeams = [];
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
-    const list = [];
+    const [gameDays, setGameDays] = useState([]);
+    const selectedDays = [];
+    const days = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat", "Vasárnap"];
 
 
     useEffect(() => {
@@ -32,6 +35,7 @@ function CreateLeagueModal() {
                 teams: teamList,
                 date: date,
                 startTime: startTime,
+                gameDays: gameDays,
                 locationId: Number(localStorage.getItem("locationId"))
             })
                 .then(response => console.log("league added" + response))
@@ -52,8 +56,13 @@ function CreateLeagueModal() {
         setStartTime(e.target.value);
     }
 
-    const updateTeamsList = () => {
-        setTeamList(list);
+    const menageDays = e => {
+        menageList(e, selectedDays)
+    }
+
+    const updateLists = () => {
+        setTeamList(selectedTeams);
+        setGameDays(selectedDays);
     }
 
     const deleteFromList = (list, item) => {
@@ -65,12 +74,16 @@ function CreateLeagueModal() {
     }
 
     const menageTeams = e => {
-        let team = e.target.value;
+        menageList(e, selectedTeams);
+    }
+
+    const menageList = (e, list) => {
+        let item = e.target.value;
         let checked = e.target.checked;
         if (!list.includes(item) && checked) {
             list.push(item);
         } else {
-            deleteFromTeamList(team);
+            deleteFromList(list, item);
         }
         console.log(list);
     }
@@ -112,6 +125,17 @@ function CreateLeagueModal() {
                                 onChange={updateStartTime}/>
                         </Form.Group>
                         <Form.Group>
+                            {days.map(day => (
+                                <Form.Check type="checkbox" key={day} inline>
+                                    <Form.Check.Input
+                                        type="checkbox"
+                                        value={day}
+                                        onChange={menageDays} isValid/>
+                                    <Form.Check.Label>{day}</Form.Check.Label>
+                                </Form.Check>
+                            ))}
+                        </Form.Group>
+                        <Form.Group>
                             {teams.map(team => (
                                 <Form.Check type="checkbox" key={team.id}>
                                     <Form.Check.Input
@@ -123,7 +147,7 @@ function CreateLeagueModal() {
                             ))}
                         </Form.Group>
                         <Button variant="primary"  onClick={() => {
-                            updateTeamsList();
+                            updateLists();
                             setIsAdded(true);
                             handleClose();
                         }} id="addLeagueSubmit">
