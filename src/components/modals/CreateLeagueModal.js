@@ -15,6 +15,7 @@ function CreateLeagueModal() {
 
     const [teams, setTeams] = useState([]);
     const [teamList, setTeamList] = useState([]);
+    const [date, setDate] = useState("");
     const list = [];
 
 
@@ -28,6 +29,7 @@ function CreateLeagueModal() {
             axios.post('http://localhost:8080/league/add_league', {
                 name: leagueName,
                 teams: teamList,
+                date: date,
                 locationId: Number(localStorage.getItem("locationId"))
             })
                 .then(response => console.log("league added" + response))
@@ -38,6 +40,10 @@ function CreateLeagueModal() {
 
     const updateLeagueName = e => {
         setLeagueName(e.target.value);
+    }
+
+    const updateDate = e => {
+        setDate(e.target.value);
     }
 
     const updateTeamsList = () => {
@@ -82,6 +88,14 @@ function CreateLeagueModal() {
                                 placeholder="Új bajnokság"
                                 value={leagueName}
                                 onChange={updateLeagueName}/>
+                        </Form.Group>
+                        <Form.Group controlId="addLeagueDate">
+                            <Form.Label>Dátum</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="2020.01.01"
+                                value={date}
+                                onChange={updateDate}/>
                         </Form.Group>
                         <Form.Group>
                             {teams.map(team => (
