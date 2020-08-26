@@ -16,6 +16,7 @@ function CreateLeagueModal() {
     const [teams, setTeams] = useState([]);
     const [teamList, setTeamList] = useState([]);
     const [date, setDate] = useState("");
+    const [startTime, setStartTime] = useState("");
     const list = [];
 
 
@@ -30,6 +31,7 @@ function CreateLeagueModal() {
                 name: leagueName,
                 teams: teamList,
                 date: date,
+                startTime: startTime,
                 locationId: Number(localStorage.getItem("locationId"))
             })
                 .then(response => console.log("league added" + response))
@@ -44,6 +46,10 @@ function CreateLeagueModal() {
 
     const updateDate = e => {
         setDate(e.target.value);
+    }
+
+    const updateStartTime = e => {
+        setStartTime(e.target.value);
     }
 
     const updateTeamsList = () => {
@@ -96,6 +102,14 @@ function CreateLeagueModal() {
                                 placeholder="2020.01.01"
                                 value={date}
                                 onChange={updateDate}/>
+                        </Form.Group>
+                        <Form.Group controlId="addLeagueStartTime">
+                            <Form.Label>Kezdés</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="00:00"
+                                value={startTime}
+                                onChange={updateStartTime}/>
                         </Form.Group>
                         <Form.Group>
                             {teams.map(team => (
