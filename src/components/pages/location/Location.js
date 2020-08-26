@@ -4,18 +4,37 @@ import {Link} from "react-router-dom";
 import {ListGroup} from "react-bootstrap";
 import AddLocationModal from "../../modals/AddLocationModal";
 import DeleteModal from "../../modals/DeleteModal";
+import axios from "axios";
 
 function Location() {
     const {
-        dataPack,
         setIsSelected,
         showLocationDiv, setShowLocationDiv,
-        isLoading} = useContext(DataPackContext);
+        locationIsDeleted} = useContext(DataPackContext);
     const [location, setLocation] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        setLocation(dataPack);
-    }, [dataPack])
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
+        const loadData = () => {
+            try {
+                axios.get("http://localhost:8080/location/list", {cancelToken:source.token})
+                    .then(response => setLocation(response.data))
+                    .then(() => setIsLoading(false));
+            } catch (error) {
+                if (axios.isCancel(error)) {
+                    console.log("cancelled");
+                } else {
+                    throw error;
+                }
+            }
+        }
+
+        loadData();
+        return () => {source.cancel()}
+    }, [locationIsDeleted]);
 
     const LocationDiv = () => (
         <div className="locations">
