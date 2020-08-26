@@ -17,7 +17,7 @@ function Teams() {
         localStorage.removeItem("teamName");
         setIsLoading(true);
         axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
-            .then((response) => setTeams(response.data))
+            .then(response => setTeams(response.data))
             .then(() => setIsLoading(false))
     }, [isAdded, teamIsDeleted]);
 

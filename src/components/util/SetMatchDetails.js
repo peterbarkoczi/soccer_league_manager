@@ -3,7 +3,6 @@ import {Button, Form, Image, Modal} from "react-bootstrap";
 import {CupContext} from "../contexts/CupContext";
 import axios from "axios";
 import cardIcon from "../../yellow-red card icon.png";
-import styled from "styled-components";
 
 
 function AddScorer(props) {
@@ -30,6 +29,7 @@ function AddScorer(props) {
     const [scorer, setScorer] = useState("");
 
     function updateScorerName(e) {
+        console.log(e.target.value);
         setScorer(e.target.value);
     }
 

@@ -15,7 +15,7 @@ const Cups = () => {
     useEffect(() => {
         localStorage.removeItem("cupId");
         axios.get(`http://localhost:8080/cups/list?locationId=${Number(localStorage.getItem("locationId"))}`)
-            .then((response) => setCups(response.data))
+            .then(response => setCups(response.data))
     }, [dataPack, isDeleted]);
 
     return (

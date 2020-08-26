@@ -10,7 +10,7 @@ function AddTeamModal() {
     const handleShow = () => setShow(true);
 
 
-    const {dataPack, setIsSelected} = useContext(DataPackContext);
+    const {setIsSelected} = useContext(DataPackContext);
     const [leagues, setLeagues] = useState([]);
     const [teamName, setTeamName] = useState("");
     const [league, setLeague] = useState("");
@@ -68,7 +68,7 @@ function AddTeamModal() {
                         <Form.Group controlId="addLeague">
                             <Form.Label>Bajnokság</Form.Label>
                             <Form.Control as="select" onChange={updateSubLeague}>
-                                <option selected>Válassz bajnokságot</option>
+                                <option defaultValue={"Válassz bajnokságot"}>Válassz bajnokságot</option>
                                 {leagues.map(league => (
                                     <option
                                         key={league.name}

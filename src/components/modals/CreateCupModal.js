@@ -22,7 +22,7 @@ function CreateCupModal() {
 
     useEffect(() => {
         axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
-            .then((response) => setTeams(response.data))
+            .then(response => setTeams(response.data))
     }, []);
 
     useEffect(() => {
@@ -116,7 +116,7 @@ function CreateCupModal() {
                         </Form.Group>
                         <Form.Group>
                             {teams.map(team => (
-                                <Form.Check type="checkbox">
+                                <Form.Check type="checkbox" key={team.id}>
                                     <Form.Check.Input
                                         type="checkbox"
                                         value={team.name}

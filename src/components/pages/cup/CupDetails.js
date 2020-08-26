@@ -27,7 +27,7 @@ const CupDetails = () => {
         setIsLoading(true);
         if (cupId !== "") {
             axios.get(`http://localhost:8080/match/get_qualifiers?cupId=${cupId}&matchType=q`)
-                .then((response) => setQualifierMatches(response.data))
+                .then(response => setQualifierMatches(response.data))
                 .then(() => setIsLoading(false))
                 .then(() => setScoreIsAdded(false));
         }
@@ -43,7 +43,7 @@ const CupDetails = () => {
             }
             if (counter === qualifierMatches.length && semiFinalMatches.length === 0) {
                 axios.get(`http://localhost:8080/match/create_semi_finals?cupId=${cupId}&matchType=sf`)
-                    .then((response) => setSemiFinalMatches(response.data))
+                    .then(response => setSemiFinalMatches(response.data))
                     .then(() => setSfIsReady(true));
             }
         }
@@ -53,7 +53,7 @@ const CupDetails = () => {
         setIsLoading(true);
         if (cupId !== "") {
             axios.get(`http://localhost:8080/match/get_semifinals?cupId=${cupId}&matchType=sf`)
-                .then((response) => setSemiFinalMatches(response.data))
+                .then(response => setSemiFinalMatches(response.data))
                 .then(() => setIsLoading(false))
                 .then(() => setScoreIsAdded(false));
         }
@@ -69,7 +69,7 @@ const CupDetails = () => {
             }
             if (counter === semiFinalMatches.length && finalMatches.length === 0) {
                 axios.get(`http://localhost:8080/match/create_semi_finals?cupId=${cupId}&matchType=f`)
-                    .then((response) => setFinalMatches(response.data))
+                    .then(response => setFinalMatches(response.data))
                     .then(() => setFinalIsReady(true));
             }
         }
@@ -79,7 +79,7 @@ const CupDetails = () => {
         setIsLoading(true);
         if (cupId !== "") {
             axios.get(`http://localhost:8080/match/get_semifinals?cupId=${cupId}&matchType=f`)
-                .then((response) => setFinalMatches(response.data))
+                .then(response => setFinalMatches(response.data))
                 .then(() => setIsLoading(false))
                 .then(() => setScoreIsAdded(false));
         }

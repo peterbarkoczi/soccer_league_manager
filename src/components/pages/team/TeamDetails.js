@@ -40,7 +40,7 @@ const TeamDetails = (props) => {
         setIsSelected(true);
         setIsLoading(true);
         axios.get(`http://localhost:8080/player/list/${localStorage.getItem("teamId")}`)
-            .then((response) => setPlayerList(response.data))
+            .then(response => setPlayerList(response.data))
             .then(() => setIsLoading(false))
             .then(() => setPlayerAdded(false));
     }, [playerAdded])

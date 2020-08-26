@@ -24,7 +24,7 @@ const AddPlayerModal = (props) => {
                 number: playerNumber,
                 birthDate: birthDate
             })
-                .then((response) => console.log("Player added: " + response.data))
+                .then(response => console.log("Player added: " + response.data))
                 .then(() => setIsAdded(false))
                 .then(() => setPlayerAdded(true));
         }
