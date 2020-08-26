@@ -57,12 +57,18 @@ function AddScorer(props) {
                     <Modal.Title>Gólszerző</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
-                            <Form.Label>Gólszerző</Form.Label>
-                            <Form.Control as="textarea" rows="3" value={scorer} onChange={updateScorerName}/>
-                        </Form.Group>
-                    </Form>
+                    <Form.Group controlId="exampleForm.ControlSelect2">
+                        <Form.Label>Gólszerző</Form.Label>
+                        <Form.Control as="select" multiple onChange={updateScorerName}>
+                            {props.players.map(player => (
+                                <option key={player.name} value={player.name} onClick={() => {
+                                    handleClose();
+                                    setData();
+                                    setIsAdded(true);
+                                }}>{player.name}</option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
