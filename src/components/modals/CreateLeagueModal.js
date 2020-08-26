@@ -18,6 +18,7 @@ function CreateLeagueModal() {
     const selectedTeams = [];
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
+    const [matchTime, setMatchTime] = useState("");
     const [gameDays, setGameDays] = useState([]);
     const selectedDays = [];
     const days = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat", "Vasárnap"];
@@ -36,6 +37,7 @@ function CreateLeagueModal() {
                 date: date,
                 startTime: startTime,
                 gameDays: gameDays,
+                matchTime: matchTime,
                 locationId: Number(localStorage.getItem("locationId"))
             })
                 .then(response => console.log("league added" + response))
@@ -54,6 +56,10 @@ function CreateLeagueModal() {
 
     const updateStartTime = e => {
         setStartTime(e.target.value);
+    }
+
+    const updateMatchTime = e => {
+        setMatchTime(e.target.value);
     }
 
     const menageDays = e => {
@@ -123,6 +129,14 @@ function CreateLeagueModal() {
                                 placeholder="00:00"
                                 value={startTime}
                                 onChange={updateStartTime}/>
+                        </Form.Group>
+                        <Form.Group controlId="addLeagueMatchTime">
+                            <Form.Label>Meccsek ideje(perc)</Form.Label>
+                            <Form.Control
+                                type="text"
+                                placeholder="20"
+                                value={matchTime}
+                                onChange={updateMatchTime}/>
                         </Form.Group>
                         <Form.Group>
                             {days.map(day => (
