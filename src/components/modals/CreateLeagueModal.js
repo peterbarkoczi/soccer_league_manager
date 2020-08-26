@@ -3,7 +3,7 @@ import {Button, Form, Modal} from "react-bootstrap";
 import axios from "axios";
 import {DataPackContext} from "../contexts/DataPackContext";
 
-function AddLeagueModal() {
+function CreateLeagueModal() {
     const [showLeagueModal, setShowLeagueModal] = useState(false);
 
     const handleClose = () => setShowLeagueModal(false);
@@ -67,4 +67,4 @@ function AddLeagueModal() {
     );
 }
 
-export default AddLeagueModal;
+export default CreateLeagueModal;
