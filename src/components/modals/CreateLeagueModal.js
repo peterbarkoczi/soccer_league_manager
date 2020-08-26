@@ -56,9 +56,9 @@ function CreateLeagueModal() {
         setTeamList(list);
     }
 
-    const deleteFromTeamList = team => {
+    const deleteFromList = (list, item) => {
         for (let i = 0; i < list.length; i++) {
-            if (list[i] === team) {
+            if (list[i] === item) {
                 list.splice(i,1)
             }
         }
@@ -67,8 +67,8 @@ function CreateLeagueModal() {
     const menageTeams = e => {
         let team = e.target.value;
         let checked = e.target.checked;
-        if (!list.includes(team) && checked) {
-            list.push(team);
+        if (!list.includes(item) && checked) {
+            list.push(item);
         } else {
             deleteFromTeamList(team);
         }
