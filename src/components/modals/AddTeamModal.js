@@ -10,19 +10,33 @@ function AddTeamModal() {
     const handleShow = () => setShow(true);
 
 
-    const {dataPack, setIsSelected} = useContext(DataPackContext);
+    const {setIsSelected} = useContext(DataPackContext);
     const [leagues, setLeagues] = useState([]);
     const [teamName, setTeamName] = useState("");
     const [league, setLeague] = useState("");
     const [isAdded, setIsAdded] = useState(false);
 
     useEffect(() => {
-        for (let location of dataPack) {
-            if (location.id === Number(localStorage.getItem("locationId"))) {
-                setLeagues(location.leagues)
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
+        const loadData = () => {
+            try {
+                axios.get(`http://localhost:8080/league/get_league_list/${localStorage.getItem("locationId")}`,
+                    {cancelToken: source.token})
+                    .then(response => setLeagues(response.data));
+            } catch (error) {
+                if (axios.isCancel(error)) {
+                    console.log("cancelled");
+                } else {
+                    throw error;
+                }
             }
-        }
-    }, [dataPack])
+        };
+
+        loadData();
+        return () => {source.cancel()}
+    }, [])
 
     useEffect(() => {
         if (isAdded) {
@@ -68,7 +82,7 @@ function AddTeamModal() {
                         <Form.Group controlId="addLeague">
                             <Form.Label>Bajnokság</Form.Label>
                             <Form.Control as="select" onChange={updateSubLeague}>
-                                <option selected>Válassz bajnokságot</option>
+                                <option defaultValue={"Válassz bajnokságot"}>Válassz bajnokságot</option>
                                 {leagues.map(league => (
                                     <option
                                         key={league.name}

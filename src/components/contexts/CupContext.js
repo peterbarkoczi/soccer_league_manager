@@ -26,7 +26,7 @@ export const CupProvider = props => {
         setIsLoading(true);
         if (cupId !== "") {
             axios.get(`http://localhost:8080/cups/get_matches?cupId=${cupId}`)
-                .then((response) => setCup(response.data))
+                .then(response => setCup(response.data))
                 .then(() => setIsLoading(false))
                 .then(() => setScoreIsAdded(false));
         }

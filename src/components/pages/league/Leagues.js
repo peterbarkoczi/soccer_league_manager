@@ -1,23 +1,38 @@
 import React, {useState, useEffect, useContext} from "react";
 import {Link} from "react-router-dom";
 import {ListGroup} from "react-bootstrap";
-import {DataPackContext} from "../../contexts/DataPackContext";
 import AddLeagueModal from "../../modals/AddLeagueModal";
+import axios from "axios";
 
 const Leagues = () => {
-    const {dataPack} = useContext(DataPackContext);
+
     const [leagues, setLeagues] = useState([]);
     const [isTeamsCleared, setIsTeamsCleared] = useState(false);
 
     useEffect(() => {
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
         localStorage.removeItem("teamId");
         localStorage.removeItem("teamName");
-        for (let location of dataPack){
-            if (location.id === Number(localStorage.getItem("locationId"))) {
-                setLeagues(location.leagues)
+
+        const loadData = () => {
+            try {
+                axios.get(`http://localhost:8080/league/get_league_list/${localStorage.getItem("locationId")}`,
+                    {cancelToken: source.token})
+                    .then(response => setLeagues(response.data));
+            } catch (error) {
+                if (axios.isCancel(error)) {
+                    console.log("cancelled");
+                } else {
+                    throw error;
+                }
             }
-        }
-    }, [dataPack]);
+        };
+
+        loadData();
+        return () => {source.cancel()};
+    }, [])
 
     function clearLocalStorage() {
         localStorage.removeItem("leagueId");
@@ -33,7 +48,7 @@ const Leagues = () => {
                 <div className="title">
                     <h1 id="leagueTitle">Bajnokság</h1>
                 </div>
-                <div className="addTeam">
+                <div className="addLeague">
                     <AddLeagueModal/>
                 </div>
                 <ListGroup className="list" id="leaguesList">

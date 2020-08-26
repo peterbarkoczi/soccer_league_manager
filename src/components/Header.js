@@ -83,9 +83,9 @@ function Header() {
                         (<h3 id="locationHeaderTitle">{localStorage.getItem("location")}</h3>) : null}
                 </div>
                 {isSelected ? (
-                    <ButtonGroup className="menu">
+                    <ButtonGroup className="menu" id="headerNavMenu">
                         <Link to={`/${localStorage.getItem("path")}/bajnoksag`}>
-                            <Button variant="danger" size="lg" id="navButtonSubLeague">Bajnokság</Button>
+                            <Button variant="danger" size="lg" id="navButtonLeagues">Bajnokság</Button>
                         </Link>
                         <Link to={`/${localStorage.getItem("path")}/kupak`}>
                             <Button variant="danger" size="lg" id="navButtonCups">Kupák</Button>

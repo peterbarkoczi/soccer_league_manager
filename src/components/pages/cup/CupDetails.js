@@ -9,7 +9,8 @@ const CupDetails = () => {
         cup, cupId,
         matchIsFinished,
         isLoading, setIsLoading,
-        scoreIsAdded, setScoreIsAdded
+        scoreIsAdded, setScoreIsAdded,
+        cardIsAdded, setCardIsAdded
     } = useContext(CupContext);
 
     const [qualifierMatches, setQualifierMatches] = useState([]);
@@ -27,11 +28,12 @@ const CupDetails = () => {
         setIsLoading(true);
         if (cupId !== "") {
             axios.get(`http://localhost:8080/match/get_qualifiers?cupId=${cupId}&matchType=q`)
-                .then((response) => setQualifierMatches(response.data))
+                .then(response => setQualifierMatches(response.data))
                 .then(() => setIsLoading(false))
-                .then(() => setScoreIsAdded(false));
+                .then(() => setScoreIsAdded(false))
+                .then(() => setCardIsAdded(false));
         }
-    }, [cupId, scoreIsAdded, matchIsFinished]);
+    }, [cupId, scoreIsAdded, cardIsAdded, matchIsFinished]);
 
     useEffect(() => {
         if (qualifierMatches.length !== 0) {
@@ -43,7 +45,7 @@ const CupDetails = () => {
             }
             if (counter === qualifierMatches.length && semiFinalMatches.length === 0) {
                 axios.get(`http://localhost:8080/match/create_semi_finals?cupId=${cupId}&matchType=sf`)
-                    .then((response) => setSemiFinalMatches(response.data))
+                    .then(response => setSemiFinalMatches(response.data))
                     .then(() => setSfIsReady(true));
             }
         }
@@ -53,11 +55,12 @@ const CupDetails = () => {
         setIsLoading(true);
         if (cupId !== "") {
             axios.get(`http://localhost:8080/match/get_semifinals?cupId=${cupId}&matchType=sf`)
-                .then((response) => setSemiFinalMatches(response.data))
+                .then(response => setSemiFinalMatches(response.data))
                 .then(() => setIsLoading(false))
-                .then(() => setScoreIsAdded(false));
+                .then(() => setScoreIsAdded(false))
+                .then(() => setCardIsAdded(false));
         }
-    }, [cupId, scoreIsAdded, matchIsFinished, sfIsReady])
+    }, [cupId, scoreIsAdded, cardIsAdded, matchIsFinished, sfIsReady])
 
     useEffect(() => {
         if (semiFinalMatches.length !== 0) {
@@ -69,7 +72,7 @@ const CupDetails = () => {
             }
             if (counter === semiFinalMatches.length && finalMatches.length === 0) {
                 axios.get(`http://localhost:8080/match/create_semi_finals?cupId=${cupId}&matchType=f`)
-                    .then((response) => setFinalMatches(response.data))
+                    .then(response => setFinalMatches(response.data))
                     .then(() => setFinalIsReady(true));
             }
         }
@@ -79,11 +82,12 @@ const CupDetails = () => {
         setIsLoading(true);
         if (cupId !== "") {
             axios.get(`http://localhost:8080/match/get_semifinals?cupId=${cupId}&matchType=f`)
-                .then((response) => setFinalMatches(response.data))
+                .then(response => setFinalMatches(response.data))
                 .then(() => setIsLoading(false))
-                .then(() => setScoreIsAdded(false));
+                .then(() => setScoreIsAdded(false))
+                .then(() => setCardIsAdded(false));
         }
-    }, [cupId, scoreIsAdded, matchIsFinished, finalIsReady])
+    }, [cupId, scoreIsAdded, cardIsAdded, matchIsFinished, finalIsReady])
 
     if (isLoading) {
         return (<h1>Loading...</h1>)

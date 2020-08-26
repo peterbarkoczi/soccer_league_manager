@@ -3,7 +3,6 @@ import {Button, Form, Image, Modal} from "react-bootstrap";
 import {CupContext} from "../contexts/CupContext";
 import axios from "axios";
 import cardIcon from "../../yellow-red card icon.png";
-import styled from "styled-components";
 
 
 function AddScorer(props) {
@@ -30,6 +29,7 @@ function AddScorer(props) {
     const [scorer, setScorer] = useState("");
 
     function updateScorerName(e) {
+        console.log(e.target.value);
         setScorer(e.target.value);
     }
 
@@ -57,24 +57,30 @@ function AddScorer(props) {
                     <Modal.Title>Gólszerző</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
-                            <Form.Label>Gólszerző</Form.Label>
-                            <Form.Control as="textarea" rows="3" value={scorer} onChange={updateScorerName}/>
-                        </Form.Group>
-                    </Form>
+                    <Form.Group controlId="exampleForm.ControlSelect2">
+                        <Form.Label>Gólszerző</Form.Label>
+                        <Form.Control as="select" multiple onChange={updateScorerName}>
+                            {props.players.map(player => (
+                                <option key={player.name} value={player.name} onClick={() => {
+                                    handleClose();
+                                    setData();
+                                    setIsAdded(true);
+                                }}>{player.name}</option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => {
-                        handleClose();
-                        setData();
-                        setIsAdded(true);
-                    }}>
-                        Save Changes
-                    </Button>
+                    {/*<Button variant="primary" onClick={() => {*/}
+                    {/*    handleClose();*/}
+                    {/*    setData();*/}
+                    {/*    setIsAdded(true);*/}
+                    {/*}}>*/}
+                    {/*    Save Changes*/}
+                    {/*</Button>*/}
                 </Modal.Footer>
             </Modal>
         </>
@@ -83,15 +89,10 @@ function AddScorer(props) {
 
 function AddCard(props) {
 
-    const ButtonStyle = styled.button`
-
-      background-image: url(${cardIcon})
-
-`
-
     const {setCardIsAdded} = useContext(CupContext);
     const [isAdded, setIsAdded] = useState(false);
     let cardType = "";
+    const [cardTypeState, setCardTypeState] = useState("");
     const [currentCard, setCurrentCard] = useState({
         id: 0,
         card1: "",
@@ -127,52 +128,63 @@ function AddCard(props) {
                 id: props.matchId,
                 card1: player,
                 card2: "",
-                type: cardType
+                type: cardTypeState
             });
         } else if (props.team === "team2") {
             setCurrentCard({
                 id: props.matchId,
                 card1: "",
                 card2: player,
-                type: cardType
+                type: cardTypeState
             });
         }
         return currentCard;
     }
 
     function setCardType(e) {
+        console.log(e.target.value);
         cardType = e.target.value;
-    }
-
-    function clickHandle() {
-        return props.isFinished ? handleShow : null;
+        setCardTypeState(cardType);
     }
 
     return (
         <>
-            {/*<ButtonStyle>*/}
-            {/*    <Button variant="success" onClick={handleShow} disabled={props.isFinished}/>*/}
-            {/*</ButtonStyle>*/}
-            {console.log(props.isFinished)}
-            <Image className="cardImage" id="cardImage1" src={cardIcon} onClick={clickHandle} thumbnail/>
+            <Image className="cardImage" id="cardImage1" src={cardIcon} onClick={!props.isFinished ? handleShow : null} thumbnail/>
             <Modal show={showCardModal} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Lap</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form.Check type="checkbox">
-                        <Form.Check.Input
-                            type="checkbox"
-                            value="Sárga"
-                            onChange={setCardType} isValid/>
-                        <Form.Check.Label>{"Sárga"}</Form.Check.Label>
-                    </Form.Check>
-                    <Form>
-                        <Form.Group controlId="exampleForm.ControlTextarea1">
-                            <Form.Label>Lapot kapja:</Form.Label>
-                            <Form.Control as="textarea" rows="3" value={player} onChange={updatePlayerName}/>
+                    <fieldset>
+                        <Form.Group>
+                            <Form.Check
+                                id="sarga"
+                                label="Sárga"
+                                type="checkbox"
+                                value="Sárga"
+                                onChange={setCardType}
+                                isValid/>
+                            <Form.Check
+                                id="piros"
+                                label="Piros"
+                                type="checkbox"
+                                value="Piros"
+                                onChange={setCardType}
+                                isValid/>
                         </Form.Group>
-                    </Form>
+                    </fieldset>
+                    <Form.Group controlId="exampleForm.ControlSelect2">
+                        <Form.Label>Lapot kapja:</Form.Label>
+                        <Form.Control as="select" multiple onChange={updatePlayerName}>
+                            {props.players.map(player => (
+                                <option key={player.name} value={player.name} onClick={() => {
+                                    handleClose();
+                                    setData();
+                                    setIsAdded(true);
+                                }}>{player.name}</option>
+                            ))}
+                        </Form.Control>
+                    </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>

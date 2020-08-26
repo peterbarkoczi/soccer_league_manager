@@ -36,7 +36,7 @@ a:hover {
 }
 
 #scorer {
-    white-space:pre
+    white-space: pre
 }
 
 .matchTypeTitle {
@@ -46,4 +46,24 @@ a:hover {
 
 .cardImage {
     cursor: pointer;
+}
+
+.playerIndexCell {
+    width: 5%;
+}
+
+.playerNumberCell {
+    width: 5%;
+}
+
+.playerNameCell {
+    width: 50%;
+}
+
+.playerGoalsCell {
+    width: 20%;
+}
+
+#playersTable th {
+    text-align: center;
 }

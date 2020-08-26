@@ -17,7 +17,7 @@ function Teams() {
         localStorage.removeItem("teamName");
         setIsLoading(true);
         axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
-            .then((response) => setTeams(response.data))
+            .then(response => setTeams(response.data))
             .then(() => setIsLoading(false))
     }, [isAdded, teamIsDeleted]);
 
@@ -33,14 +33,14 @@ function Teams() {
                     <AddTeamModal/>
                 </div>
                 <ListGroup variant="flush" className="list" id="teamsList">
-                    {teams.map(team => (
-                        <ListGroup.Item className="team" key={team.id}>
+                    {teams.map((team, i) => (
+                        <ListGroup.Item className="team" key={i}>
                             <Link to={{
                                 pathname: `csapatok/${team.name.split(" ").join("")}`}}
                                 onClick={() => {
                                     localStorage.setItem("teamId", team.id);
                                     localStorage.setItem("teamName", team.name)
-                                }}>{team.name}</Link>
+                                }}>{(i+1) + ". " + team.name}</Link>
                             {'   '}<DeleteModal id={team.id} url="teams"/>
                         </ListGroup.Item>)
                     )}

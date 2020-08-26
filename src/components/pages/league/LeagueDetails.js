@@ -18,7 +18,7 @@ const LeagueDetails = () => {
         setIsSelected(true);
         setIsLoading(true);
         axios.get(`http://localhost:8080/teams/${localStorage.getItem("leagueId")}`)
-            .then((response) => setTeams(response.data))
+            .then(response => setTeams(response.data))
             .then(() => setIsLoading(false));
     }, [])
 
