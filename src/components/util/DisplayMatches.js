@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Button, Table, Image} from "react-bootstrap";
 import {CupContext} from "../contexts/CupContext";
 import {AddCard, AddScorer} from "./SetMatchDetails";
@@ -12,6 +12,26 @@ function DisplayMatches(props) {
         matchIsFinished, setMatchIsFinished,
         matchId, setMatchId
     } = useContext(CupContext);
+
+    const [team1Players, setTeam1Players] = useState([])
+    const [team2Players, setTeam2Players] = useState([])
+
+    const teams = [props.match.team1, props.match.team2];
+
+    useEffect(() => {
+        if (!matchIsFinished) {
+            for (let i = 0; i < 2; i++) {
+                axios.get(`http://localhost:8080/player/listByName/${teams[i]}`)
+                    .then(response => {
+                        if (i === 0) {
+                            setTeam1Players(response.data);
+                        } else {
+                            setTeam2Players(response.data);
+                        }
+                    });
+            }
+        }
+    }, [])
 
     useEffect(() => {
         if (matchIsFinished) {
@@ -27,26 +47,30 @@ function DisplayMatches(props) {
         setMatchId(props.match.id);
     }
 
-    return (
-        <Table className="matchTable" striped bordered hover size="sm">
-            <colgroup>
-                <col className="teamCell"/>
-                <col className="cardIconCell"/>
-                <col className="scoreCell"/>
-                <col className="scoreCell"/>
-                <col className="cardIconCell"/>
-                <col className="teamCell"/>
-            </colgroup>
-            <thead>
+    if (!team1Players || !team2Players) {
+        return (<h1>Loading...</h1>);
+    } else {
+        return (
+            <Table className="matchTable" striped bordered hover size="sm">
+                <colgroup>
+                    <col className="teamCell"/>
+                    <col className="cardIconCell"/>
+                    <col className="scoreCell"/>
+                    <col className="scoreCell"/>
+                    <col className="cardIconCell"/>
+                    <col className="teamCell"/>
+                </colgroup>
+                <thead>
                 <tr>
                     <th colSpan="6">{props.matchType + " - " + cup.date + " - " + props.match.time}</th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <tr>
                     <td>{props.match.team1}</td>
                     <td>
                         <AddCard
+                            players={team1Players}
                             team={"team1"}
                             matchId={props.match.id}
                             isFinished={props.match.finished}/>
@@ -55,6 +79,7 @@ function DisplayMatches(props) {
                         <Button id="increaseScore" variant="outline-secondary" size="sm">-</Button>{' '}
                         {props.match.score1}
                         {' '}<AddScorer
+                        players={team1Players}
                         team={"team1"}
                         matchId={props.match.id}
                         score={props.match.score1}
@@ -64,12 +89,19 @@ function DisplayMatches(props) {
                         <Button id="increaseScore" variant="outline-secondary" size="sm">-</Button>{' '}
                         {props.match.score2}
                         {' '}<AddScorer
+                        players={team2Players}
                         team={"team2"}
                         matchId={props.match.id}
                         score={props.match.score2}
                         isFinished={props.match.finished}/>
                     </td>
-                    <td><Image className="cardImage" id="cardImage2" src={cardIcon} thumbnail/></td>
+                    <td>
+                        <AddCard
+                            players={team2Players}
+                            team={"team1"}
+                            matchId={props.match.id}
+                            isFinished={props.match.finished}/>
+                    </td>
                     <td>{props.match.team2}</td>
                 </tr>
                 <tr>
@@ -77,17 +109,18 @@ function DisplayMatches(props) {
                     <td colSpan="4">{}</td>
                     <td id="scorer">{"Gólszerző:\n" + props.match.scorer2 + "\nLap:\n" + props.match.card2}</td>
                 </tr>
-            </tbody>
-            <tfoot>
+                </tbody>
+                <tfoot>
                 <tr>
                     <td colSpan="6"><Button
                         variant="outline-success"
                         onClick={updateIsFinished} size="sm"
                         disabled={props.match.finished}>VÉGE</Button></td>
                 </tr>
-            </tfoot>
-        </Table>
-    )
+                </tfoot>
+            </Table>
+        );
+    }
 }
 
 export default DisplayMatches;
