@@ -9,7 +9,8 @@ const CupDetails = () => {
         cup, cupId,
         matchIsFinished,
         isLoading, setIsLoading,
-        scoreIsAdded, setScoreIsAdded
+        scoreIsAdded, setScoreIsAdded,
+        cardIsAdded, setCardIsAdded
     } = useContext(CupContext);
 
     const [qualifierMatches, setQualifierMatches] = useState([]);
@@ -29,9 +30,10 @@ const CupDetails = () => {
             axios.get(`http://localhost:8080/match/get_qualifiers?cupId=${cupId}&matchType=q`)
                 .then(response => setQualifierMatches(response.data))
                 .then(() => setIsLoading(false))
-                .then(() => setScoreIsAdded(false));
+                .then(() => setScoreIsAdded(false))
+                .then(() => setCardIsAdded(false));
         }
-    }, [cupId, scoreIsAdded, matchIsFinished]);
+    }, [cupId, scoreIsAdded, cardIsAdded, matchIsFinished]);
 
     useEffect(() => {
         if (qualifierMatches.length !== 0) {
@@ -55,9 +57,10 @@ const CupDetails = () => {
             axios.get(`http://localhost:8080/match/get_semifinals?cupId=${cupId}&matchType=sf`)
                 .then(response => setSemiFinalMatches(response.data))
                 .then(() => setIsLoading(false))
-                .then(() => setScoreIsAdded(false));
+                .then(() => setScoreIsAdded(false))
+                .then(() => setCardIsAdded(false));
         }
-    }, [cupId, scoreIsAdded, matchIsFinished, sfIsReady])
+    }, [cupId, scoreIsAdded, cardIsAdded, matchIsFinished, sfIsReady])
 
     useEffect(() => {
         if (semiFinalMatches.length !== 0) {
@@ -81,9 +84,10 @@ const CupDetails = () => {
             axios.get(`http://localhost:8080/match/get_semifinals?cupId=${cupId}&matchType=f`)
                 .then(response => setFinalMatches(response.data))
                 .then(() => setIsLoading(false))
-                .then(() => setScoreIsAdded(false));
+                .then(() => setScoreIsAdded(false))
+                .then(() => setCardIsAdded(false));
         }
-    }, [cupId, scoreIsAdded, matchIsFinished, finalIsReady])
+    }, [cupId, scoreIsAdded, cardIsAdded, matchIsFinished, finalIsReady])
 
     if (isLoading) {
         return (<h1>Loading...</h1>)
