@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from "react";
 import {Link} from "react-router-dom";
 import {ListGroup} from "react-bootstrap";
-import AddLeagueModal from "../../modals/AddLeagueModal";
+import CreateLeagueModal from "../../modals/CreateLeagueModal";
 import axios from "axios";
 
 const Leagues = () => {
@@ -49,7 +49,7 @@ const Leagues = () => {
                     <h1 id="leagueTitle">Bajnokság</h1>
                 </div>
                 <div className="addLeague">
-                    <AddLeagueModal/>
+                    <CreateLeagueModal/>
                 </div>
                 <ListGroup className="list" id="leaguesList">
                     {leagues.map(league => (

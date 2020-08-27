@@ -11,7 +11,6 @@ const LeagueDetails = () => {
 
     const [teams, setTeams] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    let position = 1;
 
     useEffect(() => {
         removeTeamsFromLocalStorage();
@@ -48,9 +47,9 @@ const LeagueDetails = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {teams.map(team => (
-                        <tr>
-                            <td>{position++}</td>
+                    {teams.map((team, position) => (
+                        <tr key={team.id}>
+                            <td>{++position}</td>
                             <td className="team">
                                 <Link
                                     to={{
@@ -63,7 +62,6 @@ const LeagueDetails = () => {
                                 </Link>
                             </td>
                         </tr>
-
                     ))}
                     </tbody>
                 </Table>
