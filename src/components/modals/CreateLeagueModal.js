@@ -31,7 +31,7 @@ function CreateLeagueModal() {
 
     useEffect(() => {
         if (isAdded) {
-            axios.post('http://localhost:8080/league/add_league', {
+            axios.post('http://localhost:8080/league/create_league', {
                 name: leagueName,
                 teams: teamList,
                 date: date,
