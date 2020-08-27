@@ -1,22 +1,40 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {lazy, Suspense, useContext, useEffect, useState} from "react";
 import CreateCupModal from "../../modals/CreateCupModal";
-import {ListGroup} from "react-bootstrap";
+import {Button, ListGroup} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import {CupContext} from "../../contexts/CupContext";
 import axios from "axios";
-import DeleteModal from "../../modals/DeleteModal";
 
-const Cups = () => {
-    const {dataPack} = useContext(DataPackContext);
-    const {setCupId, isDeleted} = useContext(CupContext);
-    const [cups, setCups] = useState([]);
+function usePrefetch(factory) {
+    const [component, setComponent] = useState(null);
 
     useEffect(() => {
+        factory();
+        const comp = lazy(factory);
+        setComponent(comp);
+    }, [factory]);
+    return component;
+}
+
+const importModal = () => import("../../modals/DeleteModal");
+
+const Cups = () => {
+    const {isShown, setIsShown} = useContext(DataPackContext);
+    const {setCupId, isDeleted, setIsDeleted} = useContext(CupContext);
+    const [cups, setCups] = useState([]);
+
+    const [selectedId, setSelectedId] = useState(0);
+    const DeleteModal = usePrefetch(importModal);
+
+    useEffect(() => {
+        setSelectedId(0);
         localStorage.removeItem("cupId");
         axios.get(`http://localhost:8080/cups/list?locationId=${Number(localStorage.getItem("locationId"))}`)
             .then(response => setCups(response.data))
-    }, [dataPack, isDeleted]);
+            .then(() => setIsDeleted(false))
+            .then(() => setSelectedId(0));
+    }, [isDeleted]);
 
     return (
         <div className="cups">
@@ -30,7 +48,15 @@ const Cups = () => {
                         }} onClick={() => {
                             setCupId(cup.id)
                         }}>{cup.name}</Link>
-                        {'   '}<DeleteModal id={cup.id} url="cups"/>
+                        {'   '}
+                        <Button variant="warning" onClick={() => {
+                            setIsShown(true);
+                            setSelectedId(cup.id)}}>
+                            Törlés
+                        </Button>
+                        <Suspense fallback={<h1>Loading...</h1>}>
+                            {isShown && selectedId === cup.id && <DeleteModal id={selectedId} name={cup.name} url="cups"/>}
+                        </Suspense>
                     </ListGroup.Item>
                 ))}
             </ListGroup>

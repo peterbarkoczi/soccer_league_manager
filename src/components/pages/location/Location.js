@@ -1,28 +1,47 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {lazy, Suspense, useContext, useEffect, useState} from "react";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import {Link} from "react-router-dom";
-import {ListGroup} from "react-bootstrap";
+import {Button, ListGroup} from "react-bootstrap";
 import AddLocationModal from "../../modals/AddLocationModal";
-import DeleteModal from "../../modals/DeleteModal";
 import axios from "axios";
+
+function usePrefetch(factory) {
+    const [component, setComponent] = useState(null);
+
+    useEffect(() => {
+        factory();
+        const comp = lazy(factory);
+        setComponent(comp);
+    }, [factory]);
+    return component;
+}
+
+const importModal = () => import("../../modals/DeleteModal");
 
 function Location() {
     const {
         setIsSelected,
         showLocationDiv, setShowLocationDiv,
-        locationIsDeleted} = useContext(DataPackContext);
+        locationIsDeleted, setLocationIsDeleted,
+        isShown, setIsShown} = useContext(DataPackContext);
     const [location, setLocation] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    const [selectedId, setSelectedId] = useState(0);
+    const DeleteModal = usePrefetch(importModal);
 
     useEffect(() => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
 
         const loadData = () => {
+            setSelectedId(0)
             try {
                 axios.get("http://localhost:8080/location/list", {cancelToken:source.token})
                     .then(response => setLocation(response.data))
-                    .then(() => setIsLoading(false));
+                    .then(() => setIsLoading(false))
+                    .then(() => setLocationIsDeleted(false))
+                    .then(() => setSelectedId(0));
             } catch (error) {
                 if (axios.isCancel(error)) {
                     console.log("cancelled");
@@ -55,7 +74,15 @@ function Location() {
                             localStorage.setItem("path", `liga/${location.name.split(" ").join("")}`);
                             localStorage.setItem("location", location.name)
                         }} className="locationLink">{location.name}</Link>
-                        {'   '}<DeleteModal id={location.id} url="location"/>
+                        {'   '}
+                        <Button variant="warning" onClick={() => {
+                            setIsShown(true);
+                            setSelectedId(location.id)}}>
+                            Törlés
+                        </Button>
+                        <Suspense fallback={<h1>Loading...</h1>}>
+                            {isShown && selectedId === location.id && <DeleteModal id={selectedId} name={location.name} url="location"/>}
+                        </Suspense>
                     </ListGroup.Item>))
                 }
             </ListGroup>
