@@ -20,7 +20,7 @@ const CupQualifiers = () => {
     useEffect(() => {
         console.log("qualifierek betöltése");
         if (cupId !== "") {
-            axios.get(`http://localhost:8080/match/get_qualifiers?cupId=${cupId}&matchType=q-1/4`)
+            axios.get(`http://localhost:8080/match/get_qualifiers?cupId=${cupId}&matchType=qualifier-1/4`)
                 .then(response => setQualifierMatches(response.data))
                 .then(() => setScoreIsAdded(false))
                 .then(() => setCardIsAdded(false));
