@@ -113,7 +113,7 @@ function DisplayMatches(props) {
                     <td>
                         <AddCard
                             players={team2Players}
-                            team={"team1"}
+                            team={"team2"}
                             matchId={props.match.id}
                             isFinished={props.match.finished}/>
                     </td>
