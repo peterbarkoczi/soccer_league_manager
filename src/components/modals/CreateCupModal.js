@@ -1,5 +1,5 @@
-import React, {useContext, useEffect, useState} from "react";
-import {Button, Form, Modal, ProgressBar} from "react-bootstrap";
+import React, {useContext, useEffect, useRef, useState} from "react";
+import {Button, Form, Modal, ProgressBar, Row, Col} from "react-bootstrap";
 import axios from "axios";
 import {DataPackContext} from "../contexts/DataPackContext";
 
@@ -12,7 +12,8 @@ function CreateCupModal() {
     const {setIsSelected} = useContext(DataPackContext);
     const [teams, setTeams] = useState([]);
     const [cupName, setCupName] = useState("");
-    const [numOfTeams, setNumOfTeams] = useState("8");
+    const [numOfTeams, setNumOfTeams] = useState("");
+    const numOfTeamsOptions = ["4", "8", "16", "32"];
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [matchTime, setMatchTime] = useState("");
@@ -61,6 +62,28 @@ function CreateCupModal() {
 
     const updateNumOfTeams = e => {
         setNumOfTeams(e.target.value);
+        updateMatchType(e.target.value);
+    }
+
+    const updateMatchType = (number) => {
+        let type;
+        switch (number) {
+            case "4":
+                type = "semiFinal";
+                break;
+            case "8":
+                type = "q-1/4";
+                break;
+            case "16":
+                type = "q-1/8";
+                break;
+            case "32":
+                type = "q-1/16";
+                break;
+            default:
+                console.log("Number of teams not chosen!")
+        }
+        setMatchType(type);
     }
 
     const deleteFromTeamList = team => {
@@ -106,14 +129,26 @@ function CreateCupModal() {
                                 value={cupName}
                                 onChange={updateCupName}/>
                         </Form.Group>
-                        <Form.Group controlId="addCupNumberOfTeams">
-                            <Form.Label>Csapatok száma</Form.Label>
-                            <Form.Control
-                                type="number"
-                                placeholder="Csapatok száma"
-                                value={numOfTeams}
-                                onChange={updateNumOfTeams}/>
-                        </Form.Group>
+                        <fieldset>
+                            <Form.Group as={Row}>
+                                <Form.Label as="legend" column sm={2}>
+                                    Csapatok száma
+                                </Form.Label>
+                                <Col sm={10}>
+                                    {numOfTeamsOptions.map(num => (
+                                        <Form.Check key={num}
+                                        type="radio"
+                                        label={num}
+                                        name="formHorizontalRadios"
+                                        id="formHorizontalRadios1"
+                                        value={num}
+                                        onChange={updateNumOfTeams}
+                                        inline
+                                    />
+                                    ))}
+                                </Col>
+                            </Form.Group>
+                        </fieldset>
                         <Form.Group>
                             {teams.map(team => (
                                 <Form.Check type="checkbox" key={team.id}>
