@@ -19,7 +19,9 @@ function CreateCupModal() {
     const [matchTime, setMatchTime] = useState("");
     const [isAdded, setIsAdded] = useState(false);
     const [teamList, setTeamList] = useState([]);
+    let selectedTeams = [];
     const [percentage, setPercentage] = useState(0);
+    const [matchType, setMatchType] = useState("");
 
     useEffect(() => {
         axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
@@ -36,7 +38,7 @@ function CreateCupModal() {
                 startTime: startTime,
                 matchTime: matchTime,
                 locationId: Number(localStorage.getItem("locationId")),
-                matchType: "q"
+                matchType: matchType
             })
                 .then(response => console.log("league added" + response))
                 .then(() => setIsAdded(false))
@@ -87,26 +89,30 @@ function CreateCupModal() {
     }
 
     const deleteFromTeamList = team => {
-        for (let i = 0; i < teamList.length; i++) {
-            if (teamList[i] === team) {
-                setTeamList(teamList => teamList.splice(i,1))
+        for (let i = 0; i < selectedTeams.length; i++) {
+            if (selectedTeams[i] === team) {
+                selectedTeams.splice(i, 1);
             }
         }
     }
 
     const menageTeams = e => {
-        let team = e.target.value;
+        selectedTeams = teamList;
+        let team = e.target.name;
         let checked = e.target.checked;
-        console.log(team);
-        if (!teamList.includes(team) && teamList.length < Number(numOfTeams) && checked) {
-            setTeamList(teamList => [...teamList, team]);
-            setPercentage(percentage + (100/Number(numOfTeams)));
-            console.log("add team");
-        } else if (teamList.includes(team) && !checked) {
+        if (!selectedTeams.includes(team) &&
+            selectedTeams.length < Number(numOfTeams) &&
+            checked) {
+            selectedTeams.push(team);
+            setPercentage(percentage + (100 / Number(numOfTeams)));
+            console.log("add team: " + team);
+        } else if (selectedTeams.includes(team) && !checked) {
             deleteFromTeamList(team);
-            setPercentage(percentage - (100/Number(numOfTeams)));
-            console.log("delete team");
+            setPercentage(percentage - (100 / Number(numOfTeams)));
+            console.log("delete team: " + team);
         }
+        setTeamList(selectedTeams);
+        console.log(selectedTeams);
     }
 
     return (
@@ -154,12 +160,13 @@ function CreateCupModal() {
                                 <Form.Check type="checkbox" key={team.id}>
                                     <Form.Check.Input
                                         type="checkbox"
-                                        value={team.name}
+                                        value={team.id}
+                                        name={team.name}
                                         onChange={menageTeams} isValid/>
                                     <Form.Check.Label>{team.name}</Form.Check.Label>
                                 </Form.Check>
                             ))}
-                            <ProgressBar animated now={percentage} />
+                            <ProgressBar animated now={percentage}/>
                         </Form.Group>
                         <Form.Group controlId="addCupDate">
                             <Form.Label>Dátum</Form.Label>
