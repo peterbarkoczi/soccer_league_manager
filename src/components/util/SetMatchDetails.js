@@ -74,13 +74,6 @@ function AddScorer(props) {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    {/*<Button variant="primary" onClick={() => {*/}
-                    {/*    handleClose();*/}
-                    {/*    setData();*/}
-                    {/*    setIsAdded(true);*/}
-                    {/*}}>*/}
-                    {/*    Save Changes*/}
-                    {/*</Button>*/}
                 </Modal.Footer>
             </Modal>
         </>

@@ -1,9 +1,8 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Button, Table, Image} from "react-bootstrap";
+import {Button, Table} from "react-bootstrap";
 import {CupContext} from "../contexts/CupContext";
 import {AddCard, AddScorer} from "./SetMatchDetails";
 import axios from "axios";
-import cardIcon from "../../yellow-red card icon.png"
 
 function DisplayMatches(props) {
 
@@ -19,18 +18,33 @@ function DisplayMatches(props) {
     const teams = [props.match.team1, props.match.team2];
 
     useEffect(() => {
-        if (!matchIsFinished) {
-            for (let i = 0; i < 2; i++) {
-                axios.get(`http://localhost:8080/player/listByName/${teams[i]}`)
-                    .then(response => {
-                        if (i === 0) {
-                            setTeam1Players(response.data);
-                        } else {
-                            setTeam2Players(response.data);
-                        }
-                    });
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+
+        const loadData = () => {
+            try {
+                if (!matchIsFinished) {
+                    for (let i = 0; i < 2; i++) {
+                        axios.get(`http://localhost:8080/player/listByName/${teams[i]}`)
+                            .then(response => {
+                                if (i === 0) {
+                                    setTeam1Players(response.data);
+                                } else {
+                                    setTeam2Players(response.data);
+                                }
+                            });
+                    }
+                }
+            } catch (error) {
+                if (axios.isCancel(error)) {
+                    console.log("cancelled");
+                } else {
+                    throw error;
+                }
             }
-        }
+        };
+        loadData();
+        return () => {source.cancel()}
     }, [])
 
     useEffect(() => {
@@ -73,7 +87,8 @@ function DisplayMatches(props) {
                             players={team1Players}
                             team={"team1"}
                             matchId={props.match.id}
-                            isFinished={props.match.finished}/>
+                            isFinished={props.match.finished}
+                            />
                     </td>
                     <td id={"score" + props.index}>
                         <Button id="increaseScore" variant="outline-secondary" size="sm">-</Button>{' '}

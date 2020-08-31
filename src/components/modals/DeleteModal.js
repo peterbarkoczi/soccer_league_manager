@@ -1,27 +1,13 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect} from "react";
 import {Button, Modal} from "react-bootstrap";
 import axios from "axios";
 import {CupContext} from "../contexts/CupContext";
 import {DataPackContext} from "../contexts/DataPackContext";
 
-// function useEffectOnce(cb) {
-//     const didRun = useRef(false);
-//
-//     useEffect(() => {
-//         console.log("useEffectOnce");
-//         if (!didRun.current) {
-//             cb();
-//             didRun.current = true;
-//         }
-//     })
-// }
 
 function DeleteModal(props) {
-    // const [show, setShow] = useState(false);
 
-    // const handleClose = () => setShow(false);
     const handleClose = () => setIsShown(false);
-    // const handleShow = () => setShow(true);
 
     const {setIsDeleted} = useContext(CupContext);
     const {
@@ -44,27 +30,14 @@ function DeleteModal(props) {
         console.log(deletableId);
     }
 
-    // useEffectOnce(() => {
-    //     console.log(deletedId);
-    //     console.log(locationIsDeleted);
-    //     if ((isDeleted || locationIsDeleted || teamIsDeleted) && deletedId !== 0) {
-    //         axios.delete(`http://localhost:8080/${props.url}/${deletedId}`, {cancelToken: source.token})
-    //             .then(response => console.log(response.data))
-    //             .then(() => setDefaultValues())
-    //             .then(() => setDeletedId(0));
-    //     }
-    // })
-
     useEffect(() => {
         const deleteItem = () => {
             try {
                 setDeletableId();
-                // if ((isDeleted || locationIsDeleted || teamIsDeleted) && deletedId !== 0) {
-                    axios.delete(`http://localhost:8080/${props.url}/${deletableId}`, {cancelToken: source.token})
-                        .then(response => console.log(response.data))
-                        .then(() => setDefaultValues());
-            // }
-        } catch (error) {
+                axios.delete(`http://localhost:8080/${props.url}/${deletableId}`, {cancelToken: source.token})
+                    .then(response => console.log(response.data))
+                    .then(() => setDefaultValues());
+            } catch (error) {
                 if (axios.isCancel(error)) {
                     console.log("cancelled");
                 } else {
@@ -74,7 +47,9 @@ function DeleteModal(props) {
         }
 
         deleteItem();
-        return () => {source.cancel()};
+        return () => {
+            source.cancel()
+        };
     }, []);
 
     const setDefaultValues = () => {
@@ -106,19 +81,12 @@ function DeleteModal(props) {
 
     return (
         <>
-            {/*<Button variant="warning" onClick={handleShow}>*/}
-            {/*    Törlés*/}
-            {/*</Button>*/}
-
             <Modal show={isShown} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Megerősítés</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>{props.name + " törölve"}</Modal.Body>
                 <Modal.Footer>
-                    {/*<Button variant="secondary" onClick={handleClose}>*/}
-                    {/*    Mégse*/}
-                    {/*</Button>*/}
                     <Button variant="primary" onClick={() => {
                         handleClose();
                         deleteById();
