@@ -74,13 +74,13 @@ function CreateCupModal() {
                 type = "semiFinal";
                 break;
             case "8":
-                type = "q-1/4";
+                type = "qualifier-1/4";
                 break;
             case "16":
-                type = "q-1/8";
+                type = "qualifier-1/8";
                 break;
             case "32":
-                type = "q-1/16";
+                type = "qualifier-1/16";
                 break;
             default:
                 console.log("Number of teams not chosen!")

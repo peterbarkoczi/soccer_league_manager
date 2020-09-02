@@ -7,32 +7,62 @@ import DisplayMatches from "../../util/DisplayMatches";
 const CupQualifiers = () => {
 
     const {
-        cup, cupId,
+        cupId,
         matchIsFinished,
         scoreIsAdded, setScoreIsAdded,
         cardIsAdded, setCardIsAdded
     } = useContext(CupContext);
 
     const {
-        qualifierMatches, setQualifierMatches
+        qualifierMatches, setQualifierMatches,
     } = useContext(MatchContext);
 
+    const checkFinish = (list) => {
+        if (list) {
+            let type = "";
+            let isFinishedAll;
+
+            for (const match of list) {
+                if (match.finished) {
+                    if (type !== match.matchType) {
+                        isFinishedAll = true;
+                        type = match.matchType;
+                    }
+                } else {
+                    isFinishedAll = false;
+                    break;
+                }
+            }
+            if (isFinishedAll && type !== "qualifier-1/4") {
+                let matches = list;
+                axios.get(`http://localhost:8080/match/create_qualifiers_next_round?cupId=${cupId}&matchType=${type}`)
+                    .then(response => {
+                        if (response.data !== "") {
+                            setQualifierMatches(matches.concat(response.data))
+                        }
+                    });
+            }
+        }
+    }
+
     useEffect(() => {
-        console.log("qualifierek betöltése");
         if (cupId !== "") {
-            axios.get(`http://localhost:8080/match/get_qualifiers?cupId=${cupId}&matchType=q-1/4`)
-                .then(response => setQualifierMatches(response.data))
+            axios.get(`http://localhost:8080/match/get_matches?cupId=${cupId}&matchType=qualifier`)
+                .then((response) => setQualifierMatches(response.data))
                 .then(() => setScoreIsAdded(false))
                 .then(() => setCardIsAdded(false));
         }
-    }, [cupId, scoreIsAdded, cardIsAdded, matchIsFinished]);
+    }, [scoreIsAdded, cardIsAdded, matchIsFinished]);
+
+    useEffect(() => {
+        checkFinish(qualifierMatches)
+    }, [qualifierMatches])
 
     return (
         <div>
-            <h1 id="cupName">{cup.name}</h1>
             <h3 className="matchTypeTitle">Selejtező</h3>
             {qualifierMatches.map((match, index) => (
-                <DisplayMatches key={match.id} match={match} index={++index} matchType={"Selejtező"}/>
+                <DisplayMatches key={match.id + index++} match={match} index={++index} matchType={"Selejtező"}/>
             ))}
         </div>
     )
