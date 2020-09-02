@@ -87,7 +87,7 @@ function DeleteModal(props) {
                 </Modal.Header>
                 <Modal.Body>{props.name + " törölve"}</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="primary" onClick={() => {
+                    <Button id="confirmDeleteButton" variant="primary" onClick={() => {
                         handleClose();
                         deleteById();
                     }}>

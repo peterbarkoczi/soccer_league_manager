@@ -75,7 +75,7 @@ function Location() {
                             localStorage.setItem("location", location.name)
                         }} className="locationLink">{location.name}</Link>
                         {'   '}
-                        <Button variant="warning" onClick={() => {
+                        <Button id={"delete-" + location.name} className="deleteLocationButton" variant="warning" onClick={() => {
                             setIsShown(true);
                             setSelectedId(location.id)}}>
                             Törlés
