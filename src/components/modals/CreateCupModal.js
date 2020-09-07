@@ -22,6 +22,7 @@ function CreateCupModal() {
     let selectedTeams = [];
     const [percentage, setPercentage] = useState(0);
     const [matchType, setMatchType] = useState("");
+    const [isDisabled, setIsDisabled] = useState(false);
 
     useEffect(() => {
         axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
@@ -111,8 +112,17 @@ function CreateCupModal() {
             setPercentage(percentage - (100 / Number(numOfTeams)));
             console.log("delete team: " + team);
         }
+        checks(selectedTeams);
         setTeamList(selectedTeams);
         console.log(selectedTeams);
+    }
+    
+    const checks = (selectedTeams) => {
+        if (selectedTeams.length < Number(numOfTeams)) {
+            setIsDisabled(false);
+        } else {
+            setIsDisabled(true);
+        }
     }
 
     return (
@@ -159,6 +169,7 @@ function CreateCupModal() {
                             {teams.map(team => (
                                 <Form.Check type="checkbox" key={team.id}>
                                     <Form.Check.Input
+                                        disabled={teamList.includes(team.name) ? false : isDisabled}
                                         type="checkbox"
                                         value={team.id}
                                         name={team.name}
