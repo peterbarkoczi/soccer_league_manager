@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Button, Form, Modal, ProgressBar, Row, Col} from "react-bootstrap";
 import axios from "axios";
 import {DataPackContext} from "../contexts/DataPackContext";
@@ -20,13 +20,29 @@ function CreateCupModal() {
     const [isAdded, setIsAdded] = useState(false);
     const [teamList, setTeamList] = useState([]);
     let selectedTeams = [];
-    const [percentage, setPercentage] = useState(0);
     const [matchType, setMatchType] = useState("");
+
+    const [percentage, setPercentage] = useState(0);
+    const [isDisabled, setIsDisabled] = useState(true);
+
+    const [cups, setCups] = useState([]);
+    const [existCup, setExistCup] = useState(false);
 
     useEffect(() => {
         axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
             .then(response => setTeams(response.data))
     }, []);
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/cups/list?locationId=${localStorage.getItem("locationId")}`)
+            .then((response) => {
+                let cupNames = [];
+                for (let cup of response.data) {
+                    cupNames.push(cup.name);
+                }
+                setCups(cupNames);
+            })
+    })
 
     useEffect(() => {
         if (isAdded) {
@@ -59,11 +75,22 @@ function CreateCupModal() {
     }
 
     const updateCupName = e => {
+        checkCupName(e.target.value);
         setCupName(e.target.value);
+    }
+
+    const checkCupName = (input) => {
+        if (cups.includes(input.trim())) {
+            console.log("exist");
+            setExistCup(true);
+        } else {
+            setExistCup(false);
+        }
     }
 
     const updateNumOfTeams = e => {
         setNumOfTeams(e.target.value);
+        setIsDisabled(false);
         updateMatchType(e.target.value);
     }
 
@@ -111,8 +138,29 @@ function CreateCupModal() {
             setPercentage(percentage - (100 / Number(numOfTeams)));
             console.log("delete team: " + team);
         }
+        checks(selectedTeams);
         setTeamList(selectedTeams);
         console.log(selectedTeams);
+    }
+
+    const checks = (selectedTeams) => {
+        if (selectedTeams.length < Number(numOfTeams)) {
+            setIsDisabled(false);
+        } else {
+            setIsDisabled(true);
+        }
+    }
+
+    const setVariant = (percentage) => {
+        if (percentage < 50) {
+            return "danger";
+        } else if (percentage >= 50 && percentage < 75) {
+            return "warning";
+        } else if (percentage >= 75 && percentage < 100) {
+            return "info";
+        } else if (percentage === 100) {
+            return "success";
+        }
     }
 
     return (
@@ -128,13 +176,15 @@ function CreateCupModal() {
                 <Modal.Body>
                     <Form>
                         <Form.Group controlId="addCupAddName">
-                            <Form.Label>Bajnokság neve</Form.Label>
+                            <Form.Label>Kupa neve</Form.Label>
                             <Form.Control
+                                style={{border: `3px solid ${existCup ? "red" : "green"}`}}
                                 type="text"
                                 placeholder="Kupa neve"
                                 value={cupName}
                                 onChange={updateCupName}/>
                         </Form.Group>
+                        <Form.Text>{existCup ? "Exist" : null}</Form.Text>
                         <fieldset>
                             <Form.Group as={Row}>
                                 <Form.Label as="legend" column sm={2}>
@@ -159,6 +209,7 @@ function CreateCupModal() {
                             {teams.map(team => (
                                 <Form.Check type="checkbox" key={team.id}>
                                     <Form.Check.Input
+                                        disabled={teamList.includes(team.name) ? false : isDisabled}
                                         type="checkbox"
                                         value={team.id}
                                         name={team.name}
@@ -166,7 +217,7 @@ function CreateCupModal() {
                                     <Form.Check.Label>{team.name}</Form.Check.Label>
                                 </Form.Check>
                             ))}
-                            <ProgressBar animated now={percentage}/>
+                            <ProgressBar animated variant={setVariant(percentage)} now={percentage}/>
                         </Form.Group>
                         <Form.Group controlId="addCupDate">
                             <Form.Label>Dátum</Form.Label>

@@ -1,13 +1,16 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import {Link} from "react-router-dom";
 import {ListGroup} from "react-bootstrap";
 import CreateLeagueModal from "../../modals/CreateLeagueModal";
 import axios from "axios";
+import {DataPackContext} from "../../contexts/DataPackContext";
 
 const Leagues = () => {
 
     const [leagues, setLeagues] = useState([]);
     const [isTeamsCleared, setIsTeamsCleared] = useState(false);
+
+    const {isLeagueAdded, setIsLeagueAdded} = useContext(DataPackContext);
 
     useEffect(() => {
         const CancelToken = axios.CancelToken;
@@ -20,7 +23,8 @@ const Leagues = () => {
             try {
                 axios.get(`http://localhost:8080/league/get_league_list/${localStorage.getItem("locationId")}`,
                     {cancelToken: source.token})
-                    .then(response => setLeagues(response.data));
+                    .then(response => setLeagues(response.data))
+                    .then(() => setIsLeagueAdded(false));
             } catch (error) {
                 if (axios.isCancel(error)) {
                     console.log("cancelled");
@@ -32,7 +36,7 @@ const Leagues = () => {
 
         loadData();
         return () => {source.cancel()};
-    }, [])
+    }, [isLeagueAdded])
 
     function clearLocalStorage() {
         localStorage.removeItem("leagueId");

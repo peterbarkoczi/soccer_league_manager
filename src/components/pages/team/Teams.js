@@ -3,7 +3,6 @@ import {Link} from "react-router-dom";
 import AddTeamModal from "../../modals/AddTeamModal";
 import {Button, ListGroup} from "react-bootstrap";
 import axios from "axios";
-import DeleteModal from "../../modals/DeleteModal";
 import {DataPackContext} from "../../contexts/DataPackContext";
 
 function usePrefetch(factory) {
@@ -57,7 +56,7 @@ function Teams() {
                                 onClick={() => {
                                     localStorage.setItem("teamId", team.id);
                                     localStorage.setItem("teamName", team.name)
-                                }}>{(i+1) + ". " + team.name}</Link>
+                                }}>{team.name}</Link>
                             {'   '}
                             <Button variant="warning" onClick={() => {
                                 setIsShown(true);

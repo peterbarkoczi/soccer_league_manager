@@ -9,7 +9,9 @@ function CreateLeagueModal() {
     const handleClose = () => setShowLeagueModal(false);
     const handleShow = () => setShowLeagueModal(true);
 
-    const {setIsSelected} = useContext(DataPackContext);
+    const {
+        setIsSelected,
+        setIsLeagueAdded} = useContext(DataPackContext);
     const [leagueName, setLeagueName] = useState("");
     const [isAdded, setIsAdded] = useState(false);
 
@@ -42,6 +44,7 @@ function CreateLeagueModal() {
             })
                 .then(response => console.log("league added" + response))
                 .then(() => setIsAdded(false))
+                .then(() => setIsLeagueAdded(true));
         }
         setIsSelected(true);
     }, [isAdded])
