@@ -34,6 +34,17 @@ function CreateCupModal() {
     }, []);
 
     useEffect(() => {
+        axios.get(`http://localhost:8080/cups/list?locationId=${localStorage.getItem("locationId")}`)
+            .then((response) => {
+                let cupNames = [];
+                for (let cup of response.data) {
+                    cupNames.push(cup.name);
+                }
+                setCups(cupNames);
+            })
+    })
+
+    useEffect(() => {
         if (isAdded) {
             axios.post('http://localhost:8080/cups/create_cup', {
                 name: cupName,
@@ -64,7 +75,17 @@ function CreateCupModal() {
     }
 
     const updateCupName = e => {
+        checkCupName(e.target.value);
         setCupName(e.target.value);
+    }
+
+    const checkCupName = (input) => {
+        if (cups.includes(input.trim())) {
+            console.log("exist");
+            setExistCup(true);
+        } else {
+            setExistCup(false);
+        }
     }
 
     const updateNumOfTeams = e => {
@@ -155,13 +176,15 @@ function CreateCupModal() {
                 <Modal.Body>
                     <Form>
                         <Form.Group controlId="addCupAddName">
-                            <Form.Label>Bajnokság neve</Form.Label>
+                            <Form.Label>Kupa neve</Form.Label>
                             <Form.Control
+                                style={{border: `3px solid ${existCup ? "red" : "green"}`}}
                                 type="text"
                                 placeholder="Kupa neve"
                                 value={cupName}
                                 onChange={updateCupName}/>
                         </Form.Group>
+                        <Form.Text>{existCup ? "Exist" : null}</Form.Text>
                         <fieldset>
                             <Form.Group as={Row}>
                                 <Form.Label as="legend" column sm={2}>
