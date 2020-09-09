@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Button, Form, Modal, ProgressBar, Row, Col} from "react-bootstrap";
 import axios from "axios";
 import {DataPackContext} from "../contexts/DataPackContext";
@@ -119,7 +119,7 @@ function CreateCupModal() {
         setTeamList(selectedTeams);
         console.log(selectedTeams);
     }
-    
+
     const checks = (selectedTeams) => {
         if (selectedTeams.length < Number(numOfTeams)) {
             setIsDisabled(false);
