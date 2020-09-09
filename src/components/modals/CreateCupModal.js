@@ -21,8 +21,10 @@ function CreateCupModal() {
     const [teamList, setTeamList] = useState([]);
     let selectedTeams = [];
     const [percentage, setPercentage] = useState(0);
-    const [matchType, setMatchType] = useState("");
-    const [isDisabled, setIsDisabled] = useState(false);
+    const [isDisabled, setIsDisabled] = useState(true);
+
+    const [cups, setCups] = useState([]);
+    const [existCup, setExistCup] = useState(false);
 
     useEffect(() => {
         axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
@@ -65,6 +67,7 @@ function CreateCupModal() {
 
     const updateNumOfTeams = e => {
         setNumOfTeams(e.target.value);
+        setIsDisabled(false);
         updateMatchType(e.target.value);
     }
 
@@ -125,6 +128,18 @@ function CreateCupModal() {
         }
     }
 
+    const setVariant = (percentage) => {
+        if (percentage < 50) {
+            return "danger";
+        } else if (percentage >= 50 && percentage < 75) {
+            return "warning";
+        } else if (percentage >= 75 && percentage < 100) {
+            return "info";
+        } else if (percentage === 100) {
+            return "success";
+        }
+    }
+
     return (
         <>
             <Button variant="danger" onClick={handleShow} id="addCupButton">
@@ -177,7 +192,7 @@ function CreateCupModal() {
                                     <Form.Check.Label>{team.name}</Form.Check.Label>
                                 </Form.Check>
                             ))}
-                            <ProgressBar animated now={percentage}/>
+                            <ProgressBar animated variant={setVariant(percentage)} now={percentage}/>
                         </Form.Group>
                         <Form.Group controlId="addCupDate">
                             <Form.Label>Dátum</Form.Label>
