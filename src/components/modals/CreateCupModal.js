@@ -35,11 +35,19 @@ function CreateCupModal() {
     const [scheduleType, setScheduleType] = useState("");
 
     useEffect(() => {
+        const source = axios.CancelToken.source();
+
         axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
             .then(response => setTeams(response.data))
+
+        return () => {
+            source.cancel("Component got unmounted");
+        }
     }, []);
 
     useEffect(() => {
+        const source = axios.CancelToken.source();
+
         axios.get(`http://localhost:8080/cups/list?locationId=${localStorage.getItem("locationId")}`)
             .then((response) => {
                 let cupNames = [];
@@ -48,13 +56,16 @@ function CreateCupModal() {
                 }
                 setCups(cupNames);
             })
-    })
+
+        return () => {
+            source.cancel("Component got unmounted");
+        }
+    }, [])
 
     useEffect(() => {
         if (isAdded) {
             axios.post('http://localhost:8080/cups/create_cup', {
                 name: cupName,
-                numOfTeams: numOfTeams,
                 teamList: teamList,
                 date: date,
                 startTime: startTime,
