@@ -10,7 +10,8 @@ const CupSemiFinals = () => {
         cupId,
         matchIsFinished,
         scoreIsAdded, setScoreIsAdded,
-        cardIsAdded, setCardIsAdded
+        cardIsAdded, setCardIsAdded,
+        groupMatchesFinished
     } = useContext(CupContext);
 
     const {
@@ -40,13 +41,16 @@ const CupSemiFinals = () => {
             }
             if (counter === 4 && semiFinalMatches.length === 0) {
                 axios.get(`http://localhost:8080/match/create_semi_finals?cupId=${cupId}&matchType=semiFinal`)
-                    .then(response => setSemiFinalMatches(response.data))
                     .then(() => setSfIsReady(true))
                     .then(() => setSemiFinalsFinished(true));
             }
+        } else if (groupMatchesFinished) {
+            axios.get(`http://localhost:8080/match/create_semi_finals?cupId=${cupId}&matchType=semiFinal`)
+                .then(() => setSfIsReady(true))
+                .then(() => setSemiFinalsFinished(true));
         }
 
-    }, [qualifierMatches])
+    }, [qualifierMatches, groupMatchesFinished])
 
     return (
         <div>

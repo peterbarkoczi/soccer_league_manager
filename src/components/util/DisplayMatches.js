@@ -19,11 +19,19 @@ function DisplayMatches(props) {
     const [team2, setTeam2] = useState({})
 
     useEffect(() => {
-        setTeam1(props.match.teams[0]);
-        setTeam2(props.match.teams[1]);
-        setTeam1Players(props.match.teams[0].players);
-        setTeam2Players(props.match.teams[1].players);
-    },[])
+        let teams = props.match.teams;
+        if (teams[0]["name"] === props.match["team1"]) {
+            setTeam1(props.match.teams[0]);
+            setTeam2(props.match.teams[1]);
+            setTeam1Players(props.match.teams[0].players);
+            setTeam2Players(props.match.teams[1].players);
+        } else {
+            setTeam1(props.match.teams[1]);
+            setTeam2(props.match.teams[0]);
+            setTeam1Players(props.match.teams[1].players);
+            setTeam2Players(props.match.teams[0].players);
+        }
+    }, [])
 
     useEffect(() => {
         if (matchIsFinished) {

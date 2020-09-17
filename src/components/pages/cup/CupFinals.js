@@ -41,7 +41,6 @@ const CupFinals = () => {
             }
             if (counter === semiFinalMatches.length && finalMatches.length === 0) {
                 axios.get(`http://localhost:8080/match/create_semi_finals?cupId=${cupId}&matchType=final`)
-                    .then(response => setFinalMatches(response.data))
                     .then(() => setFinalIsReady(true));
             }
         }
