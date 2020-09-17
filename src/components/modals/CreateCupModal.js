@@ -28,6 +28,9 @@ function CreateCupModal() {
     const [cups, setCups] = useState([]);
     const [existCup, setExistCup] = useState(false);
 
+    const scheduleTypeOptions = ["Egyenes kieséses", "Csoport beosztás"];
+    const [scheduleType, setScheduleType] = useState("");
+
     useEffect(() => {
         axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
             .then(response => setTeams(response.data))
@@ -163,6 +166,19 @@ function CreateCupModal() {
         }
     }
 
+    const updateScheduleType = e => {
+        setScheduleType(e.target.value);
+        if (e.target.value === "Csoport beosztás") {
+            setNumOfTeams(teams.length.toString())
+            setTeamCheckIsDisabled(false);
+            setNumOfTeamsIsDisable(true);
+            setMatchType("group");
+        } else {
+            setTeamCheckIsDisabled(true);
+            setNumOfTeamsIsDisable(false);
+        }
+    }
+
     return (
         <>
             <Button variant="danger" onClick={handleShow} id="addCupButton">
@@ -184,7 +200,18 @@ function CreateCupModal() {
                                 value={cupName}
                                 onChange={updateCupName}/>
                         </Form.Group>
-                        <Form.Text>{existCup ? "Exist" : null}</Form.Text>
+                        <Form.Group controlId="addCupScheduleType">
+                            <Form.Label>Lebonyolítás</Form.Label>
+                            <Form.Control as="select" onChange={updateScheduleType}>
+                                <option label="Válassz lebonyolítási módot"/>
+                                {scheduleTypeOptions.map(type => (
+                                    <option
+                                        key={type}
+                                        value={type}
+                                        label={type}/>
+                                ))}
+                            </Form.Control>
+                        </Form.Group>
                         <fieldset>
                             <Form.Group as={Row}>
                                 <Form.Label as="legend" column sm={2}>
@@ -217,7 +244,10 @@ function CreateCupModal() {
                                     <Form.Check.Label>{team.name}</Form.Check.Label>
                                 </Form.Check>
                             ))}
-                            <ProgressBar animated variant={setVariant(percentage)} now={percentage}/>
+                            {scheduleType === "Egyenes kieséses" ?
+                                <ProgressBar animated variant={setVariant(percentage)} now={percentage}/> :
+                                null
+                            }
                         </Form.Group>
                         <Form.Group controlId="addCupDate">
                             <Form.Label>Dátum</Form.Label>
