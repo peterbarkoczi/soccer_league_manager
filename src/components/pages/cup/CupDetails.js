@@ -1,8 +1,9 @@
 import React, {useContext} from "react";
 import {CupContext} from "../../contexts/CupContext";
-import CupQualifiers from "./CupQualifiers";
+import CupEliminationMatches from "./CupEliminationMatches";
 import CupSemiFinals from "./CupSemiFinals";
 import CupFinals from "./CupFinals";
+import CupGroupMatches from "./CupGroupMatches";
 
 const CupDetails = () => {
 
@@ -11,7 +12,9 @@ const CupDetails = () => {
     return (
         <div>
             <h1 id="cupName">{cup.name}</h1>
-            <CupQualifiers/>
+            {cup["qualifierType"] === "group" ?
+                <CupGroupMatches/> :
+                <CupEliminationMatches/>}
             <CupSemiFinals/>
             <CupFinals/>
         </div>

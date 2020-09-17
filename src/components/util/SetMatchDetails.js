@@ -29,7 +29,6 @@ function AddScorer(props) {
     const [scorer, setScorer] = useState("");
 
     function updateScorerName(e) {
-        console.log(e.target.value);
         setScorer(e.target.value);
     }
 

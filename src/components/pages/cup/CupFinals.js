@@ -14,9 +14,7 @@ const CupFinals = () => {
     } = useContext(CupContext);
 
     const {
-        qualifierMatches,
         semiFinalMatches,
-        semiFinalsFinished,
         finalMatches, setFinalMatches,
         finalIsReady, setFinalIsReady
     } = useContext(MatchContext);
@@ -34,7 +32,6 @@ const CupFinals = () => {
     }, [cupId, scoreIsAdded, cardIsAdded, matchIsFinished, finalIsReady])
 
     useEffect(() => {
-        console.log(semiFinalMatches);
         if (semiFinalMatches.length !== 0) {
             let counter = 0;
             for (let match of semiFinalMatches) {

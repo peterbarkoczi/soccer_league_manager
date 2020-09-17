@@ -12,8 +12,11 @@ function CreateCupModal() {
     const {setIsSelected} = useContext(DataPackContext);
     const [teams, setTeams] = useState([]);
     const [cupName, setCupName] = useState("");
+
     const [numOfTeams, setNumOfTeams] = useState("");
     const numOfTeamsOptions = ["4", "8", "16", "32"];
+    const [numOfTeamsIsDisable, setNumOfTeamsIsDisable] = useState(false);
+
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [matchTime, setMatchTime] = useState("");
@@ -23,17 +26,28 @@ function CreateCupModal() {
     const [matchType, setMatchType] = useState("");
 
     const [percentage, setPercentage] = useState(0);
-    const [isDisabled, setIsDisabled] = useState(true);
+    const [teamCheckIsDisabled, setTeamCheckIsDisabled] = useState(true);
 
     const [cups, setCups] = useState([]);
     const [existCup, setExistCup] = useState(false);
 
+    const scheduleTypeOptions = ["Egyenes kieséses", "Csoport beosztás"];
+    const [scheduleType, setScheduleType] = useState("");
+
     useEffect(() => {
+        const source = axios.CancelToken.source();
+
         axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
             .then(response => setTeams(response.data))
+
+        return () => {
+            source.cancel("Component got unmounted");
+        }
     }, []);
 
     useEffect(() => {
+        const source = axios.CancelToken.source();
+
         axios.get(`http://localhost:8080/cups/list?locationId=${localStorage.getItem("locationId")}`)
             .then((response) => {
                 let cupNames = [];
@@ -42,13 +56,16 @@ function CreateCupModal() {
                 }
                 setCups(cupNames);
             })
-    })
+
+        return () => {
+            source.cancel("Component got unmounted");
+        }
+    }, [])
 
     useEffect(() => {
         if (isAdded) {
             axios.post('http://localhost:8080/cups/create_cup', {
                 name: cupName,
-                numOfTeams: numOfTeams,
                 teamList: teamList,
                 date: date,
                 startTime: startTime,
@@ -90,7 +107,7 @@ function CreateCupModal() {
 
     const updateNumOfTeams = e => {
         setNumOfTeams(e.target.value);
-        setIsDisabled(false);
+        setTeamCheckIsDisabled(false);
         updateMatchType(e.target.value);
     }
 
@@ -145,9 +162,9 @@ function CreateCupModal() {
 
     const checks = (selectedTeams) => {
         if (selectedTeams.length < Number(numOfTeams)) {
-            setIsDisabled(false);
+            setTeamCheckIsDisabled(false);
         } else {
-            setIsDisabled(true);
+            setTeamCheckIsDisabled(true);
         }
     }
 
@@ -160,6 +177,19 @@ function CreateCupModal() {
             return "info";
         } else if (percentage === 100) {
             return "success";
+        }
+    }
+
+    const updateScheduleType = e => {
+        setScheduleType(e.target.value);
+        if (e.target.value === "Csoport beosztás") {
+            setNumOfTeams(teams.length.toString())
+            setTeamCheckIsDisabled(false);
+            setNumOfTeamsIsDisable(true);
+            setMatchType("group");
+        } else {
+            setTeamCheckIsDisabled(true);
+            setNumOfTeamsIsDisable(false);
         }
     }
 
@@ -177,6 +207,7 @@ function CreateCupModal() {
                     <Form>
                         <Form.Group controlId="addCupAddName">
                             <Form.Label>Kupa neve</Form.Label>
+                            <Form.Text>{existCup ? "Exist" : null}</Form.Text>
                             <Form.Control
                                 style={{border: `3px solid ${existCup ? "red" : "green"}`}}
                                 type="text"
@@ -184,7 +215,18 @@ function CreateCupModal() {
                                 value={cupName}
                                 onChange={updateCupName}/>
                         </Form.Group>
-                        <Form.Text>{existCup ? "Exist" : null}</Form.Text>
+                        <Form.Group controlId="addCupScheduleType">
+                            <Form.Label>Lebonyolítás</Form.Label>
+                            <Form.Control as="select" onChange={updateScheduleType}>
+                                <option label="Válassz lebonyolítási módot"/>
+                                {scheduleTypeOptions.map(type => (
+                                    <option
+                                        key={type}
+                                        value={type}
+                                        label={type}/>
+                                ))}
+                            </Form.Control>
+                        </Form.Group>
                         <fieldset>
                             <Form.Group as={Row}>
                                 <Form.Label as="legend" column sm={2}>
@@ -192,15 +234,17 @@ function CreateCupModal() {
                                 </Form.Label>
                                 <Col sm={10}>
                                     {numOfTeamsOptions.map(num => (
-                                        <Form.Check key={num}
-                                        type="radio"
-                                        label={num}
-                                        name="formHorizontalRadios"
-                                        id="formHorizontalRadios1"
-                                        value={num}
-                                        onChange={updateNumOfTeams}
-                                        inline
-                                    />
+                                        <Form.Check
+                                            disabled={numOfTeamsIsDisable}
+                                            key={num}
+                                            type="radio"
+                                            label={num}
+                                            name="formHorizontalRadios"
+                                            id="formHorizontalRadios1"
+                                            value={num}
+                                            onChange={updateNumOfTeams}
+                                            inline
+                                        />
                                     ))}
                                 </Col>
                             </Form.Group>
@@ -209,7 +253,7 @@ function CreateCupModal() {
                             {teams.map(team => (
                                 <Form.Check type="checkbox" key={team.id}>
                                     <Form.Check.Input
-                                        disabled={teamList.includes(team.name) ? false : isDisabled}
+                                        disabled={teamList.includes(team.name) ? false : teamCheckIsDisabled}
                                         type="checkbox"
                                         value={team.id}
                                         name={team.name}
@@ -217,7 +261,10 @@ function CreateCupModal() {
                                     <Form.Check.Label>{team.name}</Form.Check.Label>
                                 </Form.Check>
                             ))}
-                            <ProgressBar animated variant={setVariant(percentage)} now={percentage}/>
+                            {scheduleType === "Egyenes kieséses" ?
+                                <ProgressBar animated variant={setVariant(percentage)} now={percentage}/> :
+                                null
+                            }
                         </Form.Group>
                         <Form.Group controlId="addCupDate">
                             <Form.Label>Dátum</Form.Label>

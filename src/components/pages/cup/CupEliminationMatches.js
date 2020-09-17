@@ -4,7 +4,7 @@ import {CupContext} from "../../contexts/CupContext";
 import axios from "axios";
 import DisplayMatches from "../../util/DisplayMatches";
 
-const CupQualifiers = () => {
+const CupEliminationMatches = () => {
 
     const {
         cupId,
@@ -68,4 +68,4 @@ const CupQualifiers = () => {
     )
 }
 
-export default CupQualifiers;
+export default CupEliminationMatches;
