@@ -26,7 +26,7 @@ function CreateCupModal() {
     const [matchType, setMatchType] = useState("");
 
     const [percentage, setPercentage] = useState(0);
-    const [isDisabled, setIsDisabled] = useState(true);
+    const [teamCheckIsDisabled, setTeamCheckIsDisabled] = useState(true);
 
     const [cups, setCups] = useState([]);
     const [existCup, setExistCup] = useState(false);
