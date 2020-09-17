@@ -12,8 +12,11 @@ function CreateCupModal() {
     const {setIsSelected} = useContext(DataPackContext);
     const [teams, setTeams] = useState([]);
     const [cupName, setCupName] = useState("");
+
     const [numOfTeams, setNumOfTeams] = useState("");
     const numOfTeamsOptions = ["4", "8", "16", "32"];
+    const [numOfTeamsIsDisable, setNumOfTeamsIsDisable] = useState(false);
+
     const [date, setDate] = useState("");
     const [startTime, setStartTime] = useState("");
     const [matchTime, setMatchTime] = useState("");
@@ -93,7 +96,7 @@ function CreateCupModal() {
 
     const updateNumOfTeams = e => {
         setNumOfTeams(e.target.value);
-        setIsDisabled(false);
+        setTeamCheckIsDisabled(false);
         updateMatchType(e.target.value);
     }
 
@@ -148,9 +151,9 @@ function CreateCupModal() {
 
     const checks = (selectedTeams) => {
         if (selectedTeams.length < Number(numOfTeams)) {
-            setIsDisabled(false);
+            setTeamCheckIsDisabled(false);
         } else {
-            setIsDisabled(true);
+            setTeamCheckIsDisabled(true);
         }
     }
 
@@ -193,6 +196,7 @@ function CreateCupModal() {
                     <Form>
                         <Form.Group controlId="addCupAddName">
                             <Form.Label>Kupa neve</Form.Label>
+                            <Form.Text>{existCup ? "Exist" : null}</Form.Text>
                             <Form.Control
                                 style={{border: `3px solid ${existCup ? "red" : "green"}`}}
                                 type="text"
@@ -219,15 +223,17 @@ function CreateCupModal() {
                                 </Form.Label>
                                 <Col sm={10}>
                                     {numOfTeamsOptions.map(num => (
-                                        <Form.Check key={num}
-                                        type="radio"
-                                        label={num}
-                                        name="formHorizontalRadios"
-                                        id="formHorizontalRadios1"
-                                        value={num}
-                                        onChange={updateNumOfTeams}
-                                        inline
-                                    />
+                                        <Form.Check
+                                            disabled={numOfTeamsIsDisable}
+                                            key={num}
+                                            type="radio"
+                                            label={num}
+                                            name="formHorizontalRadios"
+                                            id="formHorizontalRadios1"
+                                            value={num}
+                                            onChange={updateNumOfTeams}
+                                            inline
+                                        />
                                     ))}
                                 </Col>
                             </Form.Group>
@@ -236,7 +242,7 @@ function CreateCupModal() {
                             {teams.map(team => (
                                 <Form.Check type="checkbox" key={team.id}>
                                     <Form.Check.Input
-                                        disabled={teamList.includes(team.name) ? false : isDisabled}
+                                        disabled={teamList.includes(team.name) ? false : teamCheckIsDisabled}
                                         type="checkbox"
                                         value={team.id}
                                         name={team.name}
