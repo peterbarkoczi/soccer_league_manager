@@ -55,10 +55,12 @@ const CupSemiFinals = () => {
     return (
         <div>
             <h3 className="matchTypeTitle">Elődöntő</h3>
-            {semiFinalMatches ?
-                semiFinalMatches.map((match, index) => (
-                    <DisplayMatches key={match.id} match={match} index={++index} matchType={"Elődöntő"}/>
-                )) : null}
+            <div id="semiFinalMatches">
+                {semiFinalMatches ?
+                    semiFinalMatches.map((match, index) => (
+                        <DisplayMatches key={match.id} match={match} index={++index} matchType={"Elődöntő"}/>
+                    )) : null}
+            </div>
         </div>
     )
 

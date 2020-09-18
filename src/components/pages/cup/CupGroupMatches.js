@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from "react";
+import React, {useEffect, useState, useContext, useRef} from "react";
 import axios from "axios";
 import {CupContext} from "../../contexts/CupContext";
 import {Table} from "react-bootstrap";
@@ -145,10 +145,13 @@ const CupGroupMatches = () => {
                     </Table>
                 </div>
             </div>
-            {matches.map((match, index) => (
-                <DisplayMatches key={match.id + index++} match={match} index={++index}
-                                matchType={setMatchType(match.matchType)}/>
-            ))}
+            <h1 className="matchTypeTitle">Csoportkör</h1>
+            <div id="groupMatches">
+                {matches.map((match, index) => (
+                    <DisplayMatches key={match.id + index++} match={match} index={++index}
+                                    matchType={setMatchType(match.matchType)}/>
+                ))}
+            </div>
         </>
     )
 }

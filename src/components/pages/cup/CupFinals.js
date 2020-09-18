@@ -49,10 +49,13 @@ const CupFinals = () => {
     return (
         <div>
             <h3 className="matchTypeTitle">Döntő</h3>
-            {finalMatches ?
-                finalMatches.map((match, index) => (
-                    <DisplayMatches key={match.id} match={match} index={++index} matchType={finalTitles[titleIndex++]}/>
-                )) : null}
+            <div id="finalMatches">
+                {finalMatches ?
+                    finalMatches.map((match, index) => (
+                        <DisplayMatches key={match.id} match={match} index={++index}
+                                        matchType={finalTitles[titleIndex++]}/>
+                    )) : null}
+            </div>
         </div>
     )
 

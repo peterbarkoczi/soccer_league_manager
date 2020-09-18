@@ -111,7 +111,7 @@ function DisplayMatches(props) {
             <tfoot>
             <tr>
                 <td colSpan="6"><Button
-                    variant="outline-success"
+                    variant="light"
                     onClick={updateIsFinished} size="sm"
                     disabled={props.match.finished}>VÉGE</Button></td>
             </tr>

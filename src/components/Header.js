@@ -82,19 +82,21 @@ function Header() {
                     {localStorage.getItem("location") != null ?
                         (<h3 id="locationHeaderTitle">{localStorage.getItem("location")}</h3>) : null}
                 </div>
-                {isSelected ? (
-                    <ButtonGroup className="menu" id="headerNavMenu">
-                        <Link to={`/${localStorage.getItem("path")}/bajnoksag`}>
-                            <Button variant="danger" size="lg" id="navButtonLeagues">Bajnokság</Button>
-                        </Link>
-                        <Link to={`/${localStorage.getItem("path")}/kupak`}>
-                            <Button variant="danger" size="lg" id="navButtonCups">Kupák</Button>
-                        </Link>
-                        <Link to={`/${localStorage.getItem("path")}/csapatok`}>
-                            <Button variant="danger" size="lg" id="navButtonTeams">Csapatok</Button>
-                        </Link>
-                    </ButtonGroup>
-                ) : null}
+                <div id="headerNavMenu">
+                    {isSelected ? (
+                        <ButtonGroup className="menu">
+                            <Link to={`/${localStorage.getItem("path")}/bajnoksag`}>
+                                <Button variant="danger" size="lg" id="navButtonLeagues">Bajnokság</Button>
+                            </Link>
+                            <Link to={`/${localStorage.getItem("path")}/kupak`}>
+                                <Button variant="danger" size="lg" id="navButtonCups">Kupák</Button>
+                            </Link>
+                            <Link to={`/${localStorage.getItem("path")}/csapatok`}>
+                                <Button variant="danger" size="lg" id="navButtonTeams">Csapatok</Button>
+                            </Link>
+                        </ButtonGroup>
+                    ) : null}
+                </div>
             </div>
         </HeaderStyle>
     );
