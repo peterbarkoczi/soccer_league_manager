@@ -36,17 +36,19 @@ a:hover {
 
 .matchTable th {
     background: #111111;
-    font-size: 1.7em;
+    font-size: 1.5em;
 }
 
 .matchTable td {
     background-image: url("soccerManagerTableBackground.jpg");
-    font-size: 1.2em;
+    font-size: 1.1em;
 }
 
 #groupMatches, #semiFinalMatches, #finalMatches {
     margin-left: 5%;
     margin-right: 5%;
+    height: 100%;
+    width: 90%;
 }
 
 .teamCell {
@@ -69,7 +71,10 @@ a:hover {
     color: whitesmoke;
     background: darkgreen;
     text-align: center;
-    /*padding: 1%;*/
+}
+
+.matchTypeTitle:hover {
+    cursor: pointer;
 }
 
 .cardImage {
