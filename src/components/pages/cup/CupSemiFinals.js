@@ -3,6 +3,7 @@ import {MatchContext} from "../../contexts/MatchContext";
 import {CupContext} from "../../contexts/CupContext";
 import axios from "axios";
 import DisplayMatches from "../../util/DisplayMatches";
+import {showMatches} from "../../util/CSSFunctions";
 
 const CupSemiFinals = () => {
 
@@ -54,7 +55,7 @@ const CupSemiFinals = () => {
 
     return (
         <div>
-            <h3 className="matchTypeTitle">Elődöntő</h3>
+            <h3 className="matchTypeTitle" onClick={() => showMatches("semiFinalMatches")}>Elődöntő</h3>
             <div id="semiFinalMatches">
                 {semiFinalMatches ?
                     semiFinalMatches.map((match, index) => (

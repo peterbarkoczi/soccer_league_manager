@@ -3,6 +3,7 @@ import axios from "axios";
 import {CupContext} from "../../contexts/CupContext";
 import {Table} from "react-bootstrap";
 import DisplayMatches from "../../util/DisplayMatches";
+import {showMatches} from "../../util/CSSFunctions";
 
 
 const CupGroupMatches = () => {
@@ -145,7 +146,7 @@ const CupGroupMatches = () => {
                     </Table>
                 </div>
             </div>
-            <h1 className="matchTypeTitle">Csoportkör</h1>
+            <h1 className="matchTypeTitle" onClick={() => showMatches("groupMatches")}>Csoportkör</h1>
             <div id="groupMatches">
                 {matches.map((match, index) => (
                     <DisplayMatches key={match.id + index++} match={match} index={++index}

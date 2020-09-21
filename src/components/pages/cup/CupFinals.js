@@ -3,6 +3,7 @@ import {MatchContext} from "../../contexts/MatchContext";
 import {CupContext} from "../../contexts/CupContext";
 import axios from "axios";
 import DisplayMatches from "../../util/DisplayMatches";
+import {showMatches} from "../../util/CSSFunctions";
 
 const CupFinals = () => {
 
@@ -48,7 +49,7 @@ const CupFinals = () => {
 
     return (
         <div>
-            <h3 className="matchTypeTitle">Döntő</h3>
+            <h3 className="matchTypeTitle" onClick={() => showMatches("finalMatches")}>Döntő</h3>
             <div id="finalMatches">
                 {finalMatches ?
                     finalMatches.map((match, index) => (
