@@ -7,14 +7,14 @@ import DisplayMatches from "../../util/DisplayMatches";
 const CupFinals = () => {
 
     const {
-        cupId,
-        matchIsFinished,
-        scoreIsAdded, setScoreIsAdded,
-        cardIsAdded, setCardIsAdded
+        cupId
     } = useContext(CupContext);
 
     const {
         semiFinalMatches,
+        matchIsFinished,
+        scoreIsAdded, setScoreIsAdded,
+        cardIsAdded, setCardIsAdded,
         finalMatches, setFinalMatches,
         finalIsReady, setFinalIsReady
     } = useContext(MatchContext);

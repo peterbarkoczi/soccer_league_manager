@@ -3,14 +3,18 @@ import {Button, Table} from "react-bootstrap";
 import {CupContext} from "../contexts/CupContext";
 import {AddCard, AddScorer} from "./SetMatchDetails";
 import axios from "axios";
+import {MatchContext} from "../contexts/MatchContext";
 
 function DisplayMatches(props) {
 
     const {
         cup,
-        matchIsFinished, setMatchIsFinished,
         matchId, setMatchId
     } = useContext(CupContext);
+
+    const {
+        matchIsFinished, setMatchIsFinished
+    } = useContext(MatchContext);
 
     const [team1Players, setTeam1Players] = useState([])
     const [team2Players, setTeam2Players] = useState([])
@@ -59,7 +63,7 @@ function DisplayMatches(props) {
             </colgroup>
             <thead>
             <tr>
-                <th colSpan="6">{props.matchType + " - " + cup.date + " - " + props.match.time}</th>
+                <th colSpan="6">{props.matchType + " - " + props.match.date + " - " + props.match.time}</th>
             </tr>
             </thead>
             <tbody>

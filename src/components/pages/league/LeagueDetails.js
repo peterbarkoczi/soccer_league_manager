@@ -1,13 +1,20 @@
 import React, {useState, useEffect, useContext} from "react";
-import {Link} from "react-router-dom";
-import {Table} from "react-bootstrap";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import axios from "axios";
+import LeagueMatches from "./LeagueMatches";
+import LeagueTable from "./LeagueTable";
+import {MatchContext} from "../../contexts/MatchContext";
 
 
 const LeagueDetails = () => {
 
     const {setIsSelected} = useContext(DataPackContext);
+
+    const {
+        matchIsFinished,
+        scoreIsAdded, setScoreIsAdded,
+        cardIsAdded, setCardIsAdded
+    } = useContext(MatchContext);
 
     const [teams, setTeams] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
