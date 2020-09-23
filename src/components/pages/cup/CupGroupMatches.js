@@ -3,17 +3,21 @@ import axios from "axios";
 import {CupContext} from "../../contexts/CupContext";
 import {Table} from "react-bootstrap";
 import DisplayMatches from "../../util/DisplayMatches";
+import {MatchContext} from "../../contexts/MatchContext";
 
 
 const CupGroupMatches = () => {
 
     const {
         cupId,
+        setGroupMatchesFinished
+    } = useContext(CupContext)
+
+    const {
         matchIsFinished,
         scoreIsAdded,
         cardIsAdded,
-        setGroupMatchesFinished
-    } = useContext(CupContext)
+    } = useContext(MatchContext);
 
     const [matches, setMatches] = useState([]);
     const [group1, setGroup1] = useState([]);
@@ -46,9 +50,9 @@ const CupGroupMatches = () => {
 
     const setMatchType = (matchType) => {
         if (matchType.includes("group1")) {
-            return "Group1 Csoportkör - " + Number(matchType.slice(-2)) + ". forduló";
+            return `Group1 Csoportkör - ${Number(matchType.slice(-2))}. forduló`;
         } else {
-            return "Group2 Csoportkör - " + Number(matchType.slice(-2)) + ". forduló";
+            return `Group2 Csoportkör - ${Number(matchType.slice(-2))}. forduló`;
         }
     }
 

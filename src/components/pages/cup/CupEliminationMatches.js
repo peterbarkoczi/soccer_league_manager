@@ -8,13 +8,13 @@ const CupEliminationMatches = () => {
 
     const {
         cupId,
-        matchIsFinished,
-        scoreIsAdded, setScoreIsAdded,
-        cardIsAdded, setCardIsAdded
     } = useContext(CupContext);
 
     const {
         qualifierMatches, setQualifierMatches,
+        matchIsFinished,
+        scoreIsAdded, setScoreIsAdded,
+        cardIsAdded, setCardIsAdded
     } = useContext(MatchContext);
 
     const checkFinish = (list) => {

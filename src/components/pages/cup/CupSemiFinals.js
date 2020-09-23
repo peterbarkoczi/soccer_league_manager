@@ -8,9 +8,6 @@ const CupSemiFinals = () => {
 
     const {
         cupId,
-        matchIsFinished,
-        scoreIsAdded, setScoreIsAdded,
-        cardIsAdded, setCardIsAdded,
         groupMatchesFinished
     } = useContext(CupContext);
 
@@ -18,6 +15,9 @@ const CupSemiFinals = () => {
         qualifierMatches,
         semiFinalMatches, setSemiFinalMatches,
         setSemiFinalsFinished,
+        matchIsFinished,
+        scoreIsAdded, setScoreIsAdded,
+        cardIsAdded, setCardIsAdded,
         sfIsReady, setSfIsReady
     } = useContext(MatchContext);
 

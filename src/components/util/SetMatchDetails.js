@@ -1,13 +1,13 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Button, Form, Image, Modal} from "react-bootstrap";
-import {CupContext} from "../contexts/CupContext";
 import axios from "axios";
 import cardIcon from "../../yellow-red card icon.png";
+import {MatchContext} from "../contexts/MatchContext";
 
 
 function AddScorer(props) {
 
-    const {setScoreIsAdded} = useContext(CupContext);
+    const {setScoreIsAdded} = useContext(MatchContext);
     const [isAdded, setIsAdded] = useState(false);
 
     useEffect(() => {
@@ -81,7 +81,7 @@ function AddScorer(props) {
 
 function AddCard(props) {
 
-    const {setCardIsAdded} = useContext(CupContext);
+    const {setCardIsAdded} = useContext(MatchContext);
     const [isAdded, setIsAdded] = useState(false);
     let cardType = "";
     const [cardTypeState, setCardTypeState] = useState("");
