@@ -16,10 +16,12 @@ const LeagueDetails = () => {
         removeTeamsFromLocalStorage();
         setIsSelected(true);
         setIsLoading(true);
-        axios.get(`http://localhost:8080/teams/${localStorage.getItem("leagueId")}`)
+        axios.get(`http://localhost:8080/match/getGroupStat?cupId=&leagueId=${localStorage.getItem("leagueId")}`)
             .then(response => setTeams(response.data))
-            .then(() => setIsLoading(false));
-    }, [])
+            .then(() => setIsLoading(false))
+            .then(() => setScoreIsAdded(false))
+            .then(() => setCardIsAdded(false));
+    }, [matchIsFinished, scoreIsAdded, cardIsAdded])
 
     const removeTeamsFromLocalStorage = () => {
         localStorage.removeItem("teamId");
@@ -31,40 +33,8 @@ const LeagueDetails = () => {
     } else {
         return (
             <div className="leagueDetail">
-                <h1 id="leagueDetailTitle">{localStorage.getItem("leagueName")}</h1>
-                <Table responsive striped bordered hover variant="dark" id="leagueDetailTable">
-                    <thead>
-                    <tr>
-                        <th>Helyezés</th>
-                        <th>Csapat</th>
-                        <th>Lejátszott meccs</th>
-                        <th>Győzelem</th>
-                        <th>Vereség</th>
-                        <th>Rúgott gól</th>
-                        <th>Kapott gól</th>
-                        <th>Gólkülönbség</th>
-                        <th>Pont</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {teams.map((team, position) => (
-                        <tr key={team.id}>
-                            <td>{++position}</td>
-                            <td className="team">
-                                <Link
-                                    to={{
-                                        pathname: `/${localStorage.getItem("path")}/csapatok/${team.name.split(" ").join("")}`}}
-                                    onClick={() => {
-                                        localStorage.setItem("teamId", team.id);
-                                        localStorage.setItem("teamName", team.name);
-                                    }}>
-                                    {team.name}
-                                </Link>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </Table>
+                <LeagueTable teams={teams} />
+                <LeagueMatches/>
             </div>
         )
     }
