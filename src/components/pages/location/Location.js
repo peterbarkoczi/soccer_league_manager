@@ -70,9 +70,6 @@ function Location() {
                         }} onClick={() => {
                             setShowLocationDiv(false);
                             setIsSelected(true);
-                            localStorage.setItem("locationId", location.id);
-                            localStorage.setItem("path", `liga/${location.name.split(" ").join("")}`);
-                            localStorage.setItem("location", location.name)
                         }} className="locationLink">{location.name}</Link>
                         {'   '}
                         <Button id={"delete-" + location.name} className="deleteLocationButton" variant="warning" onClick={() => {
@@ -92,7 +89,6 @@ function Location() {
     if (isLoading) {
         return (<h1>Loading...</h1>)
     } else {
-        localStorage.clear();
         return (
             showLocationDiv ? <LocationDiv/> : null
         )

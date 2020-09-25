@@ -30,8 +30,6 @@ function Teams() {
     const {locationName} = useParams();
 
     useEffect(() => {
-        localStorage.removeItem("teamId");
-        localStorage.removeItem("teamName");
         setIsLoading(true);
         axios.get(`http://localhost:8080/teams?locationName=${locationName.split("_").join(" ")}`)
             .then(response => setTeams(response.data))

@@ -64,8 +64,6 @@ function Header() {
 
     function reset() {
         setShowLocationDiv(true);
-        setIsSelected(false);
-        localStorage.clear();
     }
 
     return (

@@ -23,7 +23,6 @@ const LeagueDetails = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        removeTeamsFromLocalStorage();
         setIsSelected(true);
         setIsLoading(true);
         axios.get(`http://localhost:8080/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=&leagueName=${league.split("_").join(" ")}&matchType=`)
@@ -32,11 +31,6 @@ const LeagueDetails = () => {
             .then(() => setScoreIsAdded(false))
             .then(() => setCardIsAdded(false));
     }, [matchIsFinished, scoreIsAdded, cardIsAdded])
-
-    const removeTeamsFromLocalStorage = () => {
-        localStorage.removeItem("teamId");
-        localStorage.removeItem("teamName");
-    }
 
     if (isLoading) {
         return (<h1>Loading...</h1>)
