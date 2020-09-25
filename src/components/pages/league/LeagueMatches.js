@@ -6,7 +6,7 @@ import {useParams} from "react-router-dom";
 
 const LeagueMatches = () => {
 
-    const {league} = useParams();
+    const {locationName, league} = useParams();
 
     const {leagueMatchFinished} = useContext(MatchContext);
     const [matches, setMatches] = useState([]);
@@ -16,7 +16,7 @@ const LeagueMatches = () => {
         const source = axios.CancelToken.source();
 
         setIsLoading(true);
-        axios.get(`http://localhost:8080/match/get_league_matches?leagueName=${league.split("_").join(" ")}`,
+        axios.get(`http://localhost:8080/match/get_league_matches?locationName=${locationName.split("_").join(" ")}&leagueName=${league.split("_").join(" ")}`,
             {cancelToken: source.token})
             .then((response) => setMatches(response.data))
             .then(() => setIsLoading(false));
@@ -36,6 +36,7 @@ const LeagueMatches = () => {
         return (
             <div>
                 {matches.map((match, index) => (
+                    match["matchType"].includes("free") ? <h1>Szabadnapos: {match["team1"]}</h1> :
                     <DisplayMatches
                         key={match.id}
                         match={match}
