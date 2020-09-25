@@ -42,8 +42,7 @@ function AddTeamModal() {
         if (isAdded) {
             axios.post('http://localhost:8080/teams/add_team', {
                 teamName: teamName,
-                locationId: parseInt(localStorage.getItem("locationId")),
-                leagueName: league
+                locationName: props.locationName.split("_").join(" ")
             })
                 .then(response => console.log("team added" + response))
                 .then(() => setIsAdded(false));

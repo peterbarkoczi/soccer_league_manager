@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from "react";
-import {Link} from "react-router-dom";
+import {Link, useLocation, useParams} from "react-router-dom";
 import {ListGroup} from "react-bootstrap";
 import CreateLeagueModal from "../../modals/CreateLeagueModal";
 import axios from "axios";
@@ -12,6 +12,9 @@ const Leagues = () => {
 
     const {isLeagueAdded, setIsLeagueAdded} = useContext(DataPackContext);
 
+    const location = useLocation();
+    const {locationName} = useParams()
+
     useEffect(() => {
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
@@ -21,7 +24,7 @@ const Leagues = () => {
 
         const loadData = () => {
             try {
-                axios.get(`http://localhost:8080/league/get_league_list/${localStorage.getItem("locationId")}`,
+                axios.get(`http://localhost:8080/league/get_league_list/${locationName.split("_").join(" ")}`,
                     {cancelToken: source.token})
                     .then(response => setLeagues(response.data))
                     .then(() => setIsLeagueAdded(false));

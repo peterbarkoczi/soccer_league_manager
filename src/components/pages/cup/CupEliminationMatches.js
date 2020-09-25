@@ -3,6 +3,7 @@ import {MatchContext} from "../../contexts/MatchContext";
 import {CupContext} from "../../contexts/CupContext";
 import axios from "axios";
 import DisplayMatches from "../../util/DisplayMatches";
+import {useParams} from "react-router-dom";
 
 const CupEliminationMatches = () => {
 
@@ -16,6 +17,8 @@ const CupEliminationMatches = () => {
         scoreIsAdded, setScoreIsAdded,
         cardIsAdded, setCardIsAdded
     } = useContext(MatchContext);
+
+    const {locationName, cupName} = useParams();
 
     const checkFinish = (list) => {
         if (list) {
@@ -35,7 +38,7 @@ const CupEliminationMatches = () => {
             }
             if (isFinishedAll && type !== "qualifier-1/4") {
                 let matches = list;
-                axios.get(`http://localhost:8080/match/create_qualifiers_next_round?cupId=${cupId}&matchType=${type}`)
+                axios.get(`http://localhost:8080/match/create_qualifiers_next_round?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=${type}`)
                     .then(response => {
                         if (response.data !== "") {
                             setQualifierMatches(matches.concat(response.data))
@@ -47,7 +50,7 @@ const CupEliminationMatches = () => {
 
     useEffect(() => {
         if (cupId !== "") {
-            axios.get(`http://localhost:8080/match/get_matches?cupId=${cupId}&matchType=qualifier`)
+            axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=qualifier`)
                 .then((response) => setQualifierMatches(response.data))
                 .then(() => setScoreIsAdded(false))
                 .then(() => setCardIsAdded(false));

@@ -4,11 +4,14 @@ import axios from "axios";
 import LeagueMatches from "./LeagueMatches";
 import LeagueTable from "./LeagueTable";
 import {MatchContext} from "../../contexts/MatchContext";
+import {useParams} from "react-router-dom";
 
 
 const LeagueDetails = () => {
 
     const {setIsSelected} = useContext(DataPackContext);
+
+    const {locationName, league} = useParams();
 
     const {
         matchIsFinished,
@@ -23,7 +26,7 @@ const LeagueDetails = () => {
         removeTeamsFromLocalStorage();
         setIsSelected(true);
         setIsLoading(true);
-        axios.get(`http://localhost:8080/match/getGroupStat?cupId=&leagueId=${localStorage.getItem("leagueId")}`)
+        axios.get(`http://localhost:8080/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=&leagueName=${league.split("_").join(" ")}&matchType=`)
             .then(response => setTeams(response.data))
             .then(() => setIsLoading(false))
             .then(() => setScoreIsAdded(false))

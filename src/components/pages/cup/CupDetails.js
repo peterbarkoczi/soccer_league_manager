@@ -1,13 +1,25 @@
-import React, {useContext} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {CupContext} from "../../contexts/CupContext";
 import CupEliminationMatches from "./CupEliminationMatches";
 import CupSemiFinals from "./CupSemiFinals";
 import CupFinals from "./CupFinals";
 import CupGroupMatches from "./CupGroupMatches";
+import {useParams} from "react-router-dom";
+import axios from "axios";
 
 const CupDetails = () => {
 
-    const {cup} = useContext(CupContext);
+    // const {cup} = useContext(CupContext);
+
+    const [cup, setCup] = useState([]);
+    const {cupName} = useParams();
+
+    useEffect(() => {
+        axios.get(`http://localhost:8080/cups/get_cup_by_name?cupName=${cupName.split("_").join(" ")}`)
+            .then((response) => {
+                setCup(response.data);
+            })
+    }, [])
 
     return (
         <div>

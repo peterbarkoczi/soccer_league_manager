@@ -1,12 +1,15 @@
 import React, {useEffect, useState} from "react";
 import {Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import {useParams} from "react-router-dom";
 
 const LeagueTable = (props) => {
 
+    const {locationName, league} = useParams();
+
     return (
         <>
-            <h1 id="leagueDetailTitle">{localStorage.getItem("leagueName")}</h1>
+            <h1 id="leagueDetailTitle">{league.split("_").join(" ")}</h1>
             <Table responsive striped bordered hover variant="dark" id="leagueDetailTable">
                 <thead>
                 <tr>
@@ -29,11 +32,7 @@ const LeagueTable = (props) => {
                         <td className="team">
                             <Link
                                 to={{
-                                    pathname: `/${localStorage.getItem("path")}/csapatok/${team.team.split(" ").join("")}`
-                                }}
-                                onClick={() => {
-                                    localStorage.setItem("teamId", team.id);
-                                    localStorage.setItem("teamName", team.team);
+                                    pathname: `/${locationName}/csapat/${team.team.split(" ").join("_")}`
                                 }}
                             >
                                 {team.team}

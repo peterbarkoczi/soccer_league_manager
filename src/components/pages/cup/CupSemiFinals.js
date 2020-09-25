@@ -3,6 +3,7 @@ import {MatchContext} from "../../contexts/MatchContext";
 import {CupContext} from "../../contexts/CupContext";
 import axios from "axios";
 import DisplayMatches from "../../util/DisplayMatches";
+import {useParams} from "react-router-dom";
 
 const CupSemiFinals = () => {
 
@@ -21,9 +22,11 @@ const CupSemiFinals = () => {
         sfIsReady, setSfIsReady
     } = useContext(MatchContext);
 
+    const {locationName, cupName} = useParams();
+
     useEffect(() => {
         if (cupId !== "") {
-            axios.get(`http://localhost:8080/match/get_matches?cupId=${cupId}&matchType=semiFinal`)
+            axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=semiFinal`)
                 .then(response => setSemiFinalMatches(response.data))
                 .then(() => setScoreIsAdded(false))
                 .then(() => setCardIsAdded(false));
@@ -40,12 +43,12 @@ const CupSemiFinals = () => {
                 }
             }
             if (counter === 4 && semiFinalMatches.length === 0) {
-                axios.get(`http://localhost:8080/match/create_semi_finals?cupId=${cupId}&matchType=semiFinal`)
+                axios.get(`http://localhost:8080/match/create_semi_finals?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=semiFinal`)
                     .then(() => setSfIsReady(true))
                     .then(() => setSemiFinalsFinished(true));
             }
         } else if (groupMatchesFinished) {
-            axios.get(`http://localhost:8080/match/create_semi_finals?cupId=${cupId}&matchType=semiFinal`)
+            axios.get(`http://localhost:8080/match/create_semi_finals?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=semiFinal`)
                 .then(() => setSfIsReady(true))
                 .then(() => setSemiFinalsFinished(true));
         }
