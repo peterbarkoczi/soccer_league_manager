@@ -30,10 +30,6 @@ function AddTeamModal() {
         setTeamName(e.target.value);
     }
 
-    const updateSubLeague = e => {
-        setLeague(e.target.value);
-    }
-
     return (
         <>
             <Button variant="danger" onClick={handleShow} id="addTeamButton">
