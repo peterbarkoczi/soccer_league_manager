@@ -36,6 +36,7 @@ const LeagueMatches = () => {
         return (
             <div>
                 {matches.map((match, index) => (
+                    match["matchType"].includes("free") ? <h1>Szabadnapos: {match["team1"]}</h1> :
                     <DisplayMatches
                         key={match.id}
                         match={match}
