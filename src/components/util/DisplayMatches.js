@@ -8,7 +8,6 @@ import {MatchContext} from "../contexts/MatchContext";
 function DisplayMatches(props) {
 
     const {
-        cup,
         matchId, setMatchId
     } = useContext(CupContext);
 
