@@ -14,7 +14,6 @@ export const DataPackProvider = props => {
     const [isLeagueAdded, setIsLeagueAdded] = useState(false);
 
 
-
     return (
         <DataPackContext.Provider value={{
             isLoading, setIsLoading,
@@ -25,7 +24,8 @@ export const DataPackProvider = props => {
             playerAdded, setPlayerAdded,
             deletedId, setDeletedId,
             isShown, setIsShown,
-            isLeagueAdded, setIsLeagueAdded}}>
+            isLeagueAdded, setIsLeagueAdded
+        }}>
             {props.children}
         </DataPackContext.Provider>
     )

@@ -36,7 +36,11 @@ const LeagueMatches = () => {
         return (
             <div>
                 {matches.map((match, index) => (
-                    <DisplayMatches key={match.id} match={match} index={++index} matchType={setMatchType(match.matchType)} />
+                    <DisplayMatches
+                        key={match.id}
+                        match={match}
+                        index={++index}
+                        matchType={setMatchType(match.matchType)} />
                 ))}
             </div>
         )

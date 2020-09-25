@@ -23,12 +23,12 @@ function App() {
                         <div className="App">
                             <Header/>
                             <Route exact path="/" component={Location}/>
-                            <Route exact path="/liga/:league/csapatok" component={Teams}/>
-                            <Route exact path="/liga/:league/csapatok/:csapat" component={TeamDetails}/>
-                            <Route exact path="/liga/:league/bajnoksag" component={Leagues}/>
-                            <Route exact path="/liga/:league/bajnoksag/:subLeague" component={LeagueDetails}/>
-                            <Route exact path="/liga/:league/kupak" component={Cups}/>
-                            <Route exact path="/liga/:league/kupak/:cup" component={CupDetails}/>
+                            <Route exact path="/:locationName/csapatok" component={Teams}/>
+                            <Route exact path="/:locationName/csapat/:team" component={TeamDetails}/>
+                            <Route exact path="/:locationName/bajnoksag" component={Leagues}/>
+                            <Route exact path="/:locationName/bajnoksag/:league" component={LeagueDetails}/>
+                            <Route exact path="/:locationName/kupak" component={Cups}/>
+                            <Route exact path="/:locationName/kupak/:cupName" component={CupDetails}/>
                         </div>
                     </Router>
                 </MatchProvider>

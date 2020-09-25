@@ -33,7 +33,9 @@ const Leagues = () => {
         };
 
         loadData();
-        return () => {source.cancel()};
+        return () => {
+            source.cancel()
+        };
     }, [isLeagueAdded])
 
     return (

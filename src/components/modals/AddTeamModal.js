@@ -3,7 +3,7 @@ import {Button, Form, Modal} from "react-bootstrap";
 import axios from "axios";
 import {DataPackContext} from "../contexts/DataPackContext";
 
-function AddTeamModal() {
+function AddTeamModal(props) {
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);

@@ -63,7 +63,7 @@ function DisplayMatches(props) {
             </colgroup>
             <thead>
             <tr>
-                <th colSpan="6">{props.matchType + " - " + props.match.date + " - " + props.match.time}</th>
+                <th colSpan="6">{`${props.matchType} - ${props.match.date} - ${props.match.time}`}</th>
             </tr>
             </thead>
             <tbody>
