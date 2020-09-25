@@ -153,6 +153,7 @@ const CupGroupMatches = () => {
                 </div>
             </div>
             {matches.map((match, index) => (
+                match["matchType"].includes("free") ? <h1>Pihen: {match["team1"]}</h1> :
                 <DisplayMatches key={match.id + index++} match={match} index={++index}
                                 matchType={setMatchType(match.matchType)}/>
             ))}
