@@ -1,7 +1,7 @@
 import React, {lazy, Suspense, useContext, useEffect, useState} from "react";
 import CreateCupModal from "../../modals/CreateCupModal";
 import {Button, ListGroup} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import {CupContext} from "../../contexts/CupContext";
 import axios from "axios";
@@ -27,10 +27,11 @@ const Cups = () => {
     const [selectedId, setSelectedId] = useState(0);
     const DeleteModal = usePrefetch(importModal);
 
+    const {locationName} = useParams();
+
     useEffect(() => {
         setSelectedId(0);
-        localStorage.removeItem("cupId");
-        axios.get(`http://localhost:8080/cups/list?locationId=${Number(localStorage.getItem("locationId"))}`)
+        axios.get(`http://localhost:8080/cups/list?locationName=${locationName.split("_").join(" ")}`)
             .then(response => setCups(response.data))
             .then(() => setIsDeleted(false))
             .then(() => setSelectedId(0));
@@ -39,12 +40,12 @@ const Cups = () => {
     return (
         <div className="cups">
             <h1 id="cupsTitle">Kupák</h1>
-            <CreateCupModal />
+            <CreateCupModal locationName={locationName} />
             <ListGroup id="cupsList">
                 {cups.map(cup => (
                     <ListGroup.Item key={cup.name}>
                         <Link to={{
-                            pathname: `/${localStorage.getItem("path")}/kupak/${cup.name.split(" ").join("")}`,
+                            pathname: `/${locationName}/kupak/${cup.name.split(" ").join("_")}`,
                         }} onClick={() => {
                             setCupId(cup.id)
                         }}>{cup.name}</Link>

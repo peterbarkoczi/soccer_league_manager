@@ -4,6 +4,7 @@ import {CupContext} from "../../contexts/CupContext";
 import {Table} from "react-bootstrap";
 import DisplayMatches from "../../util/DisplayMatches";
 import {MatchContext} from "../../contexts/MatchContext";
+import {useParams} from "react-router-dom";
 
 
 const CupGroupMatches = () => {
@@ -19,6 +20,8 @@ const CupGroupMatches = () => {
         cardIsAdded,
     } = useContext(MatchContext);
 
+    const {locationName, cupName} = useParams();
+
     const [matches, setMatches] = useState([]);
     const [group1, setGroup1] = useState([]);
     const [group2, setGroup2] = useState([]);
@@ -26,8 +29,8 @@ const CupGroupMatches = () => {
     let g1 = [];
     let g2 = [];
 
-    const requestGetGroup1Stat = axios.get(`http://localhost:8080/match/getGroupStat?cupId=${cupId}&group=group1`);
-    const requestGetGroup2Stat = axios.get(`http://localhost:8080/match/getGroupStat?cupId=${cupId}&group=group2`);
+    const requestGetGroup1Stat = axios.get(`http://localhost:8080/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&leagueId=&group=group1`);
+    const requestGetGroup2Stat = axios.get(`http://localhost:8080/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&leagueId=&group=group2`);
 
     useEffect(() => {
         axios.all([requestGetGroup1Stat, requestGetGroup2Stat])
@@ -40,7 +43,7 @@ const CupGroupMatches = () => {
     }, [matchIsFinished])
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/match/get_matches?cupId=${cupId}&matchType=group`)
+        axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=group`)
             .then((response) => {
                 let matches = response.data;
                 checkFinish(matches);

@@ -4,11 +4,14 @@ import axios from "axios";
 import LeagueMatches from "./LeagueMatches";
 import LeagueTable from "./LeagueTable";
 import {MatchContext} from "../../contexts/MatchContext";
+import {useParams} from "react-router-dom";
 
 
 const LeagueDetails = () => {
 
     const {setIsSelected} = useContext(DataPackContext);
+
+    const {locationName, league} = useParams();
 
     const {
         matchIsFinished,
@@ -20,20 +23,14 @@ const LeagueDetails = () => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        removeTeamsFromLocalStorage();
         setIsSelected(true);
         setIsLoading(true);
-        axios.get(`http://localhost:8080/match/getGroupStat?cupId=&leagueId=${localStorage.getItem("leagueId")}`)
+        axios.get(`http://localhost:8080/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=&leagueName=${league.split("_").join(" ")}&matchType=`)
             .then(response => setTeams(response.data))
             .then(() => setIsLoading(false))
             .then(() => setScoreIsAdded(false))
             .then(() => setCardIsAdded(false));
     }, [matchIsFinished, scoreIsAdded, cardIsAdded])
-
-    const removeTeamsFromLocalStorage = () => {
-        localStorage.removeItem("teamId");
-        localStorage.removeItem("teamName");
-    }
 
     if (isLoading) {
         return (<h1>Loading...</h1>)

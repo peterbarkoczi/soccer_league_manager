@@ -3,6 +3,7 @@ import {MatchContext} from "../../contexts/MatchContext";
 import {CupContext} from "../../contexts/CupContext";
 import axios from "axios";
 import DisplayMatches from "../../util/DisplayMatches";
+import {useParams} from "react-router-dom";
 
 const CupFinals = () => {
 
@@ -19,12 +20,14 @@ const CupFinals = () => {
         finalIsReady, setFinalIsReady
     } = useContext(MatchContext);
 
+    const {locationName, cupName} = useParams();
+
     let finalTitles = ["Bronz meccs", "Döntő"];
     let titleIndex = 0;
 
     useEffect(() => {
         if (cupId !== "") {
-            axios.get(`http://localhost:8080/match/get_matches?cupId=${cupId}&matchType=final`)
+            axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=final`)
                 .then(response => setFinalMatches(response.data))
                 .then(() => setScoreIsAdded(false))
                 .then(() => setCardIsAdded(false));
@@ -40,7 +43,7 @@ const CupFinals = () => {
                 }
             }
             if (counter === semiFinalMatches.length && finalMatches.length === 0) {
-                axios.get(`http://localhost:8080/match/create_semi_finals?cupId=${cupId}&matchType=final`)
+                axios.get(`http://localhost:8080/match/create_semi_finals?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=final`)
                     .then(() => setFinalIsReady(true));
             }
         }

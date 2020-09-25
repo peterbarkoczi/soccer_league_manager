@@ -23,7 +23,8 @@ function Location() {
         setIsSelected,
         showLocationDiv, setShowLocationDiv,
         locationIsDeleted, setLocationIsDeleted,
-        isShown, setIsShown} = useContext(DataPackContext);
+        isShown, setIsShown
+    } = useContext(DataPackContext);
     const [location, setLocation] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -37,7 +38,7 @@ function Location() {
         const loadData = () => {
             setSelectedId(0)
             try {
-                axios.get("http://localhost:8080/location/list", {cancelToken:source.token})
+                axios.get("http://localhost:8080/location/list", {cancelToken: source.token})
                     .then(response => setLocation(response.data))
                     .then(() => setIsLoading(false))
                     .then(() => setLocationIsDeleted(false))
@@ -52,7 +53,9 @@ function Location() {
         }
 
         loadData();
-        return () => {source.cancel()}
+        return () => {
+            source.cancel()
+        }
     }, [locationIsDeleted]);
 
     const LocationDiv = () => (
@@ -65,23 +68,22 @@ function Location() {
                 {location.map(location => (
                     <ListGroup.Item className="location" key={location.name}>
                         <Link to={{
-                            pathname: `liga/${location.name.split(" ").join("")}/bajnoksag`,
-                            locationId: location.id
+                            pathname: `${location.name.split(" ").join("_")}/bajnoksag`,
                         }} onClick={() => {
                             setShowLocationDiv(false);
                             setIsSelected(true);
-                            localStorage.setItem("locationId", location.id);
-                            localStorage.setItem("path", `liga/${location.name.split(" ").join("")}`);
-                            localStorage.setItem("location", location.name)
                         }} className="locationLink">{location.name}</Link>
                         {'   '}
-                        <Button id={"delete-" + location.name} className="deleteLocationButton" variant="warning" onClick={() => {
-                            setIsShown(true);
-                            setSelectedId(location.id)}}>
+                        <Button id={"delete-" + location.name} className="deleteLocationButton" variant="warning"
+                                onClick={() => {
+                                    setIsShown(true);
+                                    setSelectedId(location.id)
+                                }}>
                             Törlés
                         </Button>
                         <Suspense fallback={<h1>Loading...</h1>}>
-                            {isShown && selectedId === location.id && <DeleteModal id={selectedId} name={location.name} url="location"/>}
+                            {isShown && selectedId === location.id &&
+                            <DeleteModal id={selectedId} name={location.name} url="location"/>}
                         </Suspense>
                     </ListGroup.Item>))
                 }
@@ -92,7 +94,6 @@ function Location() {
     if (isLoading) {
         return (<h1>Loading...</h1>)
     } else {
-        localStorage.clear();
         return (
             showLocationDiv ? <LocationDiv/> : null
         )

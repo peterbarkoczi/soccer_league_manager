@@ -1,5 +1,5 @@
-import React, {useContext} from "react";
-import {Link} from "react-router-dom";
+import React, {useContext, useEffect, useState} from "react";
+import {Link, useLocation} from "react-router-dom";
 import styled from "styled-components";
 import background from "../red-soccer-bg2.jpg"
 import {DataPackContext} from "./contexts/DataPackContext";
@@ -60,13 +60,47 @@ const HeaderStyle = styled.div`
 
 function Header() {
 
-    const {isSelected, setIsSelected, setShowLocationDiv} = useContext(DataPackContext);
+    const {setShowLocationDiv} = useContext(DataPackContext);
+
+    const [path, setPath] = useState("");
 
     function reset() {
         setShowLocationDiv(true);
-        setIsSelected(false);
-        localStorage.clear();
     }
+
+    const location = useLocation();
+
+    useEffect(() => {
+        let tempPath;
+        if (location.pathname !== "/") {
+            tempPath = location.pathname.substring(1, location.pathname.indexOf("/", location.pathname.indexOf("/") + 1));
+        }
+        setPath(tempPath);
+    }, [location.pathname])
+
+    const renderHeaderButtons = () => {
+        return (
+            <ButtonGroup className="menu" id="headerNavMenu">
+                <Link to={`/${path}/bajnoksag`}>
+                    <Button variant="danger" size="lg" id="navButtonLeagues">Bajnokság</Button>
+                </Link>
+                <Link to={`/${path}/kupak`}>
+                    <Button variant="danger" size="lg" id="navButtonCups">Kupák</Button>
+                </Link>
+                <Link to={`/${path}/csapatok`}>
+                    <Button variant="danger" size="lg" id="navButtonTeams">Csapatok</Button>
+                </Link>
+            </ButtonGroup>
+        )
+    }
+
+    const createName = (name) => {
+        if (name !== undefined) {
+            return name.split("_").join(" ");
+        }
+        return null;
+    }
+
 
     return (
         <HeaderStyle>
@@ -79,22 +113,10 @@ function Header() {
                     <Link to="/" onClick={reset}>
                         <h2 id="appTitle">Soccer League Manager</h2>
                     </Link>
-                    {localStorage.getItem("location") != null ?
-                        (<h3 id="locationHeaderTitle">{localStorage.getItem("location")}</h3>) : null}
+                    {location.pathname !== "/" ?
+                        (<h3 id="locationHeaderTitle">{createName(path)}</h3>) : null}
                 </div>
-                {isSelected ? (
-                    <ButtonGroup className="menu" id="headerNavMenu">
-                        <Link to={`/${localStorage.getItem("path")}/bajnoksag`}>
-                            <Button variant="danger" size="lg" id="navButtonLeagues">Bajnokság</Button>
-                        </Link>
-                        <Link to={`/${localStorage.getItem("path")}/kupak`}>
-                            <Button variant="danger" size="lg" id="navButtonCups">Kupák</Button>
-                        </Link>
-                        <Link to={`/${localStorage.getItem("path")}/csapatok`}>
-                            <Button variant="danger" size="lg" id="navButtonTeams">Csapatok</Button>
-                        </Link>
-                    </ButtonGroup>
-                ) : null}
+                {location.pathname !== "/" ? renderHeaderButtons() : null}
             </div>
         </HeaderStyle>
     );

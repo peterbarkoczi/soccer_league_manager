@@ -2,8 +2,11 @@ import React, {useState, useEffect, useContext} from "react";
 import axios from "axios";
 import DisplayMatches from "../../util/DisplayMatches";
 import {MatchContext} from "../../contexts/MatchContext";
+import {useParams} from "react-router-dom";
 
 const LeagueMatches = () => {
+
+    const {league} = useParams();
 
     const {leagueMatchFinished} = useContext(MatchContext);
     const [matches, setMatches] = useState([]);
@@ -13,7 +16,7 @@ const LeagueMatches = () => {
         const source = axios.CancelToken.source();
 
         setIsLoading(true);
-        axios.get(`http://localhost:8080/match/get_league_matches?leagueId=${localStorage.getItem("leagueId")}`,
+        axios.get(`http://localhost:8080/match/get_league_matches?leagueName=${league.split("_").join(" ")}`,
             {cancelToken: source.token})
             .then((response) => setMatches(response.data))
             .then(() => setIsLoading(false));
@@ -24,7 +27,7 @@ const LeagueMatches = () => {
     }, [leagueMatchFinished])
 
     const setMatchType = (matchType) => (
-        `${localStorage.getItem("leagueName")} - ${Number(matchType.slice(-2))}. foruló`
+        `${league.split("_").join(" ")} - ${Number(matchType.slice(-2))}. foruló`
     )
 
     if (isLoading) {
@@ -33,7 +36,11 @@ const LeagueMatches = () => {
         return (
             <div>
                 {matches.map((match, index) => (
-                    <DisplayMatches key={match.id} match={match} index={++index} matchType={setMatchType(match.matchType)} />
+                    <DisplayMatches
+                        key={match.id}
+                        match={match}
+                        index={++index}
+                        matchType={setMatchType(match.matchType)} />
                 ))}
             </div>
         )
