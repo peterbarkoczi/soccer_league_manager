@@ -1,5 +1,4 @@
-import React, {useContext, useEffect, useState} from "react";
-import {CupContext} from "../../contexts/CupContext";
+import React, {useEffect, useState} from "react";
 import CupEliminationMatches from "./CupEliminationMatches";
 import CupSemiFinals from "./CupSemiFinals";
 import CupFinals from "./CupFinals";
@@ -8,8 +7,6 @@ import {useParams} from "react-router-dom";
 import axios from "axios";
 
 const CupDetails = () => {
-
-    // const {cup} = useContext(CupContext);
 
     const [cup, setCup] = useState([]);
     const {cupName} = useParams();

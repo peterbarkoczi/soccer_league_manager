@@ -3,7 +3,7 @@ import {Table} from "react-bootstrap";
 import axios from "axios";
 import AddPlayerModal from "../../modals/AddPlayerModal";
 import {DataPackContext} from "../../contexts/DataPackContext";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 const TeamDetails = () => {
 
@@ -50,7 +50,15 @@ const TeamDetails = () => {
                         <tr key={player.id}>
                             <td>{index++}</td>
                             <td>{player.number}</td>
-                            <td id="playerName">{player.name}</td>
+                            <td id="playerName">
+                                <Link to={{
+                                    pathname: `/${locationName}/jatekos/${player.name.split(" ").join("_")}`,
+                                    hash: player.id.toString()
+                                }}
+                                >
+                                    {player.name}
+                                </Link>
+                            </td>
                             <td>{player.goals}</td>
                         </tr>
                     ))}

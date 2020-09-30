@@ -1,15 +1,10 @@
 import React, {useContext, useEffect} from "react";
 import {MatchContext} from "../../contexts/MatchContext";
-import {CupContext} from "../../contexts/CupContext";
 import axios from "axios";
 import DisplayMatches from "../../util/DisplayMatches";
 import {useParams} from "react-router-dom";
 
 const CupEliminationMatches = () => {
-
-    const {
-        cupId,
-    } = useContext(CupContext);
 
     const {
         qualifierMatches, setQualifierMatches,
@@ -49,7 +44,7 @@ const CupEliminationMatches = () => {
     }
 
     useEffect(() => {
-        if (cupId !== "") {
+        if (cupName !== "") {
             axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=qualifier`)
                 .then((response) => setQualifierMatches(response.data))
                 .then(() => setScoreIsAdded(false))
