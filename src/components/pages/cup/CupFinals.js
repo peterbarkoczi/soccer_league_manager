@@ -1,15 +1,10 @@
 import React, {useContext, useEffect} from "react";
 import {MatchContext} from "../../contexts/MatchContext";
-import {CupContext} from "../../contexts/CupContext";
 import axios from "axios";
 import DisplayMatches from "../../util/DisplayMatches";
 import {useParams} from "react-router-dom";
 
 const CupFinals = () => {
-
-    const {
-        cupId
-    } = useContext(CupContext);
 
     const {
         semiFinalMatches,
@@ -26,13 +21,13 @@ const CupFinals = () => {
     let titleIndex = 0;
 
     useEffect(() => {
-        if (cupId !== "") {
+        if (cupName !== "") {
             axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=final`)
                 .then(response => setFinalMatches(response.data))
                 .then(() => setScoreIsAdded(false))
                 .then(() => setCardIsAdded(false));
         }
-    }, [cupId, scoreIsAdded, cardIsAdded, matchIsFinished, finalIsReady])
+    }, [cupName, scoreIsAdded, cardIsAdded, matchIsFinished, finalIsReady])
 
     useEffect(() => {
         if (semiFinalMatches.length !== 0) {

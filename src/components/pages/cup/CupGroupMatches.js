@@ -10,7 +10,6 @@ import {useParams} from "react-router-dom";
 const CupGroupMatches = () => {
 
     const {
-        cupId,
         setGroupMatchesFinished
     } = useContext(CupContext)
 
