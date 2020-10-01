@@ -1,5 +1,5 @@
 import React, {lazy, Suspense, useContext, useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import AddTeamModal from "../../modals/AddTeamModal";
 import {Button, ListGroup} from "react-bootstrap";
 import axios from "axios";
@@ -27,11 +27,11 @@ function Teams() {
     const [selectedId, setSelectedId] = useState(0);
     const DeleteModal = usePrefetch(importModal);
 
+    const {locationName} = useParams();
+
     useEffect(() => {
-        localStorage.removeItem("teamId");
-        localStorage.removeItem("teamName");
         setIsLoading(true);
-        axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
+        axios.get(`http://localhost:8080/teams?locationName=${locationName.split("_").join(" ")}`)
             .then(response => setTeams(response.data))
             .then(() => setTeamIsDeleted(false))
             .then(() => setIsLoading(false))
@@ -46,25 +46,25 @@ function Teams() {
                     Csapatok
                 </h1>
                 <div className="addTeam">
-                    <AddTeamModal/>
+                    <AddTeamModal locationName={locationName}/>
                 </div>
                 <ListGroup variant="flush" className="list" id="teamsList">
                     {teams.map((team, i) => (
                         <ListGroup.Item className="team" key={i}>
                             <Link to={{
-                                pathname: `csapatok/${team.name.split(" ").join("")}`}}
-                                onClick={() => {
-                                    localStorage.setItem("teamId", team.id);
-                                    localStorage.setItem("teamName", team.name)
-                                }}>{team.name}</Link>
+                                pathname: `csapat/${team.name.split(" ").join("_")}`
+                            }}
+                            >{team.name}</Link>
                             {'   '}
                             <Button variant="warning" onClick={() => {
                                 setIsShown(true);
-                                setSelectedId(team.id)}}>
+                                setSelectedId(team.id)
+                            }}>
                                 Törlés
                             </Button>
                             <Suspense fallback={<h1>Loading...</h1>}>
-                                {isShown && selectedId === team.id && <DeleteModal id={selectedId} name={team.name} url="teams"/>}
+                                {isShown && selectedId === team.id &&
+                                <DeleteModal id={selectedId} name={team.name} url="teams"/>}
                             </Suspense>
                         </ListGroup.Item>)
                     )}

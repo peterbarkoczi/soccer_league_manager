@@ -3,7 +3,7 @@ import {Button, Form, Modal, ProgressBar, Row, Col} from "react-bootstrap";
 import axios from "axios";
 import {DataPackContext} from "../contexts/DataPackContext";
 
-function CreateCupModal() {
+function CreateCupModal(props) {
     const [showCreateCupModal, setShowCreateCupModal] = useState(false);
 
     const handleClose = () => setShowCreateCupModal(false);
@@ -37,7 +37,7 @@ function CreateCupModal() {
     useEffect(() => {
         const source = axios.CancelToken.source();
 
-        axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
+        axios.get(`http://localhost:8080/teams?locationName=${props.locationName.split("_").join(" ")}`)
             .then(response => setTeams(response.data))
 
         return () => {
@@ -48,7 +48,7 @@ function CreateCupModal() {
     useEffect(() => {
         const source = axios.CancelToken.source();
 
-        axios.get(`http://localhost:8080/cups/list?locationId=${localStorage.getItem("locationId")}`)
+        axios.get(`http://localhost:8080/cups/list?locationName=${props.locationName.split("_").join(" ")}`)
             .then((response) => {
                 let cupNames = [];
                 for (let cup of response.data) {
@@ -70,10 +70,10 @@ function CreateCupModal() {
                 date: date,
                 startTime: startTime,
                 matchTime: matchTime,
-                locationId: Number(localStorage.getItem("locationId")),
+                locationName: props.locationName.split("_").join(" "),
                 matchType: matchType
             })
-                .then(response => console.log("league added" + response))
+                .then(response => console.log("cup added" + response))
                 .then(() => setIsAdded(false))
         }
         setIsSelected(true);

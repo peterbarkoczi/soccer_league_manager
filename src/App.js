@@ -13,6 +13,7 @@ import CupDetails from "./components/pages/cup/CupDetails"
 import {CupProvider} from "./components/contexts/CupContext";
 import TeamDetails from "./components/pages/team/TeamDetails";
 import {MatchProvider} from "./components/contexts/MatchContext";
+import Player from "./components/pages/player/Player";
 
 function App() {
     return (
@@ -23,12 +24,13 @@ function App() {
                         <div className="App">
                             <Header/>
                             <Route exact path="/" component={Location}/>
-                            <Route exact path="/liga/:league/csapatok" component={Teams}/>
-                            <Route exact path="/liga/:league/csapatok/:csapat" component={TeamDetails}/>
-                            <Route exact path="/liga/:league/bajnoksag" component={Leagues}/>
-                            <Route exact path="/liga/:league/bajnoksag/:subLeague" component={LeagueDetails}/>
-                            <Route exact path="/liga/:league/kupak" component={Cups}/>
-                            <Route exact path="/liga/:league/kupak/:cup" component={CupDetails}/>
+                            <Route exact path="/:locationName/csapatok" component={Teams}/>
+                            <Route exact path="/:locationName/csapat/:team" component={TeamDetails}/>
+                            <Route exact path="/:locationName/bajnoksag" component={Leagues}/>
+                            <Route exact path="/:locationName/bajnoksag/:league" component={LeagueDetails}/>
+                            <Route exact path="/:locationName/kupak" component={Cups}/>
+                            <Route exact path="/:locationName/kupak/:cupName" component={CupDetails}/>
+                            <Route exact path="/:locationName/jatekos/:player" component={Player}/>
                         </div>
                     </Router>
                 </MatchProvider>

@@ -11,6 +11,9 @@ export const MatchProvider = props => {
     const [semiFinalsFinished, setSemiFinalsFinished] = useState(false);
     const [finalIsReady, setFinalIsReady] = useState(false)
     const [finalMatches, setFinalMatches] = useState([]);
+    const [scoreIsAdded, setScoreIsAdded] = useState(false);
+    const [cardIsAdded, setCardIsAdded] = useState(false);
+    const [matchIsFinished, setMatchIsFinished] = useState(false);
 
     return (
         <MatchContext.Provider value={{
@@ -20,7 +23,10 @@ export const MatchProvider = props => {
             semiFinalsFinished, setSemiFinalsFinished,
             finalMatches, setFinalMatches,
             sfIsReady, setSfIsReady,
-            finalIsReady, setFinalIsReady
+            finalIsReady, setFinalIsReady,
+            scoreIsAdded, setScoreIsAdded,
+            cardIsAdded, setCardIsAdded,
+            matchIsFinished, setMatchIsFinished,
         }}>
             {props.children}
         </MatchContext.Provider>

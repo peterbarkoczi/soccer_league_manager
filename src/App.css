@@ -116,3 +116,9 @@ a:hover {
     width: 40%;
     float: right;
 }
+
+#playerName, #playerCard {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}

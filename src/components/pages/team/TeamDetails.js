@@ -3,6 +3,7 @@ import {Table} from "react-bootstrap";
 import axios from "axios";
 import AddPlayerModal from "../../modals/AddPlayerModal";
 import {DataPackContext} from "../../contexts/DataPackContext";
+import {Link, useParams} from "react-router-dom";
 
 const TeamDetails = () => {
 
@@ -11,10 +12,12 @@ const TeamDetails = () => {
     const [isLoading, setIsLoading] = useState(false);
     let index = 1;
 
+    const {locationName, team} = useParams();
+
     useEffect(() => {
         setIsSelected(true);
         setIsLoading(true);
-        axios.get(`http://localhost:8080/player/list/${localStorage.getItem("teamId")}`)
+        axios.get(`http://localhost:8080/player/listByName/${team.split("_").join(" ")}`)
             .then(response => setPlayerList(response.data))
             .then(() => setIsLoading(false))
             .then(() => setPlayerAdded(false));
@@ -25,8 +28,8 @@ const TeamDetails = () => {
     } else {
         return (
             <div id="playerList">
-                <h1>{localStorage.getItem("teamName")}</h1>
-                <AddPlayerModal teamId={localStorage.getItem("teamId")}/>
+                <h1>{team.split("_").join(" ")}</h1>
+                <AddPlayerModal locationName={locationName} team={team}/>
                 <Table id="playersTable" striped bordered hover size="sm">
                     <colgroup>
                         <col className="playerIndexCell"/>
@@ -47,7 +50,15 @@ const TeamDetails = () => {
                         <tr key={player.id}>
                             <td>{index++}</td>
                             <td>{player.number}</td>
-                            <td id="playerName">{player.name}</td>
+                            <td id="playerName">
+                                <Link to={{
+                                    pathname: `/${locationName}/jatekos/${player.name.split(" ").join("_")}`,
+                                    hash: player.id.toString()
+                                }}
+                                >
+                                    {player.name}
+                                </Link>
+                            </td>
                             <td>{player.goals}</td>
                         </tr>
                     ))}

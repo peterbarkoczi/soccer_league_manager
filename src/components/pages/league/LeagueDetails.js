@@ -1,70 +1,44 @@
 import React, {useState, useEffect, useContext} from "react";
-import {Link} from "react-router-dom";
-import {Table} from "react-bootstrap";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import axios from "axios";
+import LeagueMatches from "./LeagueMatches";
+import LeagueTable from "./LeagueTable";
+import {MatchContext} from "../../contexts/MatchContext";
+import {useParams} from "react-router-dom";
 
 
 const LeagueDetails = () => {
 
     const {setIsSelected} = useContext(DataPackContext);
 
+    const {locationName, league} = useParams();
+
+    const {
+        matchIsFinished,
+        scoreIsAdded, setScoreIsAdded,
+        cardIsAdded, setCardIsAdded
+    } = useContext(MatchContext);
+
     const [teams, setTeams] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        removeTeamsFromLocalStorage();
         setIsSelected(true);
         setIsLoading(true);
-        axios.get(`http://localhost:8080/teams/${localStorage.getItem("leagueId")}`)
+        axios.get(`http://localhost:8080/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=&leagueName=${league.split("_").join(" ")}&matchType=`)
             .then(response => setTeams(response.data))
-            .then(() => setIsLoading(false));
-    }, [])
-
-    const removeTeamsFromLocalStorage = () => {
-        localStorage.removeItem("teamId");
-        localStorage.removeItem("teamName");
-    }
+            .then(() => setIsLoading(false))
+            .then(() => setScoreIsAdded(false))
+            .then(() => setCardIsAdded(false));
+    }, [matchIsFinished, scoreIsAdded, cardIsAdded])
 
     if (isLoading) {
         return (<h1>Loading...</h1>)
     } else {
         return (
             <div className="leagueDetail">
-                <h1 id="leagueDetailTitle">{localStorage.getItem("leagueName")}</h1>
-                <Table responsive striped bordered hover variant="dark" id="leagueDetailTable">
-                    <thead>
-                    <tr>
-                        <th>Helyezés</th>
-                        <th>Csapat</th>
-                        <th>Lejátszott meccs</th>
-                        <th>Győzelem</th>
-                        <th>Vereség</th>
-                        <th>Rúgott gól</th>
-                        <th>Kapott gól</th>
-                        <th>Gólkülönbség</th>
-                        <th>Pont</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {teams.map((team, position) => (
-                        <tr key={team.id}>
-                            <td>{++position}</td>
-                            <td className="team">
-                                <Link
-                                    to={{
-                                        pathname: `/${localStorage.getItem("path")}/csapatok/${team.name.split(" ").join("")}`}}
-                                    onClick={() => {
-                                        localStorage.setItem("teamId", team.id);
-                                        localStorage.setItem("teamName", team.name);
-                                    }}>
-                                    {team.name}
-                                </Link>
-                            </td>
-                        </tr>
-                    ))}
-                    </tbody>
-                </Table>
+                <LeagueTable teams={teams} />
+                <LeagueMatches/>
             </div>
         )
     }

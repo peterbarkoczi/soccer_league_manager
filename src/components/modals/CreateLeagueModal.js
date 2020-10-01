@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
 import axios from "axios";
 import {DataPackContext} from "../contexts/DataPackContext";
+import {useParams} from "react-router-dom";
 
 function CreateLeagueModal() {
     const [showLeagueModal, setShowLeagueModal] = useState(false);
@@ -11,7 +12,8 @@ function CreateLeagueModal() {
 
     const {
         setIsSelected,
-        setIsLeagueAdded} = useContext(DataPackContext);
+        setIsLeagueAdded
+    } = useContext(DataPackContext);
     const [leagueName, setLeagueName] = useState("");
     const [isAdded, setIsAdded] = useState(false);
 
@@ -25,9 +27,10 @@ function CreateLeagueModal() {
     const selectedDays = [];
     const days = ["Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat", "Vasárnap"];
 
+    const {locationName} = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/teams?id=${localStorage.getItem("locationId")}`)
+        axios.get(`http://localhost:8080/teams?locationName=${locationName.split("_").join(" ")}`)
             .then(response => setTeams(response.data))
     }, []);
 
@@ -40,7 +43,7 @@ function CreateLeagueModal() {
                 startTime: startTime,
                 gameDays: gameDays,
                 matchTime: matchTime,
-                locationId: Number(localStorage.getItem("locationId"))
+                locationName: locationName.split("_").join(" ")
             })
                 .then(response => console.log("league added" + response))
                 .then(() => setIsAdded(false))

@@ -1,20 +1,25 @@
-import React, {useEffect, useState, useContext, useRef} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import axios from "axios";
 import {CupContext} from "../../contexts/CupContext";
 import {Table} from "react-bootstrap";
 import DisplayMatches from "../../util/DisplayMatches";
-import {showMatches} from "../../util/CSSFunctions";
+import {MatchContext} from "../../contexts/MatchContext";
+import {useParams} from "react-router-dom";
 
 
 const CupGroupMatches = () => {
 
     const {
-        cupId,
+        setGroupMatchesFinished
+    } = useContext(CupContext)
+
+    const {
         matchIsFinished,
         scoreIsAdded,
         cardIsAdded,
-        setGroupMatchesFinished
-    } = useContext(CupContext)
+    } = useContext(MatchContext);
+
+    const {locationName, cupName} = useParams();
 
     const [matches, setMatches] = useState([]);
     const [group1, setGroup1] = useState([]);
@@ -23,8 +28,8 @@ const CupGroupMatches = () => {
     let g1 = [];
     let g2 = [];
 
-    const requestGetGroup1Stat = axios.get(`http://localhost:8080/match/getGroupStat?cupId=${cupId}&group=group1`);
-    const requestGetGroup2Stat = axios.get(`http://localhost:8080/match/getGroupStat?cupId=${cupId}&group=group2`);
+    const requestGetGroup1Stat = axios.get(`http://localhost:8080/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&leagueId=&group=group1`);
+    const requestGetGroup2Stat = axios.get(`http://localhost:8080/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&leagueId=&group=group2`);
 
     useEffect(() => {
         axios.all([requestGetGroup1Stat, requestGetGroup2Stat])
@@ -37,7 +42,7 @@ const CupGroupMatches = () => {
     }, [matchIsFinished])
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/match/get_matches?cupId=${cupId}&matchType=group`)
+        axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=group`)
             .then((response) => {
                 let matches = response.data;
                 checkFinish(matches);
@@ -47,9 +52,9 @@ const CupGroupMatches = () => {
 
     const setMatchType = (matchType) => {
         if (matchType.includes("group1")) {
-            return "Group1 Csoportkör - " + Number(matchType.slice(-2)) + ". forduló";
+            return `Group1 Csoportkör - ${Number(matchType.slice(-2))}. forduló`;
         } else {
-            return "Group2 Csoportkör - " + Number(matchType.slice(-2)) + ". forduló";
+            return `Group2 Csoportkör - ${Number(matchType.slice(-2))}. forduló`;
         }
     }
 
@@ -146,13 +151,11 @@ const CupGroupMatches = () => {
                     </Table>
                 </div>
             </div>
-            <h1 className="matchTypeTitle" onClick={() => showMatches("groupMatches")}>Csoportkör</h1>
-            <div id="groupMatches">
-                {matches.map((match, index) => (
-                    <DisplayMatches key={match.id + index++} match={match} index={++index}
-                                    matchType={setMatchType(match.matchType)}/>
-                ))}
-            </div>
+            {matches.map((match, index) => (
+                match["matchType"].includes("free") ? <h1>Pihen: {match["team1"]}</h1> :
+                <DisplayMatches key={match.id + index++} match={match} index={++index}
+                                matchType={setMatchType(match.matchType)}/>
+            ))}
         </>
     )
 }

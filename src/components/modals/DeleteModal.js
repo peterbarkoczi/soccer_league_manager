@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Button, Modal} from "react-bootstrap";
 import axios from "axios";
 import {CupContext} from "../contexts/CupContext";
@@ -17,8 +17,9 @@ function DeleteModal(props) {
         isShown, setIsShown
     } = useContext(DataPackContext);
 
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
+    const [deletable, setDeletable] = useState(false);
+    const [message, setMessage] = useState("");
+
     let deletableId = null;
 
     function setDeletableId() {
@@ -27,14 +28,26 @@ function DeleteModal(props) {
         } else {
             deletableId = 0;
         }
-        console.log(deletableId);
+    }
+
+    const deleteItem = () => {
+        if (props.url === "location") {
+            axios.delete(`http://localhost:8080/${props.url}/${Number(props.id)}`)
+                .then((response) => {
+                    console.log(response.data);
+                    setDefaultValues();
+                })
+        }
     }
 
     useEffect(() => {
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+        setupMessage();
         const deleteItem = () => {
             try {
                 setDeletableId();
-                axios.delete(`http://localhost:8080/${props.url}/${deletableId}`, {cancelToken: source.token})
+                axios.delete(`http://localhost:8080/${props.url}/${Number(deletableId)}`, {cancelToken:source.token})
                     .then(response => console.log(response.data))
                     .then(() => setDefaultValues());
             } catch (error) {
@@ -46,20 +59,40 @@ function DeleteModal(props) {
             }
         }
 
-        deleteItem();
+        if (deletable) {
+            deleteItem();
+            handleClose();
+        }
         return () => {
             source.cancel()
         };
-    }, []);
+    }, [deletable]);
 
     const setDefaultValues = () => {
         setDeletedId(0);
         setIsDeleted(false);
         setLocationIsDeleted(false);
-        setTeamIsDeleted(false)
+        setTeamIsDeleted(false);
+        setDeletable(false);
     }
 
-    function deleteById() {
+    const setupMessage = () => {
+        switch (props.url) {
+            case ("cups"):
+                setMessage(`Biztosan törlöd a ${props.name} kupát?`)
+                break;
+            case ("location"):
+                setMessage(`Biztosan törlöd a ${props.name} helyszínt?`)
+                break;
+            case ("teams"):
+                setMessage(`Biztosan törlöd a ${props.name} csapatot?`)
+                break;
+            default:
+                console.log("no item to delete")
+        }
+    }
+
+    const deleteById = () => {
         switch (props.url) {
             case ("cups"):
                 setIsDeleted(true);
@@ -85,13 +118,17 @@ function DeleteModal(props) {
                 <Modal.Header closeButton>
                     <Modal.Title>Megerősítés</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>{props.name + " törölve"}</Modal.Body>
+                <Modal.Body>{message}</Modal.Body>
                 <Modal.Footer>
                     <Button id="confirmDeleteButton" variant="primary" onClick={() => {
-                        handleClose();
                         deleteById();
+                        setDeletable(true);
+                        deleteItem();
                     }}>
-                        Ok
+                        Igen
+                    </Button>
+                    <Button id="cancelDeleteModal" variant="secondary" onClick={handleClose}>
+                        Nem
                     </Button>
                 </Modal.Footer>
             </Modal>

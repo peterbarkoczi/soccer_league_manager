@@ -19,7 +19,7 @@ const AddPlayerModal = (props) => {
 
     useEffect(() => {
         if (isAdded) {
-            axios.post(`http://localhost:8080/player/add_player/${props.teamId}`, {
+            axios.post(`http://localhost:8080/player/add_player/${props.locationName.split("_").join(" ")}-${props.team.split("_").join(" ")}`, {
                 name: playerName,
                 number: playerNumber,
                 birthDate: birthDate
