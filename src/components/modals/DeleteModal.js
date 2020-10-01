@@ -114,7 +114,7 @@ function DeleteModal(props) {
 
     return (
         <>
-            <Modal show={isShown} onHide={handleClose}>
+            <Modal show={isShown} onHide={handleClose} id="deleteModal">
                 <Modal.Header closeButton>
                     <Modal.Title>Megerősítés</Modal.Title>
                 </Modal.Header>

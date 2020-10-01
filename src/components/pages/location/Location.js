@@ -67,7 +67,7 @@ function Location() {
             <ListGroup className="list" id="locationList">
                 {location.map(location => (
                     <ListGroup.Item className="location" key={location.name}>
-                        <Link to={{
+                        <Link id={location.name} to={{
                             pathname: `${location.name.split(" ").join("_")}/bajnoksag`,
                         }} onClick={() => {
                             setShowLocationDiv(false);
