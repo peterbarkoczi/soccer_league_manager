@@ -40,23 +40,23 @@ const Leagues = () => {
 
     return (
         <div className="leagues">
-            <div className="title">
-                <h1 id="leagueTitle">Bajnokság</h1>
-            </div>
+            <h1 id="leagueTitle" className="subPageTitle">Bajnokság</h1>
             <div className="addLeague">
                 <CreateLeagueModal/>
             </div>
-            <ListGroup className="list" id="leaguesList">
-                {leagues.map(league => (
-                    <Link to={{
-                        pathname: `${location.pathname}/${league.name.split(" ").join("_")}`,
-                    }}
-                          className="league" key={league.name}>
-                        <ListGroup.Item variant="dark">{league.name}</ListGroup.Item>
-                    </Link>
-                ))
-                }
-            </ListGroup>
+            <div id="locationList" className="itemList">
+                <ListGroup className="list" id="leaguesList">
+                    {leagues.map(league => (
+                        <Link to={{
+                            pathname: `${location.pathname}/${league.name.split(" ").join("_")}`,
+                        }}
+                              className="league" key={league.name}>
+                            <ListGroup.Item variant="dark">{league.name}</ListGroup.Item>
+                        </Link>
+                    ))
+                    }
+                </ListGroup>
+            </div>
         </div>
     )
 }

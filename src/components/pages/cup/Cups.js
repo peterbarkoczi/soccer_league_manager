@@ -39,28 +39,33 @@ const Cups = () => {
 
     return (
         <div className="cups">
-            <h1 id="cupsTitle">Kupák</h1>
-            <CreateCupModal locationName={locationName} />
-            <ListGroup id="cupsList">
-                {cups.map(cup => (
-                    <ListGroup.Item key={cup.name}>
-                        <Link to={{
-                            pathname: `/${locationName}/kupak/${cup.name.split(" ").join("_")}`,
-                        }} onClick={() => {
-                            setCupId(cup.id)
-                        }}>{cup.name}</Link>
-                        {'   '}
-                        <Button variant="warning" onClick={() => {
-                            setIsShown(true);
-                            setSelectedId(cup.id)}}>
-                            Törlés
-                        </Button>
-                        <Suspense fallback={<h1>Loading...</h1>}>
-                            {isShown && selectedId === cup.id && <DeleteModal id={selectedId} name={cup.name} url="cups"/>}
-                        </Suspense>
-                    </ListGroup.Item>
-                ))}
-            </ListGroup>
+            <h1 id="cupsTitle" className="subPageTitle">Kupák</h1>
+            <CreateCupModal locationName={locationName}/>
+            <div id="locationList" className="itemList">
+                <ListGroup id="cupsList">
+                    {cups.map(cup => (
+                        <ListGroup.Item key={cup.name}>
+                            <Link to={{
+                                pathname: `/${locationName}/kupak/${cup.name.split(" ").join("_")}`,
+                            }} onClick={() => {
+                                setCupId(cup.id)
+                            }}>{cup.name}</Link>
+                            {'   '}
+                            <Button variant="warning" onClick={() => {
+                                setIsShown(true);
+                                setSelectedId(cup.id)
+                            }}>
+                                Törlés
+                            </Button>
+                            <Suspense fallback={<h1>Loading...</h1>}>
+                                {isShown && selectedId === cup.id &&
+                                <DeleteModal id={selectedId} name={cup.name} url="cups"/>}
+                            </Suspense>
+                        </ListGroup.Item>
+                    ))}
+                </ListGroup>
+            </div>
+
         </div>
     )
 }

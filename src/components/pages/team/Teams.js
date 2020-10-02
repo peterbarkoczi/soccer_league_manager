@@ -42,33 +42,35 @@ function Teams() {
     } else {
         return (
             <div className="teams">
-                <h1 className="title" id="teamsTitle">
+                <h1 className="subPageTitle" id="teamsTitle">
                     Csapatok
                 </h1>
                 <div className="addTeam">
                     <AddTeamModal locationName={locationName}/>
                 </div>
-                <ListGroup variant="flush" className="list" id="teamsList">
-                    {teams.map((team, i) => (
-                        <ListGroup.Item className="team" key={i}>
-                            <Link to={{
-                                pathname: `csapat/${team.name.split(" ").join("_")}`
-                            }}
-                            >{team.name}</Link>
-                            {'   '}
-                            <Button variant="warning" onClick={() => {
-                                setIsShown(true);
-                                setSelectedId(team.id)
-                            }}>
-                                Törlés
-                            </Button>
-                            <Suspense fallback={<h1>Loading...</h1>}>
-                                {isShown && selectedId === team.id &&
-                                <DeleteModal id={selectedId} name={team.name} url="teams"/>}
-                            </Suspense>
-                        </ListGroup.Item>)
-                    )}
-                </ListGroup>
+                <div id="locationList" className="itemList">
+                    <ListGroup variant="flush" className="list" id="teamsList">
+                        {teams.map((team, i) => (
+                            <ListGroup.Item className="team" key={i}>
+                                <Link to={{
+                                    pathname: `csapat/${team.name.split(" ").join("_")}`
+                                }}
+                                >{team.name}</Link>
+                                {'   '}
+                                <Button variant="warning" onClick={() => {
+                                    setIsShown(true);
+                                    setSelectedId(team.id)
+                                }}>
+                                    Törlés
+                                </Button>
+                                <Suspense fallback={<h1>Loading...</h1>}>
+                                    {isShown && selectedId === team.id &&
+                                    <DeleteModal id={selectedId} name={team.name} url="teams"/>}
+                                </Suspense>
+                            </ListGroup.Item>)
+                        )}
+                    </ListGroup>
+                </div>
             </div>
         );
     }

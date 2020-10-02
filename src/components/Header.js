@@ -44,17 +44,43 @@ const HeaderStyle = styled.div`
       display: inline;
       
    }
-   
-   .login {
-      margin: 1%;
-      float: right;
-   }
     
    .selectedLeague {
       float: left;
       clear: left;
       margin-top: 1%;
     }
+    
+   #headerButtons {
+      display: flex;
+      justify-content: center;
+   }
+   
+   
+   #locationHeaderTitle, #appTitle {
+      text-align: center;
+      margin: 1%;
+   }
+   
+   #headerTop {
+      position: relative;
+   }
+   
+   .login {
+      position: absolute;
+      top: 50%;
+      left: 100%;
+      transform: translate(-100%, -50%);
+   }
+   
+   .loginButton {
+      margin: 2%;
+   }
+   
+   .headerNavButton {
+      margin: 0 2%;
+   }
+    
     
 `;
 
@@ -80,17 +106,19 @@ function Header() {
 
     const renderHeaderButtons = () => {
         return (
-            <ButtonGroup className="menu" id="headerNavMenu">
-                <Link to={`/${path}/bajnoksag`}>
-                    <Button variant="danger" size="lg" id="navButtonLeagues">Bajnokság</Button>
-                </Link>
-                <Link to={`/${path}/kupak`}>
-                    <Button variant="danger" size="lg" id="navButtonCups">Kupák</Button>
-                </Link>
-                <Link to={`/${path}/csapatok`}>
-                    <Button variant="danger" size="lg" id="navButtonTeams">Csapatok</Button>
-                </Link>
-            </ButtonGroup>
+            <div id="headerButtons">
+                <ButtonGroup className="menu" id="headerNavMenu">
+                    <Link to={`/${path}/bajnoksag`} className="headerNavButton">
+                        <Button variant="danger" size="lg" id="navButtonLeagues">Bajnokság</Button>
+                    </Link>
+                    <Link to={`/${path}/kupak`} className="headerNavButton">
+                        <Button variant="danger" size="lg" id="navButtonCups">Kupák</Button>
+                    </Link>
+                    <Link to={`/${path}/csapatok`} className="headerNavButton">
+                        <Button variant="danger" size="lg" id="navButtonTeams">Csapatok</Button>
+                    </Link>
+                </ButtonGroup>
+            </div>
         )
     }
 
@@ -105,16 +133,18 @@ function Header() {
     return (
         <HeaderStyle>
             <div className="header">
-                <div className="login">
-                    <Button variant="secondary" id="logInButton">Bejelentkezés</Button>{' '}
-                    <Button variant="secondary" id="signInButton">Regisztráció</Button>
-                </div>
-                <div className="title">
-                    <Link to="/" onClick={reset}>
-                        <h2 id="appTitle">Soccer League Manager</h2>
-                    </Link>
-                    {location.pathname !== "/" ?
-                        (<h3 id="locationHeaderTitle">{createName(path)}</h3>) : null}
+                <div id="headerTop">
+                    <div className="login">
+                        <Button variant="secondary" id="logInButton" className="loginButton">Bejelentkezés</Button>{' '}
+                        <Button variant="secondary" id="signInButton" className="loginButton">Regisztráció</Button>
+                    </div>
+                    <div className="title">
+                        <Link to="/" onClick={reset}>
+                            {location.pathname !== "/" ?
+                                (<h2 id="locationHeaderTitle">{createName(path)}</h2>) :
+                                <h2 id="appTitle">Soccer League Manager</h2>}
+                        </Link>
+                    </div>
                 </div>
                 {location.pathname !== "/" ? renderHeaderButtons() : null}
             </div>

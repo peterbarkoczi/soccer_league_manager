@@ -1,7 +1,9 @@
 import React, {lazy, Suspense, useContext, useEffect, useState} from "react";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import {Link} from "react-router-dom";
-import {Button, ListGroup} from "react-bootstrap";
+import {ListGroup} from "react-bootstrap";
+import Button from '@material-ui/core/Button';
+import DeleteIcon from '@material-ui/icons/Delete';
 import AddLocationModal from "../../modals/AddLocationModal";
 import axios from "axios";
 
@@ -63,31 +65,46 @@ function Location() {
             <div id="addLocation">
                 <AddLocationModal/>
             </div>
-            <h1 id="locationName">Helyszín:</h1>
-            <ListGroup className="list" id="locationList">
-                {location.map(location => (
-                    <ListGroup.Item className="location" key={location.name}>
-                        <Link to={{
-                            pathname: `${location.name.split(" ").join("_")}/bajnoksag`,
-                        }} onClick={() => {
-                            setShowLocationDiv(false);
-                            setIsSelected(true);
-                        }} className="locationLink">{location.name}</Link>
-                        {'   '}
-                        <Button id={"delete-" + location.name} className="deleteLocationButton" variant="warning"
+            <h1 id="locationName" className="subPageTitle">Helyszín:</h1>
+            <div id="locationList" className="itemList">
+                <ListGroup className="list">
+                    {location.map(location => (
+                        <ListGroup.Item className="location" key={location.name}>
+                            <Link to={{
+                                pathname: `${location.name.split(" ").join("_")}/bajnoksag`,
+                            }} onClick={() => {
+                                setShowLocationDiv(false);
+                                setIsSelected(true);
+                            }} className="locationLink">{location.name}</Link>
+                            {'   '}
+                            {/*<Button id={"delete-" + location.name} className="deleteLocationButton" variant="warning"*/}
+                            {/*        onClick={() => {*/}
+                            {/*            setIsShown(true);*/}
+                            {/*            setSelectedId(location.id)*/}
+                            {/*        }}>*/}
+                            {/*    Törlés*/}
+                            {/*</Button>*/}
+                            <Button
+                                id={"delete-" + location.name}
+                                className="deleteLocationButton"
+                                variant="contained"
+                                color="secondary"
+                                startIcon={<DeleteIcon />}
                                 onClick={() => {
                                     setIsShown(true);
                                     setSelectedId(location.id)
-                                }}>
-                            Törlés
-                        </Button>
-                        <Suspense fallback={<h1>Loading...</h1>}>
-                            {isShown && selectedId === location.id &&
-                            <DeleteModal id={selectedId} name={location.name} url="location"/>}
-                        </Suspense>
-                    </ListGroup.Item>))
-                }
-            </ListGroup>
+                                }}
+                            >
+                                Törlés
+                            </Button>
+                            <Suspense fallback={<h1>Loading...</h1>}>
+                                {isShown && selectedId === location.id &&
+                                <DeleteModal id={selectedId} name={location.name} url="location"/>}
+                            </Suspense>
+                        </ListGroup.Item>))
+                    }
+                </ListGroup>
+            </div>
         </div>
     )
 
