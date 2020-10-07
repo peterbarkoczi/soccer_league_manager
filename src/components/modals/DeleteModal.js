@@ -14,66 +14,30 @@ function DeleteModal(props) {
         setLocationIsDeleted,
         setTeamIsDeleted,
         setDeletedId,
-        isShown, setIsShown
+        isShown, setIsShown,
+        setLeagueIsDeleted
     } = useContext(DataPackContext);
 
-    const [deletable, setDeletable] = useState(false);
     const [message, setMessage] = useState("");
 
-    let deletableId = null;
-
-    function setDeletableId() {
-        if (deletableId === null) {
-            deletableId = props.id;
-        } else {
-            deletableId = 0;
-        }
-    }
-
     const deleteItem = () => {
-        if (props.url === "location") {
-            axios.delete(`http://localhost:8080/${props.url}/${Number(props.id)}`)
-                .then((response) => {
-                    console.log(response.data);
-                    setDefaultValues();
-                })
-        }
+        axios.delete(`http://localhost:8080/${props.url}/${Number(props.id)}`)
+            .then((response) => {
+                console.log(response.data);
+                setDefaultValues();
+            })
     }
 
     useEffect(() => {
-        const CancelToken = axios.CancelToken;
-        const source = CancelToken.source();
         setupMessage();
-        const deleteItem = () => {
-            try {
-                setDeletableId();
-                axios.delete(`http://localhost:8080/${props.url}/${Number(deletableId)}`, {cancelToken:source.token})
-                    .then(response => console.log(response.data))
-                    .then(() => setDefaultValues());
-            } catch (error) {
-                if (axios.isCancel(error)) {
-                    console.log("cancelled");
-                } else {
-                    throw error;
-                }
-            }
-        }
-
-        if (deletable) {
-            deleteItem();
-            handleClose();
-        }
-        return () => {
-            source.cancel()
-        };
-    }, [deletable]);
+    })
 
     const setDefaultValues = () => {
         setDeletedId(0);
         setIsDeleted(false);
         setLocationIsDeleted(false);
         setTeamIsDeleted(false);
-        setDeletable(false);
+        setLeagueIsDeleted(false);
     }
 
     const setupMessage = () => {
@@ -86,6 +50,9 @@ function DeleteModal(props) {
                 break;
             case ("teams"):
                 setMessage(`Biztosan törlöd a ${props.name} csapatot?`)
+                break;
+            case ("league"):
+                setMessage(`Biztosan törlöd a ${props.name} bajnokságot?`)
                 break;
             default:
                 console.log("no item to delete")
@@ -106,10 +73,13 @@ function DeleteModal(props) {
                 setTeamIsDeleted(true);
                 console.log("setTeamIsDeleted");
                 break;
+            case ("league"):
+                setLeagueIsDeleted(true);
+                console.log("setLeagueIsDeleted");
+                break;
             default:
                 console.log("no item to delete")
         }
-        deletableId = 0;
     }
 
     return (
@@ -122,7 +92,6 @@ function DeleteModal(props) {
                 <Modal.Footer>
                     <Button id="confirmDeleteButton" variant="primary" onClick={() => {
                         deleteById();
-                        setDeletable(true);
                         deleteItem();
                     }}>
                         Igen
