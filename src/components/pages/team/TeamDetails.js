@@ -1,16 +1,38 @@
-import React, {useContext, useEffect, useState} from "react";
-import {Table} from "react-bootstrap";
+import React, {lazy, Suspense, useContext, useEffect, useState} from "react";
+import {Button, Table} from "react-bootstrap";
 import axios from "axios";
 import AddPlayerModal from "../../modals/AddPlayerModal";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import {Link, useParams} from "react-router-dom";
 
+function usePrefetch(factory) {
+    const [component, setComponent] = useState(null);
+
+    useEffect(() => {
+        factory();
+        const comp = lazy(factory);
+        setComponent(comp);
+    }, [factory]);
+    return component;
+}
+
+const importModal = () => import("../../modals/DeleteModal");
+
 const TeamDetails = () => {
 
-    const {playerAdded, setPlayerAdded, setIsSelected} = useContext(DataPackContext);
+    const DeleteModal = usePrefetch(importModal);
+
+    const {
+        playerAdded, setPlayerAdded,
+        setIsSelected,
+        isShown, setIsShown,
+        playerIsDeleted, setPlayerIsDeleted
+    } = useContext(DataPackContext);
     const [playerList, setPlayerList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     let index = 1;
+
+    const [selectedId, setSelectedId] = useState(0);
 
     const {locationName, team} = useParams();
 
@@ -21,7 +43,7 @@ const TeamDetails = () => {
             .then(response => setPlayerList(response.data))
             .then(() => setIsLoading(false))
             .then(() => setPlayerAdded(false));
-    }, [playerAdded])
+    }, [playerAdded, playerIsDeleted])
 
     if (isLoading) {
         return (<h1>Loading...</h1>)
@@ -58,6 +80,15 @@ const TeamDetails = () => {
                                 >
                                     {player.name}
                                 </Link>
+                                {'   '}
+                                <Button variant="warning" onClick={() => {
+                                    setIsShown(true);
+                                    setSelectedId(player.id)}}>
+                                    Törlés
+                                </Button>
+                                <Suspense fallback={<h1>Loading...</h1>}>
+                                    {isShown && selectedId === player.id && <DeleteModal id={selectedId} name={player.name} url="player"/>}
+                                </Suspense>
                             </td>
                             <td>{player.goals}</td>
                         </tr>
