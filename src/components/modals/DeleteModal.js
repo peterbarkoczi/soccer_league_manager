@@ -37,7 +37,7 @@ function DeleteModal(props) {
         setIsDeleted(false);
         setLocationIsDeleted(false);
         setTeamIsDeleted(false);
-        setDeletable(false);
+        setLeagueIsDeleted(false);
     }
 
     const setupMessage = () => {
@@ -50,6 +50,9 @@ function DeleteModal(props) {
                 break;
             case ("teams"):
                 setMessage(`Biztosan törlöd a ${props.name} csapatot?`)
+                break;
+            case ("league"):
+                setMessage(`Biztosan törlöd a ${props.name} bajnokságot?`)
                 break;
             default:
                 console.log("no item to delete")
@@ -69,6 +72,10 @@ function DeleteModal(props) {
             case ("teams"):
                 setTeamIsDeleted(true);
                 console.log("setTeamIsDeleted");
+                break;
+            case ("league"):
+                setLeagueIsDeleted(true);
+                console.log("setLeagueIsDeleted");
                 break;
             default:
                 console.log("no item to delete")
