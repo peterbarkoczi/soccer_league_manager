@@ -11,8 +11,6 @@ export const MatchProvider = props => {
     const [semiFinalsFinished, setSemiFinalsFinished] = useState(false);
     const [finalIsReady, setFinalIsReady] = useState(false)
     const [finalMatches, setFinalMatches] = useState([]);
-    const [scoreIsAdded, setScoreIsAdded] = useState(false);
-    const [cardIsAdded, setCardIsAdded] = useState(false);
     const [matchIsFinished, setMatchIsFinished] = useState(false);
 
     return (
@@ -24,8 +22,6 @@ export const MatchProvider = props => {
             finalMatches, setFinalMatches,
             sfIsReady, setSfIsReady,
             finalIsReady, setFinalIsReady,
-            scoreIsAdded, setScoreIsAdded,
-            cardIsAdded, setCardIsAdded,
             matchIsFinished, setMatchIsFinished,
         }}>
             {props.children}

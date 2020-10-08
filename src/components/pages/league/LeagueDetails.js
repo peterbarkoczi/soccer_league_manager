@@ -13,11 +13,7 @@ const LeagueDetails = () => {
 
     const {locationName, league} = useParams();
 
-    const {
-        matchIsFinished,
-        scoreIsAdded, setScoreIsAdded,
-        cardIsAdded, setCardIsAdded
-    } = useContext(MatchContext);
+    const {matchIsFinished} = useContext(MatchContext);
 
     const [teams, setTeams] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -27,10 +23,8 @@ const LeagueDetails = () => {
         setIsLoading(true);
         axios.get(`http://localhost:8080/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=&leagueName=${league.split("_").join(" ")}&matchType=`)
             .then(response => setTeams(response.data))
-            .then(() => setIsLoading(false))
-            .then(() => setScoreIsAdded(false))
-            .then(() => setCardIsAdded(false));
-    }, [matchIsFinished, scoreIsAdded, cardIsAdded])
+            .then(() => setIsLoading(false));
+    }, [matchIsFinished])
 
     if (isLoading) {
         return (<h1>Loading...</h1>)

@@ -7,16 +7,16 @@ import {MatchContext} from "../contexts/MatchContext";
 
 function AddScorer(props) {
 
-    const {setScoreIsAdded} = useContext(MatchContext);
     const [isAdded, setIsAdded] = useState(false);
+    const [currentPlayer, setCurrentPlayer] = useState({});
 
     useEffect(() => {
         if (isAdded) {
+            props.updateScore((Number(props.score) + 1).toString());
             let currentScore = setData();
             axios.post("http://localhost:8080/match/update_score",
                 currentScore
             )
-                .then(() => setScoreIsAdded(true))
                 .then(() => setIsAdded(false))
         }
     }, [isAdded])
@@ -26,21 +26,15 @@ function AddScorer(props) {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-    const [scorer, setScorer] = useState("");
-
-    function updateScorerName(e) {
-        setScorer(e.target.value);
-    }
-
     function setData() {
         let currentScore = {};
         currentScore.id = props.matchId;
         if (props.team === "team1") {
             currentScore.score1 = Number(props.score) + 1;
-            currentScore.scorer1 = scorer;
+            currentScore.scorer1 = currentPlayer.id.toString();
         } else if (props.team === "team2") {
             currentScore.score2 = Number(props.score) + 1;
-            currentScore.scorer2 = scorer;
+            currentScore.scorer2 = currentPlayer.id.toString();
         }
         return currentScore;
     }
@@ -58,12 +52,12 @@ function AddScorer(props) {
                 <Modal.Body>
                     <Form.Group controlId="exampleForm.ControlSelect2">
                         <Form.Label>Gólszerző</Form.Label>
-                        <Form.Control as="select" multiple onChange={updateScorerName}>
+                        <Form.Control as="select" multiple onChange={(e) => props.setScorer(e.target.value)}>
                             {props.players.map(player => (
                                 <option key={player.name} value={player.name} onClick={() => {
                                     handleClose();
-                                    setData();
                                     setIsAdded(true);
+                                    setCurrentPlayer(player);
                                 }}>{player.name}</option>
                             ))}
                         </Form.Control>
@@ -81,24 +75,16 @@ function AddScorer(props) {
 
 function AddCard(props) {
 
-    const {setCardIsAdded} = useContext(MatchContext);
     const [isAdded, setIsAdded] = useState(false);
-    let cardType = "";
-    const [cardTypeState, setCardTypeState] = useState("");
-    const [currentCard, setCurrentCard] = useState({
-        id: 0,
-        card1: "",
-        card2: "",
-        type: ""
-    })
+    const [currentPlayer, setCurrentPlayer] = useState({});
+    const [cardType, setCardType] = useState("");
 
     useEffect(() => {
         if (isAdded) {
-            let currentCard = setData();
+            let tempCard = setData();
             axios.post("http://localhost:8080/match/update_card",
-                currentCard
+                tempCard
             )
-                .then(() => setCardIsAdded(true))
                 .then(() => setIsAdded(false))
         }
     }, [isAdded])
@@ -108,40 +94,26 @@ function AddCard(props) {
     const handleClose = () => setShowCardModal(false);
     const handleShow = () => setShowCardModal(true);
 
-    const [player, setPlayer] = useState("");
-
-    function updatePlayerName(e) {
-        setPlayer(e.target.value);
-    }
-
     function setData() {
+        let temp = {};
         if (props.team === "team1") {
-            setCurrentCard({
-                id: props.matchId,
-                card1: player,
-                card2: "",
-                type: cardTypeState
-            });
+            temp.id = props.matchId;
+            temp.card1 = currentPlayer.id;
+            temp.card2 = "";
+            temp.type = cardType;
         } else if (props.team === "team2") {
-            setCurrentCard({
-                id: props.matchId,
-                card1: "",
-                card2: player,
-                type: cardTypeState
-            });
+            temp.id = props.matchId;
+            temp.card1 = "";
+            temp.card2 = currentPlayer.id;
+            temp.type = cardType;
         }
-        return currentCard;
-    }
-
-    function setCardType(e) {
-        console.log(e.target.value);
-        cardType = e.target.value;
-        setCardTypeState(cardType);
+        return temp;
     }
 
     return (
         <>
-            <Image className="cardImage" id="cardImage1" src={cardIcon} onClick={!props.isFinished ? handleShow : null} thumbnail/>
+            <Image className="cardImage" id="cardImage1" src={cardIcon} onClick={!props.isFinished ? handleShow : null}
+                   thumbnail/>
             <Modal show={showCardModal} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Lap</Modal.Title>
@@ -154,25 +126,25 @@ function AddCard(props) {
                                 label="Sárga"
                                 type="checkbox"
                                 value="Sárga"
-                                onChange={setCardType}
+                                onChange={(e) => setCardType(e.target.value)}
                                 isValid/>
                             <Form.Check
                                 id="piros"
                                 label="Piros"
                                 type="checkbox"
                                 value="Piros"
-                                onChange={setCardType}
+                                onChange={(e) => setCardType(e.target.value)}
                                 isValid/>
                         </Form.Group>
                     </fieldset>
                     <Form.Group controlId="exampleForm.ControlSelect2">
                         <Form.Label>Lapot kapja:</Form.Label>
-                        <Form.Control as="select" multiple onChange={updatePlayerName}>
+                        <Form.Control as="select" multiple onChange={(e) => props.setCardHolder(`${cardType} - ${e.target.value}`)}>
                             {props.players.map(player => (
                                 <option key={player.name} value={player.name} onClick={() => {
-                                    handleClose();
-                                    setData();
+                                    setCurrentPlayer(player);
                                     setIsAdded(true);
+                                    handleClose();
                                 }}>{player.name}</option>
                             ))}
                         </Form.Control>
@@ -184,7 +156,7 @@ function AddCard(props) {
                     </Button>
                     <Button variant="primary" onClick={() => {
                         handleClose();
-                        setData();
+                        // setData();
                         setIsAdded(true);
                     }}>
                         Save Changes

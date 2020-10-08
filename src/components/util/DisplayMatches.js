@@ -21,6 +21,14 @@ function DisplayMatches(props) {
     const [team1, setTeam1] = useState({})
     const [team2, setTeam2] = useState({})
 
+    const [scorers1, setScorers1] = useState("");
+    const [scorers2, setScorers2] = useState("");
+    const [cardHolder1, setCardHolder1] = useState("");
+    const [cardHolder2, setCardHolder2] = useState("");
+
+    const [score1, setScore1] = useState("");
+    const [score2, setScore2] = useState("");
+
     useEffect(() => {
         let teams = props.match.teams;
         if (teams[0]["name"] === props.match["team1"]) {
@@ -50,6 +58,46 @@ function DisplayMatches(props) {
         setMatchId(props.match.id);
     }
 
+    useEffect(() => {
+        if (team1Players !== null && team2Players !== null) {
+            setScorers1(getScorers(props.match.scorer1, team1Players));
+            setScorers2(getScorers(props.match.scorer2, team2Players));
+            setScore1(props.match.score1);
+            setScore2(props.match.score2);
+            setCardHolder1(getCards(props.match.card1, team1Players));
+            setCardHolder2(getCards(props.match.card2, team2Players));
+        }
+    }, [team1Players, team2Players])
+
+    const getScorers = (ids, players) => {
+        let scorersString = "";
+        let scorers = ids.split("\n");
+        for (let playerId of scorers) {
+            if (playerId !== "") {
+                for (let player of players) {
+                    if (player.id === Number(playerId)) {
+                        scorersString = scorersString.concat(player.name + "\n");
+                    }
+                }
+            }
+        }
+        return scorersString;
+    }
+
+    const getCards = (ids, players) => {
+        let tempCardHolder = "";
+        let cards = ids.split("\n");
+        for (let player of cards) {
+            if (player !== "") {
+                let tempPlayer = players.filter(element => element.id === Number(player.substring(player.indexOf("-") + 2)))[0]
+                if (tempPlayer !== undefined) {
+                    tempCardHolder = tempCardHolder.concat(`${player.substring(0, player.indexOf("-") - 1)} - ${tempPlayer.name}\n`);
+                }
+            }
+        }
+        return tempCardHolder;
+    }
+
     return team1 === undefined && team2 === undefined ? (<h1>Loading...</h1>) : (
         <Table className="matchTable" striped bordered hover size="sm">
             <colgroup>
@@ -74,41 +122,47 @@ function DisplayMatches(props) {
                         team={"team1"}
                         matchId={props.match.id}
                         isFinished={props.match.finished}
+                        setCardHolder={player => setCardHolder1(cardHolder1.concat(player + "\n"))}
                     />
                 </td>
                 <td id={"score" + props.index}>
                     <Button id="increaseScore" variant="outline-secondary" size="sm">-</Button>{' '}
-                    {props.match.score1}
+                    {score1}
                     {' '}<AddScorer
                     players={team1Players}
                     team={"team1"}
                     matchId={props.match.id}
-                    score={props.match.score1}
-                    isFinished={props.match.finished}/>
+                    score={score1}
+                    isFinished={props.match.finished}
+                    setScorer={player => setScorers1(scorers1.concat(player + "\n"))}
+                    updateScore={score => setScore1(score)}/>
                 </td>
                 <td>
                     <Button id="increaseScore" variant="outline-secondary" size="sm">-</Button>{' '}
-                    {props.match.score2}
+                    {score2}
                     {' '}<AddScorer
                     players={team2Players}
                     team={"team2"}
                     matchId={props.match.id}
-                    score={props.match.score2}
-                    isFinished={props.match.finished}/>
+                    score={score2}
+                    isFinished={props.match.finished}
+                    setScorer={player => setScorers2(scorers2.concat(player + "\n"))}
+                    updateScore={score => setScore2(score)}/>
                 </td>
                 <td>
                     <AddCard
                         players={team2Players}
                         team={"team2"}
                         matchId={props.match.id}
-                        isFinished={props.match.finished}/>
+                        isFinished={props.match.finished}
+                        setCardHolder={player => setCardHolder2(cardHolder2.concat(player + "\n"))}/>
                 </td>
                 <td>{team2.name}</td>
             </tr>
             <tr>
-                <td id="scorer">{"Gólszerző:\n" + props.match.scorer1 + "\nLap:\n" + props.match.card1}</td>
+                <td id="scorer">{"Gólszerző:\n" + scorers1 + "\nLap:\n" + cardHolder1}</td>
                 <td colSpan="4">{}</td>
-                <td id="scorer">{"Gólszerző:\n" + props.match.scorer2 + "\nLap:\n" + props.match.card2}</td>
+                <td id="scorer">{"Gólszerző:\n" + scorers2 + "\nLap:\n" + cardHolder2}</td>
             </tr>
             </tbody>
             <tfoot>
