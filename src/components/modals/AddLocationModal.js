@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 
 function AddLocationModal() {
+    const {register} = useForm();
+
     const [showLocationModal, setShowLocationModal] = useState(false);
 
     const handleClose = () => setShowLocationModal(false);
@@ -21,10 +24,6 @@ function AddLocationModal() {
         }
     }, [isAdded])
 
-    const updateLocationName = e => {
-        setLocationName(e.target.value);
-    }
-
     return (
         <>
             <Button variant="danger" onClick={handleShow} id="addLocationButton">
@@ -40,14 +39,15 @@ function AddLocationModal() {
                         <Form.Group controlId="addName">
                             <Form.Label>Helyszín neve</Form.Label>
                             <Form.Control
+                                name="newLocationName"
+                                ref={register({required:true})}
                                 type="text"
                                 placeholder="Új helyszín"
                                 value={locationName}
-                                onChange={updateLocationName}/>
+                                onChange={(e) => setLocationName(e.target.value)}/>
                         </Form.Group>
                         <Button variant="primary" type="submit" onClick={() => {
                             setIsAdded(true);
-                            console.log("isAdded: " + isAdded);
                             handleClose();
                         }} id="addLocationSubmit">
                             Add location

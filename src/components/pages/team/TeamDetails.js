@@ -26,7 +26,7 @@ const TeamDetails = () => {
         playerAdded, setPlayerAdded,
         setIsSelected,
         isShown, setIsShown,
-        playerIsDeleted, setPlayerIsDeleted
+        playerIsDeleted
     } = useContext(DataPackContext);
     const [playerList, setPlayerList] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -39,7 +39,7 @@ const TeamDetails = () => {
     useEffect(() => {
         setIsSelected(true);
         setIsLoading(true);
-        axios.get(`http://localhost:8080/player/listByName/${team.split("_").join(" ")}`)
+        axios.get(`http://localhost:8080/player/get_players_by_team/${team.split("_").join(" ")}?locationName=${locationName.split("_").join(" ")}`)
             .then(response => setPlayerList(response.data))
             .then(() => setIsLoading(false))
             .then(() => setPlayerAdded(false));
@@ -57,14 +57,12 @@ const TeamDetails = () => {
                         <col className="playerIndexCell"/>
                         <col className="playerNumberCell"/>
                         <col className="playerNameCell"/>
-                        <col className="playerGoalsCell"/>
                     </colgroup>
                     <thead>
                     <tr>
                         <th>#</th>
                         <th>Mezszám</th>
                         <th>Név</th>
-                        <th>Gólok</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -90,7 +88,6 @@ const TeamDetails = () => {
                                     {isShown && selectedId === player.id && <DeleteModal id={selectedId} name={player.name} url="player"/>}
                                 </Suspense>
                             </td>
-                            <td>{player.goals}</td>
                         </tr>
                     ))}
                     </tbody>
