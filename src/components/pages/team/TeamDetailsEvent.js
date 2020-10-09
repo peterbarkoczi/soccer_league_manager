@@ -5,7 +5,7 @@ import AddPlayerModal from "../../modals/AddPlayerModal";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import {Link, useParams} from "react-router-dom";
 
-function usePrefetch(factory) {
+const usePrefetch = (factory) => {
     const [component, setComponent] = useState(null);
 
     useEffect(() => {
@@ -18,7 +18,7 @@ function usePrefetch(factory) {
 
 const importModal = () => import("../../modals/DeleteModal");
 
-const TeamDetails = () => {
+const TeamDetailsEvent = () => {
 
     const DeleteModal = usePrefetch(importModal);
 
@@ -34,13 +34,18 @@ const TeamDetails = () => {
 
     const [selectedId, setSelectedId] = useState(0);
 
-    const {locationName, team} = useParams();
+    const {locationName, team, league} = useParams();
 
     useEffect(() => {
         setIsSelected(true);
         setIsLoading(true);
-        axios.get(`http://localhost:8080/player/get_players_by_team/${team.split("_").join(" ")}?locationName=${locationName.split("_").join(" ")}`)
-            .then(response => setPlayerList(response.data))
+        axios.get(`http://localhost:8080/player/get_players_and_stats_by_team/${
+            team.split("_").join(" ")}?locationName=${
+            locationName.split("_").join(" ")}&leagueName=${
+            league.split("_").join(" ")}`)
+            .then((response) => {
+                setPlayerList(response.data);
+            })
             .then(() => setIsLoading(false))
             .then(() => setPlayerAdded(false));
     }, [playerAdded, playerIsDeleted])
@@ -50,33 +55,38 @@ const TeamDetails = () => {
     } else {
         return (
             <div id="playerList">
-                <h1>{team.split("_").join(" ")}</h1>
+                <h1>{league.split("_").join(" ")}</h1>
+                <h3>{team.split("_").join(" ")}</h3>
                 <AddPlayerModal locationName={locationName} team={team}/>
                 <Table id="playersTable" striped bordered hover size="sm">
                     <colgroup>
                         <col className="playerIndexCell"/>
                         <col className="playerNumberCell"/>
                         <col className="playerNameCell"/>
+                        <col className="playerGoalsCell"/>
                     </colgroup>
                     <thead>
                     <tr>
                         <th>#</th>
                         <th>Mezszám</th>
                         <th>Név</th>
+                        <th>Gólok</th>
+                        <th>Sárga lap</th>
+                        <th>Piros lap</th>
                     </tr>
                     </thead>
                     <tbody>
                     {playerList.map(player => (
-                        <tr key={player.id}>
+                        <tr key={player["player"].id}>
                             <td>{index++}</td>
-                            <td>{player.number}</td>
+                            <td>{player["player"].number}</td>
                             <td id="playerName">
                                 <Link to={{
-                                    pathname: `/${locationName}/jatekos/${player.name.split(" ").join("_")}`,
-                                    hash: player.id.toString()
+                                    pathname: `/${locationName}/jatekos/${player["player"].name.split(" ").join("_")}`,
+                                    hash: player["player"].id.toString()
                                 }}
                                 >
-                                    {player.name}
+                                    {player["player"].name}
                                 </Link>
                                 {'   '}
                                 <Button variant="warning" onClick={() => {
@@ -85,9 +95,12 @@ const TeamDetails = () => {
                                     Törlés
                                 </Button>
                                 <Suspense fallback={<h1>Loading...</h1>}>
-                                    {isShown && selectedId === player.id && <DeleteModal id={selectedId} name={player.name} url="player"/>}
+                                    {isShown && selectedId === player["player"].id && <DeleteModal id={selectedId} name={player["player"].name} url="player"/>}
                                 </Suspense>
                             </td>
+                            <td>{player["goals"]}</td>
+                            <td>{player["cards"]["Sárga"]}</td>
+                            <td>{player["cards"]["Piros"]}</td>
                         </tr>
                     ))}
                     </tbody>
@@ -97,4 +110,4 @@ const TeamDetails = () => {
     }
 }
 
-export default TeamDetails;
+export default TeamDetailsEvent;

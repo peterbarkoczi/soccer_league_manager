@@ -52,7 +52,7 @@ function Teams() {
                     {teams.map((team, i) => (
                         <ListGroup.Item className="team" key={i}>
                             <Link to={{
-                                pathname: `csapat/${team.name.split(" ").join("_")}`
+                                pathname: `csapat/${team.name.split(" ").join("_")}`,
                             }}
                             >{team.name}</Link>
                             {'   '}
