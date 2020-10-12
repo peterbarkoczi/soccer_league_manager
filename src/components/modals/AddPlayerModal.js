@@ -2,8 +2,17 @@ import React, {useContext, useEffect, useState} from "react";
 import axios from "axios";
 import {DataPackContext} from "../contexts/DataPackContext";
 import {Button, Form, Modal} from "react-bootstrap";
+import {useForm} from "react-hook-form";
 
 const AddPlayerModal = (props) => {
+
+    const {register, handleSubmit, errors} = useForm({reValidateMode: "onBlur"});
+    const onSubmit = (data) => {
+        console.log(numbers);
+        console.log(data);
+        // setIsAdded(true);
+        handleClose();
+    };
 
     const [show, setShow] = useState(false);
 
@@ -15,7 +24,15 @@ const AddPlayerModal = (props) => {
     const [playerName, setPlayerName] = useState("");
     const [playerNumber, setPlayerNumber] = useState(0);
     const [birthDate, setBirthDate] = useState(new Date());
-    let date;
+
+    const [numbers, setNumbers] = useState([]);
+    let tempBirthDate;
+
+    useEffect(() => {
+        let temp = [];
+        props.players.filter(player => temp.push(player.number))
+        setNumbers(temp);
+    }, [])
 
     useEffect(() => {
         if (isAdded) {
@@ -40,8 +57,8 @@ const AddPlayerModal = (props) => {
 
     function updateBirthDate(e) {
         console.log(e.target.value);
-        date = e.target.value;
-        setBirthDate(new Date(date));
+        tempBirthDate = e.target.value;
+        setBirthDate(new Date(tempBirthDate));
     }
 
     return (
@@ -55,7 +72,7 @@ const AddPlayerModal = (props) => {
                     <Modal.Title>Új csapat hozzáadása</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
+                    <Form onSubmit={handleSubmit(onSubmit)}>
                         <Form.Group controlId="addPlayerName">
                             <Form.Label>Játékos neve</Form.Label>
                             <Form.Control
@@ -68,20 +85,23 @@ const AddPlayerModal = (props) => {
                             <Form.Label>Születési idő</Form.Label>
                             <Form.Control
                                 type="date"
-                                value={date}
+                                value={tempBirthDate}
                                 onChange={updateBirthDate}/>
                         </Form.Group>
                         <Form.Group controlId="addPlayerNumber">
                             <Form.Label>Mezszám</Form.Label>
                             <Form.Control
                                 type="number"
-                                placeholder="Mazszám"
+                                placeholder="Mezszám"
+                                name="playerNumber"
+                                ref={register({required: true, validate:data => !numbers.includes(Number(data))})}
                                 value={playerNumber}
                                 onChange={updatePlayerNumber}/>
                         </Form.Group>
-                        <Button variant="primary" type="submit" onClick={() => {
-                            setIsAdded(true);
-                            handleClose()
+                        {errors.playerNumber && errors.playerNumber.type === "validate" && <p className="error">Válassz másik számot</p>}
+                        <Button variant="success" type="submit" onClick={() => {
+                            // setIsAdded(true);
+                            // handleClose()
                         }} id="addPlayerSubmit">
                             Játékos hozzáadása
                         </Button>

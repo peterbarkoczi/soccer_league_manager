@@ -23,9 +23,10 @@ function Location() {
         setIsSelected,
         showLocationDiv, setShowLocationDiv,
         locationIsDeleted, setLocationIsDeleted,
-        isShown, setIsShown
+        isShown, setIsShown,
+        refresh, setRefresh
     } = useContext(DataPackContext);
-    const [location, setLocation] = useState([]);
+    const [locations, setLocations] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const [selectedId, setSelectedId] = useState(0);
@@ -39,10 +40,11 @@ function Location() {
             setSelectedId(0)
             try {
                 axios.get("http://localhost:8080/location/list", {cancelToken: source.token})
-                    .then(response => setLocation(response.data))
+                    .then(response => setLocations(response.data))
                     .then(() => setIsLoading(false))
                     .then(() => setLocationIsDeleted(false))
-                    .then(() => setSelectedId(0));
+                    .then(() => setSelectedId(0))
+                    .then(() => setRefresh(false));
             } catch (error) {
                 if (axios.isCancel(error)) {
                     console.log("cancelled");
@@ -56,16 +58,16 @@ function Location() {
         return () => {
             source.cancel()
         }
-    }, [locationIsDeleted]);
+    }, [locationIsDeleted, refresh]);
 
     const LocationDiv = () => (
         <div className="locations">
             <div id="addLocation">
-                <AddLocationModal/>
+                <AddLocationModal locations={locations}/>
             </div>
             <h1 id="locationName">Helyszín:</h1>
             <ListGroup className="list" id="locationList">
-                {location.map(location => (
+                {locations.map(location => (
                     <ListGroup.Item className="location" key={location.name}>
                         <Link to={{
                             pathname: `${location.name.split(" ").join("_")}/bajnoksag`,
