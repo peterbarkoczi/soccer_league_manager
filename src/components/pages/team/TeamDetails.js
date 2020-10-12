@@ -51,7 +51,7 @@ const TeamDetails = () => {
         return (
             <div id="playerList">
                 <h1>{team.split("_").join(" ")}</h1>
-                <AddPlayerModal locationName={locationName} team={team}/>
+                <AddPlayerModal locationName={locationName} players={playerList} team={team}/>
                 <Table id="playersTable" striped bordered hover size="sm">
                     <colgroup>
                         <col className="playerIndexCell"/>
