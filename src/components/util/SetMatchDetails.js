@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useState} from "react";
 import {Button, Form, Image, Modal} from "react-bootstrap";
 import axios from "axios";
 import cardIcon from "../../yellow-red card icon.png";
-import {MatchContext} from "../contexts/MatchContext";
 
 
 function AddScorer(props) {
