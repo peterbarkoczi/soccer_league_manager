@@ -4,6 +4,7 @@ import {CupContext} from "../contexts/CupContext";
 import {AddCard, AddScorer} from "./SetMatchDetails";
 import axios from "axios";
 import {MatchContext} from "../contexts/MatchContext";
+import {hasRole} from "./Auth";
 
 function DisplayMatches(props) {
 
@@ -46,7 +47,7 @@ function DisplayMatches(props) {
 
     useEffect(() => {
         if (matchIsFinished) {
-            axios.post("http://localhost:8080/match/update_finished", {
+            axios.patch("http://localhost:8080/match/update_finished", {
                 id: matchId
             })
                 .then(() => setMatchIsFinished(false))
@@ -117,45 +118,49 @@ function DisplayMatches(props) {
             <tr>
                 <td>{team1.name}</td>
                 <td>
-                    <AddCard
+                    {hasRole(["admin", "referee"]) && <AddCard
                         players={team1Players}
                         team={"team1"}
                         matchId={props.match.id}
                         isFinished={props.match.finished}
                         setCardHolder={player => setCardHolder1(cardHolder1.concat(player + "\n"))}
-                    />
+                    />}
                 </td>
                 <td id={"score" + props.index}>
-                    <Button id="increaseScore" variant="outline-secondary" size="sm">-</Button>{' '}
+                    {hasRole(["admin", "referee"]) &&
+                    <Button id="increaseScore" variant="outline-secondary" size="sm">-</Button>}
+                    {' '}
                     {score1}
-                    {' '}<AddScorer
+                    {' '}{hasRole(["admin", "referee"]) && <AddScorer
                     players={team1Players}
                     team={"team1"}
                     matchId={props.match.id}
                     score={score1}
                     isFinished={props.match.finished}
                     setScorer={player => setScorers1(scorers1.concat(player + "\n"))}
-                    updateScore={score => setScore1(score)}/>
+                    updateScore={score => setScore1(score)}/>}
                 </td>
                 <td>
-                    <Button id="increaseScore" variant="outline-secondary" size="sm">-</Button>{' '}
+                    {hasRole(["admin", "referee"]) &&
+                    <Button id="increaseScore" variant="outline-secondary" size="sm">-</Button>}
+                    {' '}
                     {score2}
-                    {' '}<AddScorer
+                    {' '}{hasRole(["admin", "referee"]) && <AddScorer
                     players={team2Players}
                     team={"team2"}
                     matchId={props.match.id}
                     score={score2}
                     isFinished={props.match.finished}
                     setScorer={player => setScorers2(scorers2.concat(player + "\n"))}
-                    updateScore={score => setScore2(score)}/>
+                    updateScore={score => setScore2(score)}/>}
                 </td>
                 <td>
-                    <AddCard
+                    {hasRole(["admin", "referee"]) && <AddCard
                         players={team2Players}
                         team={"team2"}
                         matchId={props.match.id}
                         isFinished={props.match.finished}
-                        setCardHolder={player => setCardHolder2(cardHolder2.concat(player + "\n"))}/>
+                        setCardHolder={player => setCardHolder2(cardHolder2.concat(player + "\n"))}/>}
                 </td>
                 <td>{team2.name}</td>
             </tr>
@@ -167,10 +172,12 @@ function DisplayMatches(props) {
             </tbody>
             <tfoot>
             <tr>
-                <td colSpan="6"><Button
-                    variant="outline-success"
-                    onClick={updateIsFinished} size="sm"
-                    disabled={props.match.finished}>VÉGE</Button></td>
+                <td colSpan="6">
+                    {hasRole(["admin", "referee"]) && <Button
+                        variant="outline-success"
+                        onClick={updateIsFinished} size="sm"
+                        disabled={props.match.finished}>VÉGE</Button>}
+                </td>
             </tr>
             </tfoot>
         </Table>

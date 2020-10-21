@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useState} from "react";
 import {Button, Form, Image, Modal} from "react-bootstrap";
 import axios from "axios";
 import cardIcon from "../../yellow-red card icon.png";
-import {MatchContext} from "../contexts/MatchContext";
 
 
 function AddScorer(props) {
@@ -14,7 +13,7 @@ function AddScorer(props) {
         if (isAdded) {
             props.updateScore((Number(props.score) + 1).toString());
             let currentScore = setData();
-            axios.post("http://localhost:8080/match/update_score",
+            axios.patch("http://localhost:8080/match/update_score",
                 currentScore
             )
                 .then(() => setIsAdded(false))
@@ -82,7 +81,7 @@ function AddCard(props) {
     useEffect(() => {
         if (isAdded) {
             let tempCard = setData();
-            axios.post("http://localhost:8080/match/update_card",
+            axios.patch("http://localhost:8080/match/update_card",
                 tempCard
             )
                 .then(() => setIsAdded(false))

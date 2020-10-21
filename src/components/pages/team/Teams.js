@@ -4,6 +4,7 @@ import AddTeamModal from "../../modals/AddTeamModal";
 import {Button, ListGroup} from "react-bootstrap";
 import axios from "axios";
 import {DataPackContext} from "../../contexts/DataPackContext";
+import {hasRole} from "../../util/Auth";
 
 function usePrefetch(factory) {
     const [component, setComponent] = useState(null);
@@ -45,9 +46,11 @@ function Teams() {
                 <h1 className="title" id="teamsTitle">
                     Csapatok
                 </h1>
+                {hasRole(["admin"]) &&
                 <div className="addTeam">
                     <AddTeamModal locationName={locationName}/>
                 </div>
+                }
                 <ListGroup variant="flush" className="list" id="teamsList">
                     {teams.map((team, i) => (
                         <ListGroup.Item className="team" key={i}>
@@ -56,12 +59,14 @@ function Teams() {
                             }}
                             >{team.name}</Link>
                             {'   '}
+                            {hasRole(["admin"]) &&
                             <Button variant="warning" onClick={() => {
                                 setIsShown(true);
                                 setSelectedId(team.id)
                             }}>
                                 Törlés
                             </Button>
+                            }
                             <Suspense fallback={<h1>Loading...</h1>}>
                                 {isShown && selectedId === team.id &&
                                 <DeleteModal id={selectedId} name={team.name} url="teams"/>}
