@@ -118,13 +118,13 @@ function DisplayMatches(props) {
             <tr>
                 <td>{team1.name}</td>
                 <td>
-                    <AddCard
+                    {hasRole(["admin", "referee"]) && <AddCard
                         players={team1Players}
                         team={"team1"}
                         matchId={props.match.id}
                         isFinished={props.match.finished}
                         setCardHolder={player => setCardHolder1(cardHolder1.concat(player + "\n"))}
-                    />
+                    />}
                 </td>
                 <td id={"score" + props.index}>
                     {hasRole(["admin", "referee"]) &&
@@ -138,7 +138,7 @@ function DisplayMatches(props) {
                     score={score1}
                     isFinished={props.match.finished}
                     setScorer={player => setScorers1(scorers1.concat(player + "\n"))}
-                    updateScore={score => setScore1(score)}/>
+                    updateScore={score => setScore1(score)}/>}
                 </td>
                 <td>
                     {hasRole(["admin", "referee"]) &&
@@ -152,7 +152,7 @@ function DisplayMatches(props) {
                     score={score2}
                     isFinished={props.match.finished}
                     setScorer={player => setScorers2(scorers2.concat(player + "\n"))}
-                    updateScore={score => setScore2(score)}/>
+                    updateScore={score => setScore2(score)}/>}
                 </td>
                 <td>
                     {hasRole(["admin", "referee"]) && <AddCard
@@ -160,7 +160,7 @@ function DisplayMatches(props) {
                         team={"team2"}
                         matchId={props.match.id}
                         isFinished={props.match.finished}
-                        setCardHolder={player => setCardHolder2(cardHolder2.concat(player + "\n"))}/>
+                        setCardHolder={player => setCardHolder2(cardHolder2.concat(player + "\n"))}/>}
                 </td>
                 <td>{team2.name}</td>
             </tr>
