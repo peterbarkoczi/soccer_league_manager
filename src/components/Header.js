@@ -70,6 +70,12 @@ function Header() {
     }
 
     const location = useLocation();
+    const history = useHistory();
+
+    const logout = () => {
+        localStorage.removeItem("user");
+        history.push("/signIn")
+    }
 
     useEffect(() => {
         let tempPath;
@@ -80,6 +86,7 @@ function Header() {
     }, [location.pathname])
 
     const renderHeaderButtons = () => {
+        if (location.pathname === "/signIn" || location.pathname === "/signup" || location.pathname === "/users") return null;
         return (
             <ButtonGroup className="menu" id="headerNavMenu">
                 <Link to={`/${path}/bajnoksag`}>
@@ -95,7 +102,12 @@ function Header() {
         )
     }
 
+    const displayHeaderTitle = () => {
+        return location.pathname !== "/" || location.pathname !== "/users";
+    }
+
     const createName = (name) => {
+        if (location.pathname.includes("signup") || location.pathname.includes("signIn")) return null;
         if (name !== undefined) {
             return name.split("_").join(" ");
         }
@@ -106,15 +118,35 @@ function Header() {
     return (
         <HeaderStyle>
             <div className="header">
-                <div className="login">
-                    <Button variant="secondary" id="logInButton">Bejelentkezés</Button>{' '}
-                    <Button variant="secondary" id="signInButton">Regisztráció</Button>
-                </div>
+                {localStorage.getItem("user") === null ?
+                    <div className="login">
+                        <Link to="/signIn">
+                            <Button variant="secondary" id="logInButton">Bejelentkezés</Button>{' '}
+                        </Link>
+                        <Link to="/signup">
+                            <Button variant="secondary" id="signUpButton">Regisztráció</Button>
+                        </Link>
+                    </div> :
+                    <div>
+                        <div id="logout">
+                            <Button variant="secondary" id="logoutButton" onClick={() => logout()}>Kijelentkezés</Button>
+                        </div>
+                        {'  '}
+                        {hasRole(["admin"]) &&
+                        <div>
+                            <Link to="/users">
+                                <Button variant="secondary" id="adminPageButton">Admin oldal</Button>
+                            </Link>
+                        </div>}
+                    </div>
+
+                }
+
                 <div className="title">
                     <Link to="/" onClick={reset}>
                         <h2 id="appTitle">Soccer League Manager</h2>
                     </Link>
-                    {location.pathname !== "/" ?
+                    {displayHeaderTitle() ?
                         (<h3 id="locationHeaderTitle">{createName(path)}</h3>) : null}
                 </div>
                 {location.pathname !== "/" ? renderHeaderButtons() : null}
