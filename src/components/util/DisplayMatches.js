@@ -4,6 +4,7 @@ import {CupContext} from "../contexts/CupContext";
 import {AddCard, AddScorer} from "./SetMatchDetails";
 import axios from "axios";
 import {MatchContext} from "../contexts/MatchContext";
+import {hasRole} from "./Auth";
 
 function DisplayMatches(props) {
 
@@ -126,9 +127,11 @@ function DisplayMatches(props) {
                     />
                 </td>
                 <td id={"score" + props.index}>
-                    <Button id="increaseScore" variant="outline-secondary" size="sm">-</Button>{' '}
+                    {hasRole(["admin", "referee"]) &&
+                    <Button id="increaseScore" variant="outline-secondary" size="sm">-</Button>}
+                    {' '}
                     {score1}
-                    {' '}<AddScorer
+                    {' '}{hasRole(["admin", "referee"]) && <AddScorer
                     players={team1Players}
                     team={"team1"}
                     matchId={props.match.id}
@@ -138,9 +141,11 @@ function DisplayMatches(props) {
                     updateScore={score => setScore1(score)}/>
                 </td>
                 <td>
-                    <Button id="increaseScore" variant="outline-secondary" size="sm">-</Button>{' '}
+                    {hasRole(["admin", "referee"]) &&
+                    <Button id="increaseScore" variant="outline-secondary" size="sm">-</Button>}
+                    {' '}
                     {score2}
-                    {' '}<AddScorer
+                    {' '}{hasRole(["admin", "referee"]) && <AddScorer
                     players={team2Players}
                     team={"team2"}
                     matchId={props.match.id}
@@ -150,7 +155,7 @@ function DisplayMatches(props) {
                     updateScore={score => setScore2(score)}/>
                 </td>
                 <td>
-                    <AddCard
+                    {hasRole(["admin", "referee"]) && <AddCard
                         players={team2Players}
                         team={"team2"}
                         matchId={props.match.id}
@@ -167,10 +172,12 @@ function DisplayMatches(props) {
             </tbody>
             <tfoot>
             <tr>
-                <td colSpan="6"><Button
-                    variant="outline-success"
-                    onClick={updateIsFinished} size="sm"
-                    disabled={props.match.finished}>VÉGE</Button></td>
+                <td colSpan="6">
+                    {hasRole(["admin", "referee"]) && <Button
+                        variant="outline-success"
+                        onClick={updateIsFinished} size="sm"
+                        disabled={props.match.finished}>VÉGE</Button>}
+                </td>
             </tr>
             </tfoot>
         </Table>

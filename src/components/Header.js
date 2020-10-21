@@ -4,6 +4,7 @@ import styled from "styled-components";
 import background from "../red-soccer-bg2.jpg"
 import {DataPackContext} from "./contexts/DataPackContext";
 import {Button, ButtonGroup} from "react-bootstrap";
+import {hasRole} from "./util/Auth";
 
 const HeaderStyle = styled.div`
    display: flex;

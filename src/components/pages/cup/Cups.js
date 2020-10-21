@@ -5,6 +5,7 @@ import {Link, useParams} from "react-router-dom";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import {CupContext} from "../../contexts/CupContext";
 import axios from "axios";
+import {hasRole} from "../../util/Auth";
 
 function usePrefetch(factory) {
     const [component, setComponent] = useState(null);
@@ -40,7 +41,9 @@ const Cups = () => {
     return (
         <div className="cups">
             <h1 id="cupsTitle">Kupák</h1>
-            <CreateCupModal locationName={locationName} />
+            {hasRole(["admin"]) &&
+            <CreateCupModal locationName={locationName}/>
+            }
             <ListGroup id="cupsList">
                 {cups.map(cup => (
                     <ListGroup.Item key={cup.name}>
@@ -50,11 +53,13 @@ const Cups = () => {
                             setCupId(cup.id)
                         }}>{cup.name}</Link>
                         {'   '}
+                        {hasRole(["admin"]) &&
                         <Button variant="warning" onClick={() => {
                             setIsShown(true);
                             setSelectedId(cup.id)}}>
                             Törlés
                         </Button>
+                        }
                         <Suspense fallback={<h1>Loading...</h1>}>
                             {isShown && selectedId === cup.id && <DeleteModal id={selectedId} name={cup.name} url="cups"/>}
                         </Suspense>

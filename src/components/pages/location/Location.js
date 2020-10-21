@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {Button, ListGroup} from "react-bootstrap";
 import AddLocationModal from "../../modals/AddLocationModal";
 import axios from "axios";
+import {hasRole} from "../../util/Auth";
 
 function usePrefetch(factory) {
     const [component, setComponent] = useState(null);
@@ -62,9 +63,11 @@ function Location() {
 
     const LocationDiv = () => (
         <div className="locations">
+            {hasRole(["admin"]) &&
             <div id="addLocation">
                 <AddLocationModal locations={locations}/>
             </div>
+            }
             <h1 id="locationName">Helyszín:</h1>
             <ListGroup className="list" id="locationList">
                 {locations.map(location => (
@@ -76,6 +79,7 @@ function Location() {
                             setIsSelected(true);
                         }} className="locationLink">{location.name}</Link>
                         {'   '}
+                        {hasRole(["admin"]) &&
                         <Button id={"delete-" + location.name} className="deleteLocationButton" variant="warning"
                                 onClick={() => {
                                     setIsShown(true);
@@ -83,6 +87,7 @@ function Location() {
                                 }}>
                             Törlés
                         </Button>
+                        }
                         <Suspense fallback={<h1>Loading...</h1>}>
                             {isShown && selectedId === location.id &&
                             <DeleteModal id={selectedId} name={location.name} url="location"/>}
