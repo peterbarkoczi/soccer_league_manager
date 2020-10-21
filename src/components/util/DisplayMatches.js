@@ -47,7 +47,7 @@ function DisplayMatches(props) {
 
     useEffect(() => {
         if (matchIsFinished) {
-            axios.post("http://localhost:8080/match/update_finished", {
+            axios.patch("http://localhost:8080/match/update_finished", {
                 id: matchId
             })
                 .then(() => setMatchIsFinished(false))
