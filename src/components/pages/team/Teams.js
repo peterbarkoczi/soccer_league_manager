@@ -59,6 +59,7 @@ function Teams() {
                             }}
                             >{team.name}</Link>
                             {'   '}
+                            {hasRole(["admin"]) &&
                             <Button variant="warning" onClick={() => {
                                 setIsShown(true);
                                 setSelectedId(team.id)

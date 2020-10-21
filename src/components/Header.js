@@ -1,7 +1,8 @@
 import React, {useContext, useEffect, useState} from "react";
-import {Link, useLocation} from "react-router-dom";
+import {Link, useLocation, useHistory} from "react-router-dom";
 import styled from "styled-components";
 import background from "../red-soccer-bg2.jpg"
+import background2 from "../soccerManagerTableBackground.jpg";
 import {DataPackContext} from "./contexts/DataPackContext";
 import {Button, ButtonGroup} from "react-bootstrap";
 import {hasRole} from "./util/Auth";
@@ -10,14 +11,17 @@ const HeaderStyle = styled.div`
    display: flex;
    
    .header {
-     width: 100%;
-     background-image: url(${background});
-     margin-bottom: 4%;
+     width: 98%;
+     background-image: url(${background2});
+     //background-color: red;
+     margin: 2% auto;
      padding: 0.2%;
+     border-radius: 70px;
+     opacity: 0.9;
    }
    
    .title {
-      position: relative;
+      position: static;
    }
    
    .title h2 {
@@ -65,7 +69,7 @@ function Header() {
 
     const [path, setPath] = useState("");
 
-    function reset() {
+    const reset = () => {
         setShowLocationDiv(true);
     }
 
