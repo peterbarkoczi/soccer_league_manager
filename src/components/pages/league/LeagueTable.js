@@ -32,7 +32,7 @@ const LeagueTable = (props) => {
                         <td className="team">
                             <Link
                                 to={{
-                                    pathname: `/${locationName}/csapat/${team.team.split(" ").join("_")}`
+                                    pathname: `/${locationName}/bajnoksag/${league}/${team.team.split(" ").join("_")}`
                                 }}
                             >
                                 {team.team}

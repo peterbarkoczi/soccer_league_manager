@@ -16,8 +16,6 @@ const CupSemiFinals = () => {
         semiFinalMatches, setSemiFinalMatches,
         setSemiFinalsFinished,
         matchIsFinished,
-        scoreIsAdded, setScoreIsAdded,
-        cardIsAdded, setCardIsAdded,
         sfIsReady, setSfIsReady
     } = useContext(MatchContext);
 
@@ -26,11 +24,9 @@ const CupSemiFinals = () => {
     useEffect(() => {
         if (cupName !== "") {
             axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=semiFinal`)
-                .then(response => setSemiFinalMatches(response.data))
-                .then(() => setScoreIsAdded(false))
-                .then(() => setCardIsAdded(false));
+                .then(response => setSemiFinalMatches(response.data));
         }
-    }, [cupName, scoreIsAdded, cardIsAdded, matchIsFinished, sfIsReady])
+    }, [cupName, matchIsFinished, sfIsReady])
 
     useEffect(() => {
         console.log("qulifierek csekkolása");

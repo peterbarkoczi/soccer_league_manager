@@ -9,8 +9,6 @@ const CupFinals = () => {
     const {
         semiFinalMatches,
         matchIsFinished,
-        scoreIsAdded, setScoreIsAdded,
-        cardIsAdded, setCardIsAdded,
         finalMatches, setFinalMatches,
         finalIsReady, setFinalIsReady
     } = useContext(MatchContext);
@@ -23,11 +21,9 @@ const CupFinals = () => {
     useEffect(() => {
         if (cupName !== "") {
             axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=final`)
-                .then(response => setFinalMatches(response.data))
-                .then(() => setScoreIsAdded(false))
-                .then(() => setCardIsAdded(false));
+                .then(response => setFinalMatches(response.data));
         }
-    }, [cupName, scoreIsAdded, cardIsAdded, matchIsFinished, finalIsReady])
+    }, [cupName, matchIsFinished, finalIsReady])
 
     useEffect(() => {
         if (semiFinalMatches.length !== 0) {

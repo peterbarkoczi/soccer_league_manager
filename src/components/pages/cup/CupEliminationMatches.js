@@ -8,9 +8,7 @@ const CupEliminationMatches = () => {
 
     const {
         qualifierMatches, setQualifierMatches,
-        matchIsFinished,
-        scoreIsAdded, setScoreIsAdded,
-        cardIsAdded, setCardIsAdded
+        matchIsFinished
     } = useContext(MatchContext);
 
     const {locationName, cupName} = useParams();
@@ -47,10 +45,8 @@ const CupEliminationMatches = () => {
         if (cupName !== "") {
             axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=qualifier`)
                 .then((response) => setQualifierMatches(response.data))
-                .then(() => setScoreIsAdded(false))
-                .then(() => setCardIsAdded(false));
         }
-    }, [scoreIsAdded, cardIsAdded, matchIsFinished]);
+    }, [matchIsFinished]);
 
     useEffect(() => {
         checkFinish(qualifierMatches)
