@@ -16,7 +16,8 @@ function DeleteModal(props) {
         setDeletedId,
         isShown, setIsShown,
         setLeagueIsDeleted,
-        setPlayerIsDeleted
+        setPlayerIsDeleted,
+        setUserIsDeleted
     } = useContext(DataPackContext);
 
     const [message, setMessage] = useState("");
@@ -40,6 +41,7 @@ function DeleteModal(props) {
         setTeamIsDeleted(false);
         setLeagueIsDeleted(false);
         setPlayerIsDeleted(false);
+        setUserIsDeleted(false);
     }
 
     const setupMessage = () => {
@@ -58,6 +60,9 @@ function DeleteModal(props) {
                 break;
             case ("player"):
                 setMessage(`Biztosan törlöd a ${props.name} játékost?`)
+                break;
+            case ("delete_user"):
+                setMessage(tempMessage + `felhasználót?`)
                 break;
             default:
                 console.log("no item to delete")
@@ -86,7 +91,9 @@ function DeleteModal(props) {
                 setPlayerIsDeleted(true);
                 console.log("setPlayerIsDeleted");
                 break;
-
+            case ("delete_user"):
+                setUserIsDeleted(true);
+                break;
             default:
                 console.log("no item to delete")
         }
