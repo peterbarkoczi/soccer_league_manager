@@ -18,6 +18,13 @@ import SignUp from "./components/pages/SignUp";
 import SignIn from "./components/pages/SignIn";
 import {hasRole} from "./components/util/Auth";
 import AdminUsersPage from "./components/pages/AdminUsersPage";
+import axios from "axios";
+
+axios.interceptors.request.use(req => {
+    if (localStorage.getItem("user")) req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem("user")).token}`;
+    req.headers["Access-Control-Allow-Origin"] = "*";
+    return req;
+}, error => {return Promise.reject(error)})
 
 function App() {
     return (
