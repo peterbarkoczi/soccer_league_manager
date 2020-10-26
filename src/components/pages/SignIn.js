@@ -31,16 +31,19 @@ const SignIn = () => {
                 username: username,
                 password: password
             }).then((response) => {
-                console.log(response);
                 localStorage.setItem("user", JSON.stringify(response.data));
                 setResult("Sikeres bejelentkezés");
-                resetFields();
                 history.push("/");
-            }).then(() => setIsAdded(false))
-                .catch((err) => {
+            }).catch((err) => {
                     setResult(err.response.data);
                 })
         }
+
+        return () => {
+            resetFields();
+            setIsAdded(false);
+        }
+
     }, [isAdded])
 
     return (

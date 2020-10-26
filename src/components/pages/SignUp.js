@@ -2,7 +2,6 @@ import React, {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import axios from "axios";
-import {useLocation} from "react-router-dom";
 
 const SignUp = () => {
 
@@ -16,8 +15,6 @@ const SignUp = () => {
     const [result, setResult] = useState("");
 
     const [isAdded, setIsAdded] = useState(false);
-
-    const location = useLocation();
 
     const {register, handleSubmit, errors} = useForm({reValidateMode: "onBlur"});
     const onSubmit = (data) => {
@@ -63,19 +60,29 @@ const SignUp = () => {
     }
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/auth/getUsers`)
+        const source = axios.CancelToken.source();
+        axios.get(`http://localhost:8080/auth/getUsers`, {cancelToken:source.token})
             .then(response => getUsernames(response.data));
+
+        return () => {
+            source.cancel("Component got unmounted");
+        }
     }, [])
 
     useEffect(() => {
+        const source = axios.CancelToken.source();
         if (isAdded) {
             axios.post(`http://localhost:8080/auth/signup`, {
                 username: username,
                 password: password,
                 role: "user"
-            }).then((response) => {
+            }, {cancelToken:source.token}).then((response) => {
                 setResult(response.data);
             }).then(() => setIsAdded(false));
+        }
+
+        return () => {
+            source.cancel("Component got unmounted");
         }
     }, [isAdded])
 
