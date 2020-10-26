@@ -111,7 +111,7 @@ function Header() {
     }
 
     const createName = (name) => {
-        if (location.pathname.includes("signup") || location.pathname.includes("signIn")) return null;
+        if (["signup", "signIn", "users"].some(route => location.pathname.includes(route))) return null;
         if (name !== undefined) {
             return name.split("_").join(" ");
         }
