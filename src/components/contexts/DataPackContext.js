@@ -12,6 +12,7 @@ export const DataPackProvider = props => {
     const [teamIsDeleted, setTeamIsDeleted] = useState(false);
     const [leagueIsDeleted, setLeagueIsDeleted] = useState(false);
     const [playerIsDeleted, setPlayerIsDeleted] = useState(false);
+    const [userIsDeleted, setUserIsDeleted] = useState(false);
 
     const [deletedId, setDeletedId] = useState(0);
     const [isShown, setIsShown] = useState(false);
@@ -32,6 +33,7 @@ export const DataPackProvider = props => {
             isLeagueAdded, setIsLeagueAdded,
             leagueIsDeleted, setLeagueIsDeleted,
             playerIsDeleted, setPlayerIsDeleted,
+            userIsDeleted, setUserIsDeleted,
             refresh, setRefresh
         }}>
             {props.children}
