@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 
-const SignUp = () => {
+const SignIn = () => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -98,4 +98,4 @@ const SignUp = () => {
 
 }
 
-export default SignUp;
+export default SignIn;
