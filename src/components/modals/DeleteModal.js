@@ -23,7 +23,7 @@ function DeleteModal(props) {
     const [message, setMessage] = useState("");
 
     const deleteItem = () => {
-        axios.delete(`http://localhost:8080/${props.url}/${Number(props.id)}`)
+        axios.delete(`http://127.0.0.1:8080/${props.url}/${Number(props.id)}`)
             .then((response) => {
                 console.log(response.data);
                 setDefaultValues();
@@ -45,21 +45,22 @@ function DeleteModal(props) {
     }
 
     const setupMessage = () => {
+        let tempMessage = `Biztosan törlöd a ${props.name} `;
         switch (props.url) {
             case ("cups"):
-                setMessage(`Biztosan törlöd a ${props.name} kupát?`)
+                setMessage(tempMessage + `kupát?`)
                 break;
             case ("location"):
-                setMessage(`Biztosan törlöd a ${props.name} helyszínt?`)
+                setMessage(tempMessage + `helyszínt?`)
                 break;
             case ("teams"):
-                setMessage(`Biztosan törlöd a ${props.name} csapatot?`)
+                setMessage(tempMessage + `csapatot?`)
                 break;
             case ("league"):
-                setMessage(`Biztosan törlöd a ${props.name} bajnokságot?`)
+                setMessage(tempMessage + `bajnokságot?`)
                 break;
             case ("player"):
-                setMessage(`Biztosan törlöd a ${props.name} játékost?`)
+                setMessage(tempMessage + `játékost?`)
                 break;
             case ("delete_user"):
                 setMessage(tempMessage + `felhasználót?`)
