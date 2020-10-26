@@ -1,6 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, {lazy, Suspense, useContext, useEffect, useState} from "react";
 import axios from "axios";
-import {Table, Button, Form} from "react-bootstrap";
+import {Button, Form, ListGroup, Table} from "react-bootstrap";
+import {DataPackContext} from "../contexts/DataPackContext";
+
+function usePrefetch(factory) {
+    const [component, setComponent] = useState(null);
+
+    useEffect(() => {
+        factory();
+        const comp = lazy(factory);
+        setComponent(comp);
+    }, [factory]);
+    return component;
+}
+
+const importModal = () => import("../../components/modals/DeleteModal");
 
 const AdminUsersPage = () => {
 
@@ -9,8 +23,12 @@ const AdminUsersPage = () => {
     const [editable, setEditable] = useState("");
     const [value, setValue] = useState("");
 
-    const getUsers = axios.get(`http://localhost:8080/auth/getUsers`)
-    const getTeams = axios.get(`http://localhost:8080/teams/all`)
+    const DeleteModal = usePrefetch(importModal);
+    const [selectedId, setSelectedId] = useState(0);
+    const {isShown, setIsShown, userIsDeleted} = useContext(DataPackContext);
+
+    const getUsers = axios.get(`http://127.0.0.1:8080/auth/getUsers`)
+    const getTeams = axios.get(`http://127.0.0.1:8080/teams/all`)
 
     useEffect(() => {
         axios.all([getUsers, getTeams])
