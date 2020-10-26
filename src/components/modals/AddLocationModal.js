@@ -1,15 +1,45 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
+import {useForm} from "react-hook-form";
 import axios from "axios";
+import {DataPackContext} from "../contexts/DataPackContext";
 
-function AddLocationModal() {
-    const [showLocationModal, setShowLocationModal] = useState(false);
-
-    const handleClose = () => setShowLocationModal(false);
-    const handleShow = () => setShowLocationModal(true);
+function AddLocationModal(props) {
 
     const [locationName, setLocationName] = useState("");
     const [isAdded, setIsAdded] = useState(false);
+
+    const {register, handleSubmit, errors} = useForm({reValidateMode: "onBlur"});
+    const onSubmit = (data) => {
+        console.log(data);
+        setIsAdded(true);
+        handleClose();
+    };
+
+    const {setRefresh} = useContext(DataPackContext);
+    const [showLocationModal, setShowLocationModal] = useState(false);
+    const [existLocations, setExistLocations] = useState([]);
+    const [inputIsInvalid, setInputIsInvalid] = useState(true);
+
+    const checkLocation = (item) => {
+        if (existLocations.includes(item) || item.length < 3 || item.length === 0) {
+            setInputIsInvalid(true);
+        } else {
+            setInputIsInvalid(false);
+        }
+    }
+
+    const handleClose = () => {
+        setRefresh(true);
+        setShowLocationModal(false)
+    };
+    const handleShow = () => setShowLocationModal(true);
+
+    useEffect(() => {
+        let temp = [];
+        props.locations.filter(location => temp.push(location["name"]))
+        setExistLocations(temp);
+    }, [])
 
     useEffect(() => {
         if (isAdded) {
@@ -17,13 +47,9 @@ function AddLocationModal() {
                 name: locationName
             })
                 .then(response => console.log("location added" + response))
-                .then(() => setIsAdded(false))
+                .then(() => setIsAdded(false));
         }
     }, [isAdded])
-
-    const updateLocationName = e => {
-        setLocationName(e.target.value);
-    }
 
     return (
         <>
@@ -36,20 +62,26 @@ function AddLocationModal() {
                     <Modal.Title>Új helyszín hozzáadása</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Form>
+                    <Form onSubmit={handleSubmit(onSubmit)}>
                         <Form.Group controlId="addName">
                             <Form.Label>Helyszín neve</Form.Label>
                             <Form.Control
+                                style={{border: `3px solid ${inputIsInvalid ? "red" : "green"}`}}
+                                name="newLocationName"
+                                ref={register({required: true, minLength: 3, validate:data => !existLocations.includes(data)})}
                                 type="text"
                                 placeholder="Új helyszín"
                                 value={locationName}
-                                onChange={updateLocationName}/>
+                                onChange={(e) => {
+                                    checkLocation(e.target.value)
+                                    setLocationName(e.target.value)
+                                }
+                                }/>
                         </Form.Group>
-                        <Button variant="primary" type="submit" onClick={() => {
-                            setIsAdded(true);
-                            console.log("isAdded: " + isAdded);
-                            handleClose();
-                        }} id="addLocationSubmit">
+                        {errors.newLocationName && errors.newLocationName.type === "required" && <p className="error">Ezt ki kell tölteni!!!</p>}
+                        {errors.newLocationName && errors.newLocationName.type === "minLength" && <p className="error">Minimum 3 betűsnek kell lenni</p>}
+                        {errors.newLocationName && errors.newLocationName.type === "validate" && <p className="error">Ilyen már van</p>}
+                        <Button variant={inputIsInvalid ? "danger" : "success"} type="submit" id="addLocationSubmit">
                             Add location
                         </Button>
                     </Form>

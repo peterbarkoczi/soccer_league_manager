@@ -1,11 +1,10 @@
 import React, {lazy, Suspense, useContext, useEffect, useState} from "react";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import {Link} from "react-router-dom";
-import {ListGroup} from "react-bootstrap";
-import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
+import {Button, ListGroup} from "react-bootstrap";
 import AddLocationModal from "../../modals/AddLocationModal";
 import axios from "axios";
+import {hasRole} from "../../util/Auth";
 
 function usePrefetch(factory) {
     const [component, setComponent] = useState(null);
@@ -25,9 +24,10 @@ function Location() {
         setIsSelected,
         showLocationDiv, setShowLocationDiv,
         locationIsDeleted, setLocationIsDeleted,
-        isShown, setIsShown
+        isShown, setIsShown,
+        refresh, setRefresh
     } = useContext(DataPackContext);
-    const [location, setLocation] = useState([]);
+    const [locations, setLocations] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
     const [selectedId, setSelectedId] = useState(0);
@@ -41,10 +41,11 @@ function Location() {
             setSelectedId(0)
             try {
                 axios.get("http://localhost:8080/location/list", {cancelToken: source.token})
-                    .then(response => setLocation(response.data))
+                    .then(response => setLocations(response.data))
                     .then(() => setIsLoading(false))
                     .then(() => setLocationIsDeleted(false))
-                    .then(() => setSelectedId(0));
+                    .then(() => setSelectedId(0))
+                    .then(() => setRefresh(false));
             } catch (error) {
                 if (axios.isCancel(error)) {
                     console.log("cancelled");
@@ -58,53 +59,42 @@ function Location() {
         return () => {
             source.cancel()
         }
-    }, [locationIsDeleted]);
+    }, [locationIsDeleted, refresh]);
 
     const LocationDiv = () => (
         <div className="locations">
+            {hasRole(["admin"]) &&
             <div id="addLocation">
-                <AddLocationModal/>
+                <AddLocationModal locations={locations}/>
             </div>
-            <h1 id="locationName" className="subPageTitle">Helyszín:</h1>
-            <div id="locationList" className="itemList">
-                <ListGroup className="list">
-                    {location.map(location => (
-                        <ListGroup.Item className="location" key={location.name}>
-                            <Link to={{
-                                pathname: `${location.name.split(" ").join("_")}/bajnoksag`,
-                            }} onClick={() => {
-                                setShowLocationDiv(false);
-                                setIsSelected(true);
-                            }} className="locationLink">{location.name}</Link>
-                            {'   '}
-                            {/*<Button id={"delete-" + location.name} className="deleteLocationButton" variant="warning"*/}
-                            {/*        onClick={() => {*/}
-                            {/*            setIsShown(true);*/}
-                            {/*            setSelectedId(location.id)*/}
-                            {/*        }}>*/}
-                            {/*    Törlés*/}
-                            {/*</Button>*/}
-                            <Button
-                                id={"delete-" + location.name}
-                                className="deleteLocationButton"
-                                variant="contained"
-                                color="secondary"
-                                startIcon={<DeleteIcon />}
+            }
+            <h1 id="locationName">Helyszín:</h1>
+            <ListGroup className="list" id="locationList">
+                {locations.map(location => (
+                    <ListGroup.Item className="location" key={location.name}>
+                        <Link to={{
+                            pathname: `${location.name.split(" ").join("_")}/bajnoksag`,
+                        }} onClick={() => {
+                            setShowLocationDiv(false);
+                            setIsSelected(true);
+                        }} className="locationLink">{location.name}</Link>
+                        {'   '}
+                        {hasRole(["admin"]) &&
+                        <Button id={"delete-" + location.name} className="deleteLocationButton" variant="warning"
                                 onClick={() => {
                                     setIsShown(true);
                                     setSelectedId(location.id)
-                                }}
-                            >
-                                Törlés
-                            </Button>
-                            <Suspense fallback={<h1>Loading...</h1>}>
-                                {isShown && selectedId === location.id &&
-                                <DeleteModal id={selectedId} name={location.name} url="location"/>}
-                            </Suspense>
-                        </ListGroup.Item>))
-                    }
-                </ListGroup>
-            </div>
+                                }}>
+                            Törlés
+                        </Button>
+                        }
+                        <Suspense fallback={<h1>Loading...</h1>}>
+                            {isShown && selectedId === location.id &&
+                            <DeleteModal id={selectedId} name={location.name} url="location"/>}
+                        </Suspense>
+                    </ListGroup.Item>))
+                }
+            </ListGroup>
         </div>
     )
 

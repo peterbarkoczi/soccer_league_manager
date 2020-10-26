@@ -1,10 +1,9 @@
-.App {
-    background-image: url('../src/soccerManagerBackground2.jpg');
-    /*height: 100vh;*/
-    /*background-position: center;*/
-    /*background-repeat: no-repeat;*/
+body {
+    background-image: url("../src/greenSoccer.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
-    background-attachment: fixed;
+    height: 100%;
 }
 
 a {
@@ -24,35 +23,16 @@ a:hover {
 }
 
 #cupName {
-    color: ghostwhite;
     text-align: center;
     padding: 1%;
 }
 
-.matchTable th, .matchTable td {
+.matchTable th, td {
     text-align: center;
-    color: whitesmoke;
-}
-
-.matchTable th {
-    background: #111111;
-    font-size: 1.5em;
-}
-
-.matchTable td {
-    background-image: url("soccerManagerTableBackground.jpg");
-    font-size: 1.1em;
-}
-
-#groupMatches, #semiFinalMatches, #finalMatches {
-    margin-left: 5%;
-    margin-right: 5%;
-    height: 100%;
-    width: 90%;
 }
 
 .teamCell {
-    width: 33%;
+    width: 38%;
 }
 
 .scoreCell {
@@ -68,18 +48,15 @@ a:hover {
 }
 
 .matchTypeTitle {
-    color: whitesmoke;
-    background: darkgreen;
     text-align: center;
-}
-
-.matchTypeTitle:hover {
-    cursor: pointer;
+    padding: 2%;
 }
 
 .cardImage {
     cursor: pointer;
 }
+
+/* Player table */
 
 .playerIndexCell {
     width: 5%;
@@ -100,6 +77,42 @@ a:hover {
 #playersTable th {
     text-align: center;
 }
+/*------------------*/
+
+/* Admin page table */
+
+#adminPageTable {
+    background-image: url("../src/soccerManagerTableBackground.jpg");
+    margin: 2% 15%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 2), 10px 6px 20px 0 rgba(0, 0, 0, 5);
+    border-radius: 15px;
+    opacity: 0.9;
+}
+
+#adminPageTable h1, th, td {
+    border: greenyellow;
+    color: white;
+    text-align: center;
+    margin: 3% 0;
+}
+
+.adminPageIndex {
+    width: 5%;
+}
+
+.adminPageUsername {
+    width: 20%;
+}
+
+.adminPageRole {
+    width: 20%;
+}
+
+.adminPageTeam {
+    width: 20%;
+}
+
+/*------------------*/
 
 #cupGroupTables {
     overflow: auto;
@@ -121,4 +134,8 @@ a:hover {
     text-align: center;
     display: flex;
     justify-content: center;
+}
+
+.error {
+    color: red;
 }

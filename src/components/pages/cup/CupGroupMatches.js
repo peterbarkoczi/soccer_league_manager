@@ -13,11 +13,7 @@ const CupGroupMatches = () => {
         setGroupMatchesFinished
     } = useContext(CupContext)
 
-    const {
-        matchIsFinished,
-        scoreIsAdded,
-        cardIsAdded,
-    } = useContext(MatchContext);
+    const {matchIsFinished} = useContext(MatchContext);
 
     const {locationName, cupName} = useParams();
 
@@ -48,7 +44,7 @@ const CupGroupMatches = () => {
                 checkFinish(matches);
                 setMatches(matches);
             })
-    }, [matchIsFinished, scoreIsAdded, cardIsAdded])
+    }, [matchIsFinished])
 
     const setMatchType = (matchType) => {
         if (matchType.includes("group1")) {
