@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import axios from "axios";
 import {useHistory} from "react-router-dom";
 
-const SignUp = () => {
+const SignIn = () => {
 
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -31,16 +31,19 @@ const SignUp = () => {
                 username: username,
                 password: password
             }).then((response) => {
-                console.log(response);
                 localStorage.setItem("user", JSON.stringify(response.data));
                 setResult("Sikeres bejelentkezés");
-                resetFields();
                 history.push("/");
-            }).then(() => setIsAdded(false))
-                .catch((err) => {
+            }).catch((err) => {
                     setResult(err.response.data);
                 })
         }
+
+        return () => {
+            resetFields();
+            setIsAdded(false);
+        }
+
     }, [isAdded])
 
     return (
@@ -98,4 +101,4 @@ const SignUp = () => {
 
 }
 
-export default SignUp;
+export default SignIn;
