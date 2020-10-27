@@ -40,7 +40,7 @@ function AddScorer(props) {
 
     return (
         <>
-            <Button variant="success" onClick={handleShow} disabled={props.isFinished}>
+            <Button variant="light" onClick={handleShow} disabled={props.isFinished}>
                 +
             </Button>
 

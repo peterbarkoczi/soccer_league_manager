@@ -1,8 +1,10 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Link, useLocation, useHistory} from "react-router-dom";
-import styled from "styled-components";
-import background from "../red-soccer-bg2.jpg"
+import styled, {createGlobalStyle}  from "styled-components";
+// import background from "../red-soccer-bg2.jpg"
+import background3 from "../greenSoccer.jpg";
 import background2 from "../soccerManagerTableBackground.jpg";
+import background from "../stadium.jpg"
 import {DataPackContext} from "./contexts/DataPackContext";
 import {Button, ButtonGroup} from "react-bootstrap";
 import {hasRole} from "./util/Auth";
@@ -13,10 +15,9 @@ const HeaderStyle = styled.div`
    .header {
      width: 98%;
      background-image: url(${background2});
-     //background-color: red;
      margin: 2% auto;
      padding: 0.2%;
-     border-radius: 70px;
+     border-radius: 20px;
      opacity: 0.9;
    }
    
@@ -61,9 +62,39 @@ const HeaderStyle = styled.div`
       margin-top: 1%;
     }
     
+   .loggedInButtons {
+      float: right;
+      vertical-align: middle;
+      margin-right: 1%;  
+   }
+   
+   #logout, #adminPage {
+      //padding-right: 20%;
+      margin: 5%
+      //opacity: 0.8;
+   }
 `;
 
-function Header() {
+// const GlobalStyle = createGlobalStyle`
+//    body {
+//       background-image: url(${background});
+//    }
+// `;
+
+const Header = () => {
+
+    const setBodyBackground = (path) => {
+        if (["signup", "signIn", "users"].some(pathName => path.includes(pathName))) {
+            return background3;
+        }
+        return background;
+    }
+
+    const GlobalStyle = createGlobalStyle`
+      body {
+        background-image: url(${props => setBodyBackground(props.path)});
+      }
+    `;
 
     const {setShowLocationDiv} = useContext(DataPackContext);
 
@@ -121,6 +152,7 @@ function Header() {
 
     return (
         <HeaderStyle>
+            <GlobalStyle path={location.pathname}/>
             <div className="header">
                 {localStorage.getItem("user") === null ?
                     <div className="login">
@@ -131,15 +163,15 @@ function Header() {
                             <Button variant="secondary" id="signUpButton">Regisztráció</Button>
                         </Link>
                     </div> :
-                    <div>
+                    <div className="loggedInButtons">
                         <div id="logout">
-                            <Button variant="secondary" id="logoutButton" onClick={() => logout()}>Kijelentkezés</Button>
+                            <Button variant="success" id="logoutButton" onClick={() => logout()}>Kijelentkezés</Button>
                         </div>
                         {'  '}
                         {hasRole(["admin"]) &&
-                        <div>
+                        <div id="adminPage">
                             <Link to="/users">
-                                <Button variant="secondary" id="adminPageButton">Admin oldal</Button>
+                                <Button variant="success" id="adminPageButton">Felhasználók</Button>
                             </Link>
                         </div>}
                     </div>
