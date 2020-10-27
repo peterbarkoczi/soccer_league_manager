@@ -43,7 +43,7 @@ function AddLocationModal(props) {
 
     useEffect(() => {
         if (isAdded) {
-            axios.post('http://localhost:8080/location/add_location', {
+            axios.post(`${process.env.REACT_APP_API_URL}/location/add_location`, {
                 name: locationName
             })
                 .then(response => console.log("location added" + response))

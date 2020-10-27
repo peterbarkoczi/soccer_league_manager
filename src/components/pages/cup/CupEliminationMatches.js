@@ -31,7 +31,7 @@ const CupEliminationMatches = () => {
             }
             if (isFinishedAll && type !== "qualifier-1/4") {
                 let matches = list;
-                axios.get(`http://localhost:8080/match/create_qualifiers_next_round?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=${type}`)
+                axios.get(`${process.env.REACT_APP_API_URL}/match/create_qualifiers_next_round?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=${type}`)
                     .then(response => {
                         if (response.data !== "") {
                             setQualifierMatches(matches.concat(response.data))
@@ -43,7 +43,7 @@ const CupEliminationMatches = () => {
 
     useEffect(() => {
         if (cupName !== "") {
-            axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=qualifier`)
+            axios.get(`${process.env.REACT_APP_API_URL}/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=qualifier`)
                 .then((response) => setQualifierMatches(response.data))
         }
     }, [matchIsFinished]);

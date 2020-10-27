@@ -30,13 +30,13 @@ function CreateLeagueModal() {
     const {locationName} = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/teams?locationName=${locationName.split("_").join(" ")}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/teams?locationName=${locationName.split("_").join(" ")}`)
             .then(response => setTeams(response.data))
     }, []);
 
     useEffect(() => {
         if (isAdded) {
-            axios.post('http://localhost:8080/league/create_league', {
+            axios.post(`${process.env.REACT_APP_API_URL}/league/create_league`, {
                 name: leagueName,
                 teams: teamList,
                 date: date,

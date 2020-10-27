@@ -61,7 +61,7 @@ const SignUp = () => {
 
     useEffect(() => {
         const source = axios.CancelToken.source();
-        axios.get(`http://localhost:8080/auth/getUsers`, {cancelToken:source.token})
+        axios.get(`${process.env.REACT_APP_API_URL}/auth/getUsers`, {cancelToken:source.token})
             .then(response => getUsernames(response.data));
 
         return () => {
@@ -72,7 +72,7 @@ const SignUp = () => {
     useEffect(() => {
         const source = axios.CancelToken.source();
         if (isAdded) {
-            axios.post(`http://localhost:8080/auth/signup`, {
+            axios.post(`${process.env.REACT_APP_API_URL}/auth/signup`, {
                 username: username,
                 password: password,
                 role: "user"

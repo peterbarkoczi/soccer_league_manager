@@ -28,8 +28,8 @@ const AdminUsersPage = () => {
     const [selectedId, setSelectedId] = useState(0);
     const {isShown, setIsShown, userIsDeleted} = useContext(DataPackContext);
 
-    const getUsers = axios.get(`http://127.0.0.1:8080/auth/getUsers`)
-    const getTeams = axios.get(`http://127.0.0.1:8080/teams/all`)
+    const getUsers = axios.get(`${process.env.REACT_APP_API_URL}/auth/getUsers`)
+    const getTeams = axios.get(`${process.env.REACT_APP_API_URL}/teams/all`)
 
     useEffect(() => {
         axios.all([getUsers, getTeams])
@@ -46,7 +46,7 @@ const AdminUsersPage = () => {
         tempUser.role = user.role;
         tempUser.teamId = user.teamId;
         tempUser[field] = value
-        await axios.patch(`http://127.0.0.1:8080/update_user/${userId}`,
+        await axios.patch(`${process.env.REACT_APP_API_URL}/update_user/${userId}`,
             tempUser)
             .then(() => {
                 reset();

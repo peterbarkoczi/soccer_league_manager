@@ -23,7 +23,7 @@ const CupSemiFinals = () => {
 
     useEffect(() => {
         if (cupName !== "") {
-            axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=semiFinal`)
+            axios.get(`${process.env.REACT_APP_API_URL}/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=semiFinal`)
                 .then(response => setSemiFinalMatches(response.data));
         }
     }, [cupName, matchIsFinished, sfIsReady])
@@ -38,12 +38,12 @@ const CupSemiFinals = () => {
                 }
             }
             if (counter === 4 && semiFinalMatches.length === 0) {
-                axios.get(`http://localhost:8080/match/create_semi_finals?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=semiFinal`)
+                axios.get(`${process.env.REACT_APP_API_URL}/match/create_semi_finals?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=semiFinal`)
                     .then(() => setSfIsReady(true))
                     .then(() => setSemiFinalsFinished(true));
             }
         } else if (groupMatchesFinished) {
-            axios.get(`http://localhost:8080/match/create_semi_finals?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=semiFinal`)
+            axios.get(`${process.env.REACT_APP_API_URL}/match/create_semi_finals?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=semiFinal`)
                 .then(() => setSfIsReady(true))
                 .then(() => setSemiFinalsFinished(true));
         }

@@ -20,7 +20,7 @@ const CupFinals = () => {
 
     useEffect(() => {
         if (cupName !== "") {
-            axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=final`)
+            axios.get(`${process.env.REACT_APP_API_URL}/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=final`)
                 .then(response => setFinalMatches(response.data));
         }
     }, [cupName, matchIsFinished, finalIsReady])
@@ -34,7 +34,7 @@ const CupFinals = () => {
                 }
             }
             if (counter === semiFinalMatches.length && finalMatches.length === 0) {
-                axios.get(`http://localhost:8080/match/create_semi_finals?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=final`)
+                axios.get(`${process.env.REACT_APP_API_URL}/match/create_semi_finals?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=final`)
                     .then(() => setFinalIsReady(true));
             }
         }

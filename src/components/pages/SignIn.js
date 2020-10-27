@@ -27,7 +27,7 @@ const SignIn = () => {
 
     useEffect(() => {
         if (isAdded) {
-            axios.post(`http://localhost:8080/auth/signin`, {
+            axios.post(`${process.env.REACT_APP_API_URL}/auth/signin`, {
                 username: username,
                 password: password
             }).then((response) => {

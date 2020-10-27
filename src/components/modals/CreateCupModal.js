@@ -37,7 +37,7 @@ function CreateCupModal(props) {
     useEffect(() => {
         const source = axios.CancelToken.source();
 
-        axios.get(`http://localhost:8080/teams?locationName=${props.locationName.split("_").join(" ")}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/teams?locationName=${props.locationName.split("_").join(" ")}`)
             .then(response => setTeams(response.data))
 
         return () => {
@@ -48,7 +48,7 @@ function CreateCupModal(props) {
     useEffect(() => {
         const source = axios.CancelToken.source();
 
-        axios.get(`http://localhost:8080/cups/list?locationName=${props.locationName.split("_").join(" ")}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/cups/list?locationName=${props.locationName.split("_").join(" ")}`)
             .then((response) => {
                 let cupNames = [];
                 for (let cup of response.data) {
@@ -64,7 +64,7 @@ function CreateCupModal(props) {
 
     useEffect(() => {
         if (isAdded) {
-            axios.post('http://localhost:8080/cups/create_cup', {
+            axios.post('${process.env.REACT_APP_API_URL}/cups/create_cup', {
                 name: cupName,
                 teamList: teamList,
                 date: date,

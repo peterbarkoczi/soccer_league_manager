@@ -42,13 +42,13 @@ const TeamDetails = () => {
     const setPath = () => {
         if (location.pathname.includes("bajnoksag")) {
             setIsLeague(true);
-            return `http://localhost:8080/player/get_players_and_stats_by_team/${
+            return `${process.env.REACT_APP_API_URL}/player/get_players_and_stats_by_team/${
                 team.split("_").join(" ")}?locationName=${
                 locationName.split("_").join(" ")}&leagueName=${
                 league.split("_").join(" ")}`
         } else {
             setIsLeague(false);
-            return `http://localhost:8080/player/get_players_by_team/${
+            return `${process.env.REACT_APP_API_URL}/player/get_players_by_team/${
                 team.split("_").join(" ")}?locationName=${
                 locationName.split("_").join(" ")}`
         }
@@ -61,7 +61,7 @@ const TeamDetails = () => {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/teams/get_teamId?locationName=${locationName.split("_").join(" ")}&teamName=${team.split("_").join(" ")}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/teams/get_teamId?locationName=${locationName.split("_").join(" ")}&teamName=${team.split("_").join(" ")}`)
             .then((response) => setTeamId(response.data));
     }, [])
 

@@ -16,7 +16,7 @@ const LeagueMatches = () => {
         const source = axios.CancelToken.source();
 
         setIsLoading(true);
-        axios.get(`http://localhost:8080/match/get_league_matches?locationName=${locationName.split("_").join(" ")}&leagueName=${league.split("_").join(" ")}`,
+        axios.get(`${process.env.REACT_APP_API_URL}/match/get_league_matches?locationName=${locationName.split("_").join(" ")}&leagueName=${league.split("_").join(" ")}`,
             {cancelToken: source.token})
             .then((response) => setMatches(response.data))
             .then(() => setIsLoading(false));
