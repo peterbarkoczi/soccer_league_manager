@@ -16,7 +16,7 @@ function AddTeamModal(props) {
 
     useEffect(() => {
         if (isAdded) {
-            axios.post('http://localhost:8080/teams/add_team', {
+            axios.post(`${process.env.REACT_APP_API_URL}/teams/add_team`, {
                 teamName: teamName,
                 locationName: props.locationName.split("_").join(" ")
             })

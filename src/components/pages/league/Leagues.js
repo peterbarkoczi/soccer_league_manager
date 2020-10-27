@@ -40,7 +40,7 @@ const Leagues = () => {
 
         const loadData = () => {
             try {
-                axios.get(`http://localhost:8080/league/get_league_list/${locationName.split("_").join(" ")}`,
+                axios.get(`${process.env.REACT_APP_API_URL}/league/get_league_list/${locationName.split("_").join(" ")}`,
                     {cancelToken: source.token})
                     .then(response => setLeagues(response.data))
                     .then(() => setIsLeagueAdded(false))

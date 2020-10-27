@@ -32,7 +32,7 @@ function Teams() {
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get(`http://localhost:8080/teams?locationName=${locationName.split("_").join(" ")}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/teams?locationName=${locationName.split("_").join(" ")}`)
             .then(response => setTeams(response.data))
             .then(() => setTeamIsDeleted(false))
             .then(() => setIsLoading(false))

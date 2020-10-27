@@ -32,7 +32,7 @@ const Cups = () => {
 
     useEffect(() => {
         setSelectedId(0);
-        axios.get(`http://localhost:8080/cups/list?locationName=${locationName.split("_").join(" ")}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/cups/list?locationName=${locationName.split("_").join(" ")}`)
             .then(response => setCups(response.data))
             .then(() => setIsDeleted(false))
             .then(() => setSelectedId(0));

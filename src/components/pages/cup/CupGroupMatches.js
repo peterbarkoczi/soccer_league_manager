@@ -24,8 +24,8 @@ const CupGroupMatches = () => {
     let g1 = [];
     let g2 = [];
 
-    const requestGetGroup1Stat = axios.get(`http://localhost:8080/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&leagueId=&group=group1`);
-    const requestGetGroup2Stat = axios.get(`http://localhost:8080/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&leagueId=&group=group2`);
+    const requestGetGroup1Stat = axios.get(`${process.env.REACT_APP_API_URL}/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&leagueId=&group=group1`);
+    const requestGetGroup2Stat = axios.get(`${process.env.REACT_APP_API_URL}/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&leagueId=&group=group2`);
 
     useEffect(() => {
         axios.all([requestGetGroup1Stat, requestGetGroup2Stat])
@@ -38,7 +38,7 @@ const CupGroupMatches = () => {
     }, [matchIsFinished])
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=group`)
+        axios.get(`${process.env.REACT_APP_API_URL}/match/get_matches?locationName=${locationName.split("_").join(" ")}&cupName=${cupName.split("_").join(" ")}&matchType=group`)
             .then((response) => {
                 let matches = response.data;
                 checkFinish(matches);

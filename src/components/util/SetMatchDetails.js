@@ -13,7 +13,7 @@ function AddScorer(props) {
         if (isAdded) {
             props.updateScore((Number(props.score) + 1).toString());
             let currentScore = setData();
-            axios.patch("http://localhost:8080/match/update_score",
+            axios.patch(`${process.env.REACT_APP_API_URL}/match/update_score`,
                 currentScore
             )
                 .then(() => setIsAdded(false))
@@ -81,7 +81,7 @@ function AddCard(props) {
     useEffect(() => {
         if (isAdded) {
             let tempCard = setData();
-            axios.patch("http://localhost:8080/match/update_card",
+            axios.patch(`${process.env.REACT_APP_API_URL}/match/update_card`,
                 tempCard
             )
                 .then(() => setIsAdded(false))

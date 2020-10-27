@@ -21,7 +21,7 @@ const LeagueDetails = () => {
     useEffect(() => {
         setIsSelected(true);
         setIsLoading(true);
-        axios.get(`http://localhost:8080/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=&leagueName=${league.split("_").join(" ")}&matchType=`)
+        axios.get(`${process.env.REACT_APP_API_URL}/match/getGroupStat?locationName=${locationName.split("_").join(" ")}&cupName=&leagueName=${league.split("_").join(" ")}&matchType=`)
             .then(response => setTeams(response.data))
             .then(() => setIsLoading(false));
     }, [matchIsFinished])

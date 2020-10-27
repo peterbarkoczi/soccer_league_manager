@@ -12,7 +12,7 @@ const CupDetails = () => {
     const {cupName} = useParams();
 
     useEffect(() => {
-        axios.get(`http://localhost:8080/cups/get_cup_by_name?cupName=${cupName.split("_").join(" ")}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/cups/get_cup_by_name?cupName=${cupName.split("_").join(" ")}`)
             .then((response) => {
                 setCup(response.data);
             })

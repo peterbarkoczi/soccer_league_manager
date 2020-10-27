@@ -52,7 +52,7 @@ function Location() {
         const loadData = () => {
             setSelectedId(0)
             try {
-                axios.get("http://localhost:8080/location/list", {cancelToken: source.token})
+                axios.get(`${process.env.REACT_APP_API_URL}/location/list`, {cancelToken: source.token})
                     .then(response => setLocations(response.data))
                     .then(() => setIsLoading(false))
                     .then(() => setLocationIsDeleted(false))
