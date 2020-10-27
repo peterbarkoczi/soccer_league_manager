@@ -23,7 +23,7 @@ function DeleteModal(props) {
     const [message, setMessage] = useState("");
 
     const deleteItem = () => {
-        axios.delete(`http://127.0.0.1:8080/${props.url}/${Number(props.id)}`)
+        axios.delete(`${process.env.REACT_APP_API_URL}/${props.url}/${Number(props.id)}`)
             .then((response) => {
                 console.log(response.data);
                 setDefaultValues();
