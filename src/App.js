@@ -26,7 +26,7 @@ axios.interceptors.request.use(req => {
     return req;
 }, error => {return Promise.reject(error)})
 
-function App() {
+const App = () => {
     return (
         <DataPackProvider>
             <CupProvider>

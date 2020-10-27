@@ -74,7 +74,7 @@ const AdminUsersPage = () => {
 
     return (
         <div id="adminPageTable">
-            <h1>Admin Page</h1>
+            <h1 style={{textDecoration:"underline"}}>REGISZTRÁLT FELHASZNÁLÓK</h1>
             <Table striped borderless responsive="md" hover size="sm">
                 <colgroup>
                     <col className="adminPageIndex"/>
