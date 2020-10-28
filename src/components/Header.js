@@ -124,6 +124,9 @@ const Header = () => {
         if (location.pathname === "/signIn" || location.pathname === "/signup" || location.pathname === "/users") return null;
         return (
             <ButtonGroup className="menu" id="headerNavMenu">
+                <Link to={`/${path}/news`}>
+                    <Button variant="danger" size="lg" id="navButtonLeagues">Hírek</Button>
+                </Link>
                 <Link to={`/${path}/bajnoksag`}>
                     <Button variant="danger" size="lg" id="navButtonLeagues">Bajnokság</Button>
                 </Link>
@@ -132,6 +135,9 @@ const Header = () => {
                 </Link>
                 <Link to={`/${path}/csapatok`}>
                     <Button variant="danger" size="lg" id="navButtonTeams">Csapatok</Button>
+                </Link>
+                <Link to={`/${path}/contact`}>
+                    <Button variant="danger" size="lg" id="navButtonLeagues">Kapcsolat</Button>
                 </Link>
             </ButtonGroup>
         )
