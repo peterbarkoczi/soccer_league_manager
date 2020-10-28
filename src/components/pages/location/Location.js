@@ -22,7 +22,7 @@ const LocationStyle = styled.div`
     // }
 `
 
-function usePrefetch(factory) {
+const usePrefetch = (factory) => {
     const [component, setComponent] = useState(null);
 
     useEffect(() => {
@@ -35,7 +35,7 @@ function usePrefetch(factory) {
 
 const importModal = () => import("../../modals/DeleteModal");
 
-function Location() {
+const Location = () => {
     const {
         setIsSelected,
         showLocationDiv, setShowLocationDiv,
