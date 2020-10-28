@@ -6,19 +6,61 @@ import AddLocationModal from "../../modals/AddLocationModal";
 import axios from "axios";
 import {hasRole} from "../../util/Auth";
 import styled from "styled-components";
-import background from "../../../stadium.jpg"
+
+import TableBackground from "../../../soccerManagerTableBackground.jpg";
+
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const LocationStyle = styled.div`
-    // .App {
-    //     background-image: url(${background});
-    // }
-    //
-    // .locations {
-    //     background-image: url(${background});
-    // }
+    h1 {
+        background-image: url(${TableBackground});
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        color: ghostwhite;
+        text-align: center;
+        margin: auto;
+        width: 50%;
+        font-size: 2.5em;
+    }
+    
+    #addLocation {
+        float: right;
+        //width: 50%;
+    }
+    
+    #addLocationButton {
+        border-radius: 0 0 20px 20px;
+        background-image: url(${TableBackground});
+        border: none;
+    }
+    
+    .locations {
+        width: 40%;
+        margin: 5% auto auto;
+    }
+    
+    #locationList {
+        border-radius: 20px 20px 0 20px;
+    }
+    
+    #locationItem {
+        background-image: url(${TableBackground});
+        border: none;
+    }
+    
+    #locationItem a {
+        color: white;
+        font-size: 1.7em;
+    }
+    
+    #locationItem Button {
+        font-size: 1.1em;
+    }
+    
 `
 
-function usePrefetch(factory) {
+const usePrefetch = (factory) => {
     const [component, setComponent] = useState(null);
 
     useEffect(() => {
@@ -31,7 +73,7 @@ function usePrefetch(factory) {
 
 const importModal = () => import("../../modals/DeleteModal");
 
-function Location() {
+const Location = () => {
     const {
         setIsSelected,
         showLocationDiv, setShowLocationDiv,
@@ -76,15 +118,10 @@ function Location() {
     const LocationDiv = () => (
         <LocationStyle>
             <div className="locations">
-                {hasRole(["admin"]) &&
-                <div id="addLocation">
-                    <AddLocationModal locations={locations}/>
-                </div>
-                }
-                <h1 id="locationName">Helyszín:</h1>
+                <h1 id="locationName">HELYSZÍNEK:</h1>
                 <ListGroup className="list" id="locationList">
                     {locations.map(location => (
-                        <ListGroup.Item className="location" key={location.name}>
+                        <ListGroup.Item id="locationItem" key={location.name}>
                             <Link to={{
                                 pathname: `${location.name.split(" ").join("_")}/bajnoksag`,
                             }} onClick={() => {
@@ -93,13 +130,15 @@ function Location() {
                             }} className="locationLink">{location.name}</Link>
                             {'   '}
                             {hasRole(["admin"]) &&
-                            <Button id={"delete-" + location.name} className="deleteLocationButton" variant="warning"
-                                    onClick={() => {
-                                        setIsShown(true);
-                                        setSelectedId(location.id)
-                                    }}>
-                                Törlés
-                            </Button>
+                            <IconButton
+                                id={"delete-" + location.name}
+                                className="deleteLocationButton" edge="end" aria-label="delete"
+                                onClick={() => {
+                                setIsShown(true);
+                                setSelectedId(location.id)
+                            }} style={{color: "yellow"}}>
+                                <DeleteIcon />
+                            </IconButton>
                             }
                             <Suspense fallback={<h1>Loading...</h1>}>
                                 {isShown && selectedId === location.id &&
@@ -108,6 +147,11 @@ function Location() {
                         </ListGroup.Item>))
                     }
                 </ListGroup>
+                {hasRole(["admin"]) &&
+                <div id="addLocation">
+                    <AddLocationModal locations={locations}/>
+                </div>
+                }
             </div>
         </LocationStyle>
     )

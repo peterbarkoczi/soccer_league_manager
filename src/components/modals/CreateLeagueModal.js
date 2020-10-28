@@ -102,7 +102,7 @@ function CreateLeagueModal() {
 
     return (
         <>
-            <Button variant="danger" onClick={handleShow} id="addLeagueButton">
+            <Button variant="danger" onClick={handleShow} className="addButton" id="addLeagueButton">
                 Új bajnokság hozzáadása
             </Button>
 

@@ -32,7 +32,7 @@ function AddTeamModal(props) {
 
     return (
         <>
-            <Button variant="danger" onClick={handleShow} id="addTeamButton">
+            <Button variant="danger" onClick={handleShow} className="addButton" id="addTeamButton">
                 Új csapat hozzáadása
             </Button>
 

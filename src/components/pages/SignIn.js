@@ -47,10 +47,10 @@ const SignIn = () => {
     }, [isAdded])
 
     return (
-        <div>
+        <div className="signContainer">
+            <h1>Bejelentkezés</h1>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group controlId="signInUsername">
-                    <h1>Bejelentkezés</h1>
                     {result !== "" ? <h3>{result}</h3> : null}
                     <Form.Label>Felhasználónév</Form.Label>
                     <Form.Control
@@ -64,11 +64,11 @@ const SignIn = () => {
                             setUsername(e.target.value)
                         }
                         }/>
+                    {errors.signupUsername && errors.signupUsername.type === "required" &&
+                    <p className="error">Ezt ki kell tölteni!!!</p>}
+                    {errors.signupUsername && errors.signupUsername.type === "minLength" &&
+                    <p className="error">Minimum 3 betűsnek kell lenni</p>}
                 </Form.Group>
-                {errors.signupUsername && errors.signupUsername.type === "required" &&
-                <p className="error">Ezt ki kell tölteni!!!</p>}
-                {errors.signupUsername && errors.signupUsername.type === "minLength" &&
-                <p className="error">Minimum 3 betűsnek kell lenni</p>}
                 <Form.Group controlId="signInPassword">
                     <Form.Label>Jelszó</Form.Label>
                     <Form.Control
@@ -82,19 +82,21 @@ const SignIn = () => {
                             setPassword(e.target.value)
                         }
                         }/>
+                    {errors.signupPassword && errors.signupPassword.type === "required" &&
+                    <p className="error">Ezt ki kell tölteni!!!</p>}
+                    {errors.signupPassword && errors.signupPassword.type === "minLength" &&
+                    <p className="error">Minimum 3 betűsnek kell lenni</p>}
                 </Form.Group>
-                {errors.signupPassword && errors.signupPassword.type === "required" &&
-                <p className="error">Ezt ki kell tölteni!!!</p>}
-                {errors.signupPassword && errors.signupPassword.type === "minLength" &&
-                <p className="error">Minimum 3 betűsnek kell lenni</p>}
-                <Button variant="success"
-                        type="submit"
-                        id="signInUserSubmit">
-                    Bejelentkezés
-                </Button>
-                <Button variant="dark" onClick={resetFields}>
-                    Adatok törlése
-                </Button>
+                <Form.Group className="signActionButtons">
+                    <Button variant="success"
+                            type="submit"
+                            id="signInUserSubmit">
+                        Bejelentkezés
+                    </Button>
+                    <Button variant="dark" onClick={resetFields}>
+                        Adatok törlése
+                    </Button>
+                </Form.Group>
             </Form>
         </div>
     )

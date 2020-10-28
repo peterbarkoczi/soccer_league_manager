@@ -6,6 +6,8 @@ import {DataPackContext} from "../../contexts/DataPackContext";
 import {CupContext} from "../../contexts/CupContext";
 import axios from "axios";
 import {hasRole} from "../../util/Auth";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 function usePrefetch(factory) {
     const [component, setComponent] = useState(null);
@@ -39,26 +41,35 @@ const Cups = () => {
     }, [isDeleted]);
 
     return (
-        <div className="cups">
+        <div className="contentList" id="cups">
             <h1 id="cupsTitle">Kupák</h1>
             {hasRole(["admin"]) &&
             <CreateCupModal locationName={locationName}/>
             }
             <ListGroup id="cupsList">
                 {cups.map(cup => (
-                    <ListGroup.Item key={cup.name}>
+                    <ListGroup.Item key={cup.name} className="contentListRow">
                         <Link to={{
                             pathname: `/${locationName}/kupak/${cup.name.split(" ").join("_")}`,
                         }} onClick={() => {
                             setCupId(cup.id)
-                        }}>{cup.name}</Link>
+                        }} className="cup">{cup.name}</Link>
                         {'   '}
                         {hasRole(["admin"]) &&
-                        <Button variant="warning" onClick={() => {
-                            setIsShown(true);
-                            setSelectedId(cup.id)}}>
-                            Törlés
-                        </Button>
+                        <IconButton
+                            id={"delete-" + cup.name}
+                            className="deleteLocationButton" edge="end" aria-label="delete"
+                            onClick={() => {
+                                setIsShown(true);
+                                setSelectedId(cup.id)
+                            }} style={{color: "yellow"}}>
+                            <DeleteIcon />
+                        </IconButton>
+                        // <Button variant="warning" onClick={() => {
+                        //     setIsShown(true);
+                        //     setSelectedId(cup.id)}}>
+                        //     Törlés
+                        // </Button>
                         }
                         <Suspense fallback={<h1>Loading...</h1>}>
                             {isShown && selectedId === cup.id && <DeleteModal id={selectedId} name={cup.name} url="cups"/>}
