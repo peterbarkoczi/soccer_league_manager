@@ -212,3 +212,12 @@ a:hover {
 #leaguesList, #cupsList, #teamList {
 
 }
+
+.leagueDetail {
+    margin-top: 5%;
+}
+
+#matchDetailsNavButtons {
+    color: white;
+    margin: auto;
+}
