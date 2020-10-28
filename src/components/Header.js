@@ -11,7 +11,6 @@ import {Button, ButtonGroup} from "react-bootstrap";
 import {hasRole} from "./util/Auth";
 
 const HeaderStyle = styled.div`
-   //display: flex;
    
    .header {
      width: 98vw;
@@ -33,7 +32,7 @@ const HeaderStyle = styled.div`
    
    .title h2 {
       color: whitesmoke;
-      font-size: 5em;
+      font-size: 4em;
       margin-top: 0;
       margin-bottom: 0;
       padding-left: 1%;
@@ -41,7 +40,7 @@ const HeaderStyle = styled.div`
    
    .title h3 {
       color: floralwhite;
-      font-size: 3em;
+      font-size: 2em;
       padding-left: 1%;
    }
    

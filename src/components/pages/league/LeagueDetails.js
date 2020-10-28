@@ -6,6 +6,22 @@ import LeagueTable from "./LeagueTable";
 import {MatchContext} from "../../contexts/MatchContext";
 import {useParams} from "react-router-dom";
 
+    #matchDetailsNavButtons {
+        width: fit-content;
+        display: flex;
+        justify-content: center;
+        background: white;
+        color: black;
+        margin-bottom: 2%;
+    }
+    
+    .leagueTitle {
+        color: white;
+        display: flex;
+        justify-content: center;
+    }
+
+`;
 
 const LeagueDetails = () => {
 

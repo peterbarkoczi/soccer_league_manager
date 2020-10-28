@@ -3,6 +3,25 @@ import {Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import {useParams} from "react-router-dom";
 
+import styled from "styled-components";
+
+const LeagueTableStyle = styled.div`
+
+    th {
+        font-size: 1.3em;
+    }
+
+    td {
+        font-size: 1.2em;
+    }
+    
+    #leagueDetailTable {
+        width: 90%;
+        margin: auto;
+    }
+
+`;
+
 const LeagueTable = (props) => {
 
     const {locationName, league} = useParams();
