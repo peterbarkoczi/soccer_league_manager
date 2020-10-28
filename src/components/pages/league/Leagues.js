@@ -61,8 +61,8 @@ const Leagues = () => {
     }, [isLeagueAdded, leagueIsDeleted])
 
     return (
-        <div className="leagues">
-            <div className="title">
+        <div className="contentList" id="leagues">
+            <div className="title" id="leagueTitleContainer">
                 <h1 id="leagueTitle">Bajnokság</h1>
             </div>
             {hasRole(["admin"]) &&
@@ -72,13 +72,11 @@ const Leagues = () => {
             }
             <ListGroup className="list" id="leaguesList">
                 {leagues.map(league => (
-                    <ListGroup.Item key={league.name}>
+                    <ListGroup.Item key={league.name} className="contentListRow">
                         <Link to={{
                             pathname: `${location.pathname}/${league.name.split(" ").join("_")}`,
                         }}
-                              className="league" key={league.name}>
-                            <ListGroup.Item variant="dark">{league.name}</ListGroup.Item>
-                        </Link>
+                              className="league" key={league.name}>{league.name}</Link>
                         {hasRole(["admin"]) &&
                         <Button variant="warning" onClick={() => {
                             setIsShown(true);

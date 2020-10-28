@@ -39,19 +39,19 @@ const Cups = () => {
     }, [isDeleted]);
 
     return (
-        <div className="cups">
+        <div className="contentList" id="cups">
             <h1 id="cupsTitle">Kupák</h1>
             {hasRole(["admin"]) &&
             <CreateCupModal locationName={locationName}/>
             }
             <ListGroup id="cupsList">
                 {cups.map(cup => (
-                    <ListGroup.Item key={cup.name}>
+                    <ListGroup.Item key={cup.name} className="contentListRow">
                         <Link to={{
                             pathname: `/${locationName}/kupak/${cup.name.split(" ").join("_")}`,
                         }} onClick={() => {
                             setCupId(cup.id)
-                        }}>{cup.name}</Link>
+                        }} className="cup">{cup.name}</Link>
                         {'   '}
                         {hasRole(["admin"]) &&
                         <Button variant="warning" onClick={() => {

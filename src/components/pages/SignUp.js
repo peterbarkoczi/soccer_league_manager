@@ -87,7 +87,7 @@ const SignUp = () => {
     }, [isAdded])
 
     return (
-        <div>
+        <div className="signContainer">
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group controlId="signupUsername">
                     <h1>Regisztráció</h1>

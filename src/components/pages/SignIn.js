@@ -47,7 +47,8 @@ const SignIn = () => {
     }, [isAdded])
 
     return (
-        <div>
+        <div className="signContainer">
+            <h1>Bejelentkezés</h1>
             <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group controlId="signInUsername">
                     <h1>Bejelentkezés</h1>

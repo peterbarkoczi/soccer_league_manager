@@ -42,7 +42,7 @@ function Teams() {
         return (<h1>Loading...</h1>)
     } else {
         return (
-            <div className="teams">
+            <div className="contentList" id="teams">
                 <h1 className="title" id="teamsTitle">
                     Csapatok
                 </h1>
@@ -51,13 +51,12 @@ function Teams() {
                     <AddTeamModal locationName={locationName}/>
                 </div>
                 }
-                <ListGroup variant="flush" className="list" id="teamsList">
+                <ListGroup variant="flush" className="list" id="teamList">
                     {teams.map((team, i) => (
-                        <ListGroup.Item className="team" key={i}>
+                        <ListGroup.Item className="contentListRow" key={i}>
                             <Link to={{
                                 pathname: `csapat/${team.name.split(" ").join("_")}`,
-                            }}
-                            >{team.name}</Link>
+                            }} className="team">{team.name}</Link>
                             {'   '}
                             {hasRole(["admin"]) &&
                             <Button variant="warning" onClick={() => {

@@ -76,15 +76,10 @@ function Location() {
     const LocationDiv = () => (
         <LocationStyle>
             <div className="locations">
-                {hasRole(["admin"]) &&
-                <div id="addLocation">
-                    <AddLocationModal locations={locations}/>
-                </div>
-                }
-                <h1 id="locationName">Helyszín:</h1>
+                <h1 id="locationName">HELYSZÍNEK:</h1>
                 <ListGroup className="list" id="locationList">
                     {locations.map(location => (
-                        <ListGroup.Item className="location" key={location.name}>
+                        <ListGroup.Item id="locationItem" key={location.name}>
                             <Link to={{
                                 pathname: `${location.name.split(" ").join("_")}/bajnoksag`,
                             }} onClick={() => {
