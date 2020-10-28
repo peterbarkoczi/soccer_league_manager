@@ -6,7 +6,10 @@ import axios from "axios";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import {hasRole} from "../../util/Auth";
 
-function usePrefetch(factory) {
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+const usePrefetch = (factory) => {
     const [component, setComponent] = useState(null);
 
     useEffect(() => {
@@ -64,12 +67,12 @@ const Leagues = () => {
         <div className="contentList" id="leagues">
             <div className="title" id="leagueTitleContainer">
                 <h1 id="leagueTitle">Bajnokság</h1>
+                {hasRole(["admin"]) &&
+                <div className="addLeague">
+                    <CreateLeagueModal/>
+                </div>
+                }
             </div>
-            {hasRole(["admin"]) &&
-            <div className="addLeague">
-                <CreateLeagueModal/>
-            </div>
-            }
             <ListGroup className="list" id="leaguesList">
                 {leagues.map(league => (
                     <ListGroup.Item key={league.name} className="contentListRow">
@@ -78,18 +81,20 @@ const Leagues = () => {
                         }}
                               className="league" key={league.name}>{league.name}</Link>
                         {hasRole(["admin"]) &&
-                        <Button variant="warning" onClick={() => {
-                            setIsShown(true);
-                            setSelectedId(league.id)
-                        }}>
-                            Törlés
-                        </Button>
+                        <IconButton
+                            id={"delete-" + league.name}
+                            className="deleteLeagueButton" edge="end" aria-label="delete"
+                            onClick={() => {
+                                setIsShown(true);
+                                setSelectedId(league.id)
+                            }} style={{color: "yellow"}}>
+                            <DeleteIcon/>
+                        </IconButton>
                         }
                         <Suspense fallback={<h1>Loading...</h1>}>
                             {isShown && selectedId === league.id &&
                             <DeleteModal id={selectedId} name={league.name} url="league"/>}
                         </Suspense>
-
                     </ListGroup.Item>
                 ))
                 }

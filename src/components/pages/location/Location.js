@@ -6,7 +6,11 @@ import AddLocationModal from "../../modals/AddLocationModal";
 import axios from "axios";
 import {hasRole} from "../../util/Auth";
 import styled from "styled-components";
-import background from "../../../stadium.jpg"
+
+import TableBackground from "../../../soccerManagerTableBackground.jpg";
+
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const LocationStyle = styled.div`
     // .App {
@@ -88,13 +92,15 @@ function Location() {
                             }} className="locationLink">{location.name}</Link>
                             {'   '}
                             {hasRole(["admin"]) &&
-                            <Button id={"delete-" + location.name} className="deleteLocationButton" variant="warning"
-                                    onClick={() => {
-                                        setIsShown(true);
-                                        setSelectedId(location.id)
-                                    }}>
-                                Törlés
-                            </Button>
+                            <IconButton
+                                id={"delete-" + location.name}
+                                className="deleteLocationButton" edge="end" aria-label="delete"
+                                onClick={() => {
+                                setIsShown(true);
+                                setSelectedId(location.id)
+                            }} style={{color: "yellow"}}>
+                                <DeleteIcon />
+                            </IconButton>
                             }
                             <Suspense fallback={<h1>Loading...</h1>}>
                                 {isShown && selectedId === location.id &&

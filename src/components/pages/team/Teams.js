@@ -5,6 +5,8 @@ import {Button, ListGroup} from "react-bootstrap";
 import axios from "axios";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import {hasRole} from "../../util/Auth";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 function usePrefetch(factory) {
     const [component, setComponent] = useState(null);
@@ -59,12 +61,21 @@ function Teams() {
                             }} className="team">{team.name}</Link>
                             {'   '}
                             {hasRole(["admin"]) &&
-                            <Button variant="warning" onClick={() => {
-                                setIsShown(true);
-                                setSelectedId(team.id)
-                            }}>
-                                Törlés
-                            </Button>
+                            <IconButton
+                                id={"delete-" + team.name}
+                                className="deleteLocationButton" edge="end" aria-label="delete"
+                                onClick={() => {
+                                    setIsShown(true);
+                                    setSelectedId(team.id)
+                                }} style={{color: "yellow"}}>
+                                <DeleteIcon />
+                            </IconButton>
+                            // <Button variant="warning" onClick={() => {
+                            //     setIsShown(true);
+                            //     setSelectedId(team.id)
+                            // }}>
+                            //     Törlés
+                            // </Button>
                             }
                             <Suspense fallback={<h1>Loading...</h1>}>
                                 {isShown && selectedId === team.id &&
