@@ -5,6 +5,11 @@ import LeagueMatches from "./LeagueMatches";
 import LeagueTable from "./LeagueTable";
 import {MatchContext} from "../../contexts/MatchContext";
 import {useParams} from "react-router-dom";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Button from "@material-ui/core/Button";
+import styled from "styled-components";
+
+const LeagueDetailsStyle = styled.div`
 
     #matchDetailsNavButtons {
         width: fit-content;
@@ -33,6 +38,8 @@ const LeagueDetails = () => {
 
     const [teams, setTeams] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [showTable, setShowTable] = useState(false);
+    const [showMatches, setShowMatches] = useState(false);
 
     useEffect(() => {
         setIsSelected(true);
@@ -42,14 +49,40 @@ const LeagueDetails = () => {
             .then(() => setIsLoading(false));
     }, [matchIsFinished])
 
+    const changeStatus = (state, fn) => {
+        if (state === true) {
+            fn(false);
+        } else {
+            fn(true);
+        }
+    }
+
     if (isLoading) {
         return (<h1>Loading...</h1>)
     } else {
         return (
-            <div className="leagueDetail">
-                <LeagueTable teams={teams} />
-                <LeagueMatches/>
-            </div>
+            <LeagueDetailsStyle>
+                <div className="leagueDetail">
+                    <div className="leagueTitle">
+                        <h1 id="leagueDetailTitle">{league.split("_").join(" ")}</h1>
+                    </div>
+                    <ButtonGroup size="large" aria-label="large outlined primary button group"
+                                 id="matchDetailsNavButtons">
+                        <Button onClick={() => {
+                            // changeStatus(setShowMatches);
+                            changeStatus(showTable, setShowTable);
+                        }}>Tabella</Button>
+                        <Button onClick={() => {
+                            changeStatus(showMatches, setShowMatches);
+                            // changeStatus(setShowTable);
+                        }}>Meccsek</Button>
+                        <Button>Góllövőlista</Button>
+                    </ButtonGroup>
+
+                    {showTable && <LeagueTable teams={teams}/>}
+                    {showMatches && <LeagueMatches/>}
+                </div>
+            </LeagueDetailsStyle>
         )
     }
 
