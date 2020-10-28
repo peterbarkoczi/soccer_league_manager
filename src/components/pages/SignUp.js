@@ -61,7 +61,7 @@ const SignUp = () => {
 
     useEffect(() => {
         const source = axios.CancelToken.source();
-        axios.get(`${process.env.REACT_APP_API_URL}/auth/getUsers`, {cancelToken:source.token})
+        axios.get(`${process.env.REACT_APP_API_URL}/auth/getUsers`, {cancelToken: source.token})
             .then(response => getUsernames(response.data));
 
         return () => {
@@ -76,7 +76,7 @@ const SignUp = () => {
                 username: username,
                 password: password,
                 role: "user"
-            }, {cancelToken:source.token}).then((response) => {
+            }, {cancelToken: source.token}).then((response) => {
                 setResult(response.data);
             }).then(() => setIsAdded(false));
         }
@@ -96,7 +96,7 @@ const SignUp = () => {
                     <Form.Control
                         style={{border: `3px solid ${usernameIsInvalid ? "red" : "green"}`}}
                         name="signupUsername"
-                        ref={register({required: true, minLength: 3, validate:data => !existUsernames.includes(data)})}
+                        ref={register({required: true, minLength: 3, validate: data => !existUsernames.includes(data)})}
                         type="text"
                         placeholder="Adjon meg egy felhasználónevet"
                         value={username}
@@ -105,10 +105,13 @@ const SignUp = () => {
                             setUsername(e.target.value)
                         }
                         }/>
+                    {errors.signupUsername && errors.signupUsername.type === "required" &&
+                    <p className="error">Ezt ki kell tölteni!!!</p>}
+                    {errors.signupUsername && errors.signupUsername.type === "minLength" &&
+                    <p className="error">Minimum 3 betűsnek kell lenni</p>}
+                    {errors.signupUsername && errors.signupUsername.type === "validate" &&
+                    <p className="error">Ilyen már van</p>}
                 </Form.Group>
-                {errors.signupUsername && errors.signupUsername.type === "required" && <p className="error">Ezt ki kell tölteni!!!</p>}
-                {errors.signupUsername && errors.signupUsername.type === "minLength" && <p className="error">Minimum 3 betűsnek kell lenni</p>}
-                {errors.signupUsername && errors.signupUsername.type === "validate" && <p className="error">Ilyen már van</p>}
                 <Form.Group controlId="signupPassword">
                     <Form.Label>Jelszó</Form.Label>
                     <Form.Control
@@ -123,15 +126,17 @@ const SignUp = () => {
                             setPassword(e.target.value)
                         }
                         }/>
+                    {errors.signupPassword && errors.signupPassword.type === "required" &&
+                    <p className="error">Ezt ki kell tölteni!!!</p>}
+                    {errors.signupPassword && errors.signupPassword.type === "minLength" &&
+                    <p className="error">Minimum 3 betűsnek kell lenni</p>}
                 </Form.Group>
-                {errors.signupPassword && errors.signupPassword.type === "required" && <p className="error">Ezt ki kell tölteni!!!</p>}
-                {errors.signupPassword && errors.signupPassword.type === "minLength" && <p className="error">Minimum 3 betűsnek kell lenni</p>}
                 <Form.Group controlId="signupCheckPassword">
                     <Form.Label>Jelszó megerősítés</Form.Label>
                     <Form.Control
                         style={{border: `3px solid ${passwordIsSame ? "green" : "red"}`}}
                         name="signupCheckPassword"
-                        ref={register({required: true, minLength: 3, validate:data => data === password})}
+                        ref={register({required: true, minLength: 3, validate: data => data === password})}
                         type="password"
                         placeholder="Adjon meg a jelszót újra"
                         value={checkPassword}
@@ -140,18 +145,23 @@ const SignUp = () => {
                             validatePassword(e.target.value)
                         }
                         }/>
+                    {errors.signupCheckPassword && errors.signupCheckPassword.type === "required" &&
+                    <p className="error">Ezt ki kell tölteni!!!</p>}
+                    {errors.signupCheckPassword && errors.signupCheckPassword.type === "minLength" &&
+                    <p className="error">Minimum 3 betűsnek kell lenni</p>}
+                    {errors.signupCheckPassword && errors.signupCheckPassword.type === "validate" &&
+                    <p className="error">A két jelszó nem egyezik</p>}
                 </Form.Group>
-                {errors.signupCheckPassword && errors.signupCheckPassword.type === "required" && <p className="error">Ezt ki kell tölteni!!!</p>}
-                {errors.signupCheckPassword && errors.signupCheckPassword.type === "minLength" && <p className="error">Minimum 3 betűsnek kell lenni</p>}
-                {errors.signupCheckPassword && errors.signupCheckPassword.type === "validate" && <p className="error">A két jelszó nem egyezik</p>}
-                <Button variant={usernameIsInvalid || passwordIsInvalid || !passwordIsSame ? "danger" : "success"}
-                        type="submit"
-                        id="signUpUserSubmit">
-                    Regisztráció
-                </Button>
-                <Button variant="dark" onClick={resetFields}>
-                    Adatok törlése
-                </Button>
+                <Form.Group className="signActionButtons">
+                    <Button variant={usernameIsInvalid || passwordIsInvalid || !passwordIsSame ? "danger" : "success"}
+                            type="submit"
+                            id="signUpUserSubmit">
+                        Regisztráció
+                    </Button>
+                    <Button variant="dark" onClick={resetFields}>
+                        Adatok törlése
+                    </Button>
+                </Form.Group>
             </Form>
         </div>
     )
