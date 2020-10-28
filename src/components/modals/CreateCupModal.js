@@ -64,7 +64,7 @@ function CreateCupModal(props) {
 
     useEffect(() => {
         if (isAdded) {
-            axios.post('${process.env.REACT_APP_API_URL}/cups/create_cup', {
+            axios.post(`${process.env.REACT_APP_API_URL}/cups/create_cup`, {
                 name: cupName,
                 teamList: teamList,
                 date: date,
@@ -195,7 +195,7 @@ function CreateCupModal(props) {
 
     return (
         <>
-            <Button variant="danger" onClick={handleShow} id="addCupButton">
+            <Button variant="danger" onClick={handleShow} className="addButton" id="addCupButton">
                 Új kupa létrehozása
             </Button>
 
