@@ -1,24 +1,30 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Link, useLocation, useHistory} from "react-router-dom";
-import styled, {createGlobalStyle}  from "styled-components";
+import styled, {createGlobalStyle} from "styled-components";
 // import background from "../red-soccer-bg2.jpg"
 import background3 from "../greenSoccer.jpg";
+import background4 from "../soccer-background-dark.jpg";
 import background2 from "../soccerManagerTableBackground.jpg";
-import background from "../stadium.jpg"
+import background from "../soccer-background-red.jpg"
 import {DataPackContext} from "./contexts/DataPackContext";
 import {Button, ButtonGroup} from "react-bootstrap";
 import {hasRole} from "./util/Auth";
 
 const HeaderStyle = styled.div`
-   display: flex;
+   //display: flex;
    
    .header {
-     width: 98%;
-     background-image: url(${background2});
+     width: 98vw;
+     background: url(${background}) no-repeat center center fixed;
+     -webkit-background-size: cover;
+     -moz-background-size: cover;
+     -o-background-size: cover;
+     background-size: cover;
      margin: 2% auto;
      padding: 0.2%;
      border-radius: 20px;
      opacity: 0.9;
+     height: 100%;
    }
    
    .title {
@@ -73,6 +79,20 @@ const HeaderStyle = styled.div`
       margin: 5%
       //opacity: 0.8;
    }
+   
+   #headerNavMenu {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+   }
+   
+   .menu Button {
+      border: none;
+      margin-right: 10px;
+      background-image: url(${background2});
+      font-size: 1.5em;
+   }
+   
 `;
 
 // const GlobalStyle = createGlobalStyle`
@@ -87,12 +107,23 @@ const Header = () => {
         if (["signup", "signIn", "users"].some(pathName => path.includes(pathName))) {
             return background3;
         }
-        return background;
+        return background4;
     }
 
     const GlobalStyle = createGlobalStyle`
       body {
-        background-image: url(${props => setBodyBackground(props.path)});
+        // background-image: url(${props => setBodyBackground(props.path)});
+        // background-position: center;
+        // background-repeat: no-repeat;
+        // background-size: cover;
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        background: url(${props => setBodyBackground(props.path)}) no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
       }
     `;
 

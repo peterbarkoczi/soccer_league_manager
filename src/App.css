@@ -1,10 +1,10 @@
-body {
-    /*background-image: url("../src/greenSoccer.jpg");*/
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    height: 100%;
-}
+/*body {*/
+/*    background-image: url("../src/greenSoccer.jpg");*/
+/*    background-position: center;*/
+/*    background-repeat: no-repeat;*/
+/*    background-size: cover;*/
+/*    height: 100%;*/
+/*}*/
 
 a {
     text-decoration: none;
@@ -12,10 +12,6 @@ a {
 
 a:hover {
     text-decoration: none;
-}
-
-.leagues {
-    float: left;
 }
 
 .leagueDetail a {
@@ -136,6 +132,83 @@ a:hover {
     justify-content: center;
 }
 
+/* SignIn - SignUp */
+
+.signContainer {
+    margin: auto;
+    width: 50%;
+    background-image: url("./soccerManagerTableBackground.jpg");
+    border-radius: 20px;
+}
+
+.signContainer h1 {
+    text-align: center;
+    color: white;
+    text-decoration: underline;
+}
+
+.signContainer label {
+    color: white;
+    padding: 2% 1% 1%;
+    font-size: 1.7em;
+}
+
+.signContainer .form-group {
+    margin: auto;
+    width: 50%;
+}
+
+.signContainer .signActionButtons {
+    margin-top: 4%;
+    padding-bottom: 2%;
+}
+
 .error {
+    background: wheat;
     color: red;
+}
+
+/* ContentList */
+
+.contentList {
+    margin: 7% auto auto;
+    width: 50vw;
+    /*height: 50%;*/
+}
+
+.contentList h1 {
+    margin-bottom: 0;
+    padding: 1.2%;
+    width: fit-content;
+    color: white;
+    background-image: url("./soccerManagerTableBackground.jpg");
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.addButton {
+    background-image: url("./soccer-background-purple.jpg");
+    border: none;
+}
+
+.contentListRow {
+    border: none;
+    /*background-image: url("./soccerManagerTableBackground.jpg");*/
+    background: url("./soccer-background-red.jpg");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    margin-bottom: 1%;
+    opacity: 0.8;
+}
+
+.league, .cup, .team {
+    font-size: 1.7em;
+    color: white;
+    width: 50%;
+}
+
+#leaguesList, #cupsList, #teamList {
+
 }

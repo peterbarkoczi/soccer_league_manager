@@ -13,13 +13,51 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const LocationStyle = styled.div`
-    // .App {
-    //     background-image: url(${background});
-    // }
-    //
-    // .locations {
-    //     background-image: url(${background});
-    // }
+    h1 {
+        background-image: url(${TableBackground});
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        color: ghostwhite;
+        text-align: center;
+        margin: auto;
+        width: 50%;
+        font-size: 2.5em;
+    }
+    
+    #addLocation {
+        float: right;
+        //width: 50%;
+    }
+    
+    #addLocationButton {
+        border-radius: 0 0 20px 20px;
+        background-image: url(${TableBackground});
+        border: none;
+    }
+    
+    .locations {
+        width: 40%;
+        margin: 5% auto auto;
+    }
+    
+    #locationList {
+        border-radius: 20px 20px 0 20px;
+    }
+    
+    #locationItem {
+        background-image: url(${TableBackground});
+        border: none;
+    }
+    
+    #locationItem a {
+        color: white;
+        font-size: 1.7em;
+    }
+    
+    #locationItem Button {
+        font-size: 1.1em;
+    }
+    
 `
 
 const usePrefetch = (factory) => {
@@ -109,6 +147,11 @@ const Location = () => {
                         </ListGroup.Item>))
                     }
                 </ListGroup>
+                {hasRole(["admin"]) &&
+                <div id="addLocation">
+                    <AddLocationModal locations={locations}/>
+                </div>
+                }
             </div>
         </LocationStyle>
     )
