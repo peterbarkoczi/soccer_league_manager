@@ -5,7 +5,7 @@ import styled, {createGlobalStyle} from "styled-components";
 import background3 from "../greenSoccer.jpg";
 import background4 from "../soccer-background-dark.jpg";
 import background2 from "../soccerManagerTableBackground.jpg";
-import background from "../soccer-background-red.jpg"
+import background from "../soccer-background-grey_2.jpg"
 import {DataPackContext} from "./contexts/DataPackContext";
 import {Button, ButtonGroup} from "react-bootstrap";
 import {hasRole} from "./util/Auth";

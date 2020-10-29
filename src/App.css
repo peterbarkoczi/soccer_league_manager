@@ -181,20 +181,20 @@ a:hover {
     padding: 1.2%;
     width: fit-content;
     color: white;
-    background-image: url("./soccerManagerTableBackground.jpg");
+    background-image: url("./soccer-background-grey.jpg");
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
 }
 
 .addButton {
-    background-image: url("./soccer-background-purple.jpg");
+    background-image: url("./soccer-background-grey.jpg");
     border: none;
 }
 
 .contentListRow {
     border: none;
     /*background-image: url("./soccerManagerTableBackground.jpg");*/
-    background: url("./soccer-background-red.jpg");
+    background: url("./soccer-background-grey.jpg");
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

@@ -65,11 +65,6 @@ const Cups = () => {
                             }} style={{color: "yellow"}}>
                             <DeleteIcon />
                         </IconButton>
-                        // <Button variant="warning" onClick={() => {
-                        //     setIsShown(true);
-                        //     setSelectedId(cup.id)}}>
-                        //     Törlés
-                        // </Button>
                         }
                         <Suspense fallback={<h1>Loading...</h1>}>
                             {isShown && selectedId === cup.id && <DeleteModal id={selectedId} name={cup.name} url="cups"/>}
