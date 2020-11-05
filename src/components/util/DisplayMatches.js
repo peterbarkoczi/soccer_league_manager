@@ -5,8 +5,17 @@ import {AddCard, AddScorer} from "./SetMatchDetails";
 import axios from "axios";
 import {MatchContext} from "../contexts/MatchContext";
 import {hasRole} from "./Auth";
+import styled from "styled-components";
 
-function DisplayMatches(props) {
+const MatchStyle = styled.div`
+
+    //.matchTableContainer {
+    //    width: 80%;
+    //}
+
+`;
+
+const DisplayMatches = (props) => {
 
     const {
         matchId, setMatchId
@@ -111,7 +120,7 @@ function DisplayMatches(props) {
             </colgroup>
             <thead>
             <tr>
-                <th colSpan="6">{`${props.matchType} - ${props.match.date} - ${props.match.time}`}</th>
+                <th className="matchRowTitle" colSpan="6">{`${props.matchType} - ${props.match.date} - ${props.match.time}`}</th>
             </tr>
             </thead>
             <tbody>
@@ -173,8 +182,8 @@ function DisplayMatches(props) {
             <tfoot>
             <tr>
                 <td colSpan="6">
-                    {hasRole(["admin", "referee"]) && <Button
-                        variant="outline-success"
+                    {hasRole(["admin", "referee"]) && <Button className="matchFinishButton"
+                        variant="light"
                         onClick={updateIsFinished} size="sm"
                         disabled={props.match.finished}>VÉGE</Button>}
                 </td>

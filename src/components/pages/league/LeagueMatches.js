@@ -14,10 +14,14 @@ const LeagueMatches = () => {
 
     useEffect(() => {
         const source = axios.CancelToken.source();
-
         setIsLoading(true);
-        axios.get(`${process.env.REACT_APP_API_URL}/match/get_league_matches?locationName=${locationName.split("_").join(" ")}&leagueName=${league.split("_").join(" ")}`,
-            {cancelToken: source.token})
+        axios.get(`${process.env.REACT_APP_API_URL}/match/get_league_matches`, {
+            params: {
+                locationName: locationName.split("_").join(" "),
+                leagueName: league.split("_").join(" ")
+            },
+            cancelToken: source.token
+        })
             .then((response) => setMatches(response.data))
             .then(() => setIsLoading(false));
 
@@ -37,11 +41,11 @@ const LeagueMatches = () => {
             <div>
                 {matches.map((match, index) => (
                     match["matchType"].includes("free") ? <h1>Szabadnapos: {match["team1"]}</h1> :
-                    <DisplayMatches
-                        key={match.id}
-                        match={match}
-                        index={++index}
-                        matchType={setMatchType(match.matchType)} />
+                        <DisplayMatches
+                            key={match.id}
+                            match={match}
+                            index={++index}
+                            matchType={setMatchType(match.matchType)}/>
                 ))}
             </div>
         )

@@ -111,8 +111,10 @@ function AddCard(props) {
 
     return (
         <>
-            <Image className="cardImage" id="cardImage1" src={cardIcon} onClick={!props.isFinished ? handleShow : null}
-                   thumbnail/>
+            <Button size="lg" variant="secondary" className="addCardButtonWithImage" disabled={props.isFinished}>
+                <Image className="cardImage" id="cardImage1" src={cardIcon} onClick={!props.isFinished ? handleShow : null}
+                       thumbnail/>
+            </Button>
             <Modal show={showCardModal} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Lap</Modal.Title>
