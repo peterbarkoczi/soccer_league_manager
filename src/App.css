@@ -19,6 +19,7 @@ a:hover {
 }
 
 #cupName {
+    color: white;
     text-align: center;
     padding: 1%;
 }
@@ -44,13 +45,15 @@ a:hover {
 }
 
 .matchTypeTitle {
+    font-size: 2.5em;
+    color: white;
     text-align: center;
     padding: 2%;
 }
 
-.cardImage {
-    cursor: pointer;
-}
+/*.cardImage {*/
+/*    cursor: pointer;*/
+/*}*/
 
 /* Player table */
 
@@ -78,7 +81,9 @@ a:hover {
 /* Admin page table */
 
 #adminPageTable {
-    background-image: url("../src/soccerManagerTableBackground.jpg");
+    background-image: url("../src/soccer-background-dark_blue.jpg");
+    background-size: cover;
+
     margin: 2% 15%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 2), 10px 6px 20px 0 rgba(0, 0, 0, 5);
     border-radius: 15px;
@@ -137,7 +142,7 @@ a:hover {
 .signContainer {
     margin: auto;
     width: 50%;
-    background-image: url("./soccerManagerTableBackground.jpg");
+    background-image: url("./soccer-background-dark_blue.jpg");
     border-radius: 20px;
 }
 
@@ -214,10 +219,34 @@ a:hover {
 }
 
 .leagueDetail {
-    margin-top: 5%;
+    margin-top: 2%;
 }
 
 #matchDetailsNavButtons {
     color: white;
     margin: auto;
+}
+
+/* Matches */
+
+.matchTableContainer {
+    width: 85%;
+    margin: auto;
+}
+
+.matchTable {
+    background: url("./soccer-background-grey.jpg");
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.addCardButtonWithImage {
+    padding: 0;
+    border: none;
+}
+
+.matchFinishButton:disabled {
+    background: gray;
 }

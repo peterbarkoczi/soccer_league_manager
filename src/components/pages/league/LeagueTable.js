@@ -8,11 +8,11 @@ import styled from "styled-components";
 const LeagueTableStyle = styled.div`
 
     th {
-        font-size: 1.3em;
+        //font-size: 1em;
     }
 
     td {
-        font-size: 1.2em;
+        font-size: 1em;
     }
     
     #leagueDetailTable {
@@ -35,14 +35,14 @@ const LeagueTable = (props) => {
                     <tr>
                         <th>Helyezés</th>
                         <th>Csapat</th>
+                        <th>M</th>
                         <th>Pont</th>
                         <th>Győzelem</th>
                         <th>Vereség</th>
                         <th>Döntetlen</th>
-                        <th>Rúgott gól</th>
-                        <th>Kapott gól</th>
-                        <th>Gólkülönbség</th>
-                        <th>Lejátszott meccs</th>
+                        <th>RG</th>
+                        <th>KG</th>
+                        <th>GK</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -58,6 +58,7 @@ const LeagueTable = (props) => {
                                     {team.team}
                                 </Link>
                             </td>
+                            <td>{team["playedMatch"]}</td>
                             <td>{team["point"]}</td>
                             <td>{team["win"]}</td>
                             <td>{team["lose"]}</td>
@@ -65,7 +66,6 @@ const LeagueTable = (props) => {
                             <td>{team["score"]}</td>
                             <td>{team["receivedScore"]}</td>
                             <td>{team["difference"]}</td>
-                            <td>{team["playedMatch"]}</td>
                         </tr>
                     ))}
                     </tbody>

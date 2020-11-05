@@ -5,7 +5,6 @@ export const DataPackContext = createContext();
 export const DataPackProvider = props => {
     const [isLoading, setIsLoading] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
-    const [showLocationDiv, setShowLocationDiv] = useState(true);
 
     const [refresh, setRefresh] = useState(false);
     const [locationIsDeleted, setLocationIsDeleted] = useState(false);
@@ -24,7 +23,6 @@ export const DataPackProvider = props => {
         <DataPackContext.Provider value={{
             isLoading, setIsLoading,
             isSelected, setIsSelected,
-            showLocationDiv, setShowLocationDiv,
             locationIsDeleted, setLocationIsDeleted,
             teamIsDeleted, setTeamIsDeleted,
             playerAdded, setPlayerAdded,

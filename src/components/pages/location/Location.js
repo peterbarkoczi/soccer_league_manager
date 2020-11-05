@@ -1,20 +1,20 @@
 import React, {lazy, Suspense, useContext, useEffect, useState} from "react";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import {Link} from "react-router-dom";
-import {Button, ListGroup} from "react-bootstrap";
+import {ListGroup} from "react-bootstrap";
 import AddLocationModal from "../../modals/AddLocationModal";
 import axios from "axios";
 import {hasRole} from "../../util/Auth";
 import styled from "styled-components";
 
-import TableBackground from "../../../soccerManagerTableBackground.jpg";
+import TableBackground from "../../../soccer-background-grey.jpg";
 
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 const LocationStyle = styled.div`
     h1 {
-        background-image: url(${TableBackground});
+        //background-image: url(${TableBackground});
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
         color: ghostwhite;
@@ -38,6 +38,7 @@ const LocationStyle = styled.div`
     .locations {
         width: 40%;
         margin: 5% auto auto;
+        background-image: url(${TableBackground});
     }
     
     #locationList {
@@ -45,7 +46,8 @@ const LocationStyle = styled.div`
     }
     
     #locationItem {
-        background-image: url(${TableBackground});
+        //background-image: url(${TableBackground});
+        background-color: rgba(255, 255, 255, 0);
         border: none;
     }
     
@@ -76,7 +78,6 @@ const importModal = () => import("../../modals/DeleteModal");
 const Location = () => {
     const {
         setIsSelected,
-        showLocationDiv, setShowLocationDiv,
         locationIsDeleted, setLocationIsDeleted,
         isShown, setIsShown,
         refresh, setRefresh
@@ -96,10 +97,12 @@ const Location = () => {
             try {
                 axios.get(`${process.env.REACT_APP_API_URL}/location/list`, {cancelToken: source.token})
                     .then(response => setLocations(response.data))
-                    .then(() => setIsLoading(false))
-                    .then(() => setLocationIsDeleted(false))
-                    .then(() => setSelectedId(0))
-                    .then(() => setRefresh(false));
+                    .then(() => {
+                        setIsLoading(false);
+                        setLocationIsDeleted(false);
+                        setSelectedId(0);
+                        setRefresh(false);
+                    });
             } catch (error) {
                 if (axios.isCancel(error)) {
                     console.log("cancelled");
@@ -125,7 +128,6 @@ const Location = () => {
                             <Link to={{
                                 pathname: `${location.name.split(" ").join("_")}/bajnoksag`,
                             }} onClick={() => {
-                                setShowLocationDiv(false);
                                 setIsSelected(true);
                             }} className="locationLink">{location.name}</Link>
                             {'   '}
@@ -160,7 +162,7 @@ const Location = () => {
         return (<h1>Loading...</h1>)
     } else {
         return (
-            showLocationDiv ? <LocationDiv/> : null
+            <LocationDiv/>
         )
     }
 }

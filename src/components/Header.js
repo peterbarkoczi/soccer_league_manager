@@ -2,10 +2,10 @@ import React, {useContext, useEffect, useState} from "react";
 import {Link, useLocation, useHistory} from "react-router-dom";
 import styled, {createGlobalStyle} from "styled-components";
 // import background from "../red-soccer-bg2.jpg"
-import background3 from "../greenSoccer.jpg";
+import background3 from "../soccer-background-office.jpg";
 import background4 from "../soccer-background-dark.jpg";
 import background2 from "../soccerManagerTableBackground.jpg";
-import background from "../soccer-background-grey_2.jpg"
+import background from "../soccer-background-office.jpg"
 import {DataPackContext} from "./contexts/DataPackContext";
 import {Button, ButtonGroup} from "react-bootstrap";
 import {hasRole} from "./util/Auth";
@@ -19,8 +19,8 @@ const HeaderStyle = styled.div`
      -moz-background-size: cover;
      -o-background-size: cover;
      background-size: cover;
-     margin: 2% auto;
-     padding: 0.2%;
+     margin: 2% auto 0;
+     padding: 2%;
      border-radius: 20px;
      opacity: 0.9;
      height: 100%;
@@ -80,18 +80,33 @@ const HeaderStyle = styled.div`
    }
    
    #headerNavMenu {
+      margin-top: 0;
+      position: static;
       width: 100%;
+      box-sizing: border-box;
       display: flex;
       justify-content: center;
    }
    
-   .menu Button {
+   .navButton {
       border: none;
-      margin-right: 10px;
-      background-image: url(${background2});
+      //margin-right: 10px;
+      //background-image: url(${background2});
+      background-color: rgba(255, 255, 255, 0);
       font-size: 1.5em;
    }
    
+   .navButton:focus {
+      border: none;
+   }
+   
+   #headerNavMenu a {
+      font-size: 2em;
+      padding-top: 0;
+      padding-right: 1%;
+      padding-left: 1%;
+      background: rgba(9,8,8,0.25);
+   }
 `;
 
 // const GlobalStyle = createGlobalStyle`
@@ -126,13 +141,8 @@ const Header = () => {
       }
     `;
 
-    const {setShowLocationDiv} = useContext(DataPackContext);
 
     const [path, setPath] = useState("");
-
-    const reset = () => {
-        setShowLocationDiv(true);
-    }
 
     const location = useLocation();
     const history = useHistory();
@@ -154,20 +164,20 @@ const Header = () => {
         if (location.pathname === "/signIn" || location.pathname === "/signup" || location.pathname === "/users") return null;
         return (
             <ButtonGroup className="menu" id="headerNavMenu">
-                <Link to={`/${path}/news`}>
-                    <Button variant="danger" size="lg" id="navButtonLeagues">Hírek</Button>
+                <Link to={`/${path}/news`}>Hírek
+                    {/*<Button variant="danger" size="lg" id="navButtonLeagues" className="navButton">Hírek</Button>*/}
                 </Link>
-                <Link to={`/${path}/bajnoksag`}>
-                    <Button variant="danger" size="lg" id="navButtonLeagues">Bajnokság</Button>
+                <Link to={`/${path}/bajnoksag`}>Bajnokság
+                    {/*<Button variant="danger" size="lg" id="navButtonLeagues" className="navButton">Bajnokság</Button>*/}
                 </Link>
-                <Link to={`/${path}/kupak`}>
-                    <Button variant="danger" size="lg" id="navButtonCups">Kupák</Button>
+                <Link to={`/${path}/kupak`}>Kupák
+                    {/*<Button variant="danger" size="lg" id="navButtonCups"className="navButton">Kupák</Button>*/}
                 </Link>
-                <Link to={`/${path}/csapatok`}>
-                    <Button variant="danger" size="lg" id="navButtonTeams">Csapatok</Button>
+                <Link to={`/${path}/csapatok`}>Csapatok
+                    {/*<Button variant="danger" size="lg" id="navButtonTeams" className="navButton">Csapatok</Button>*/}
                 </Link>
-                <Link to={`/${path}/contact`}>
-                    <Button variant="danger" size="lg" id="navButtonLeagues">Kapcsolat</Button>
+                <Link to={`/${path}/contact`}>Kapcsolat
+                    {/*<Button variant="danger" size="lg" id="navButtonLeagues" className="navButton">Kapcsolat</Button>*/}
                 </Link>
             </ButtonGroup>
         )
@@ -215,14 +225,14 @@ const Header = () => {
                 }
 
                 <div className="title">
-                    <Link to="/" onClick={reset}>
+                    <Link to="/">
                         <h2 id="appTitle">Soccer League Manager</h2>
                     </Link>
                     {displayHeaderTitle() ?
                         (<h3 id="locationHeaderTitle">{createName(path)}</h3>) : null}
                 </div>
-                {location.pathname !== "/" ? renderHeaderButtons() : null}
             </div>
+            {location.pathname !== "/" ? renderHeaderButtons() : null}
         </HeaderStyle>
     );
 }

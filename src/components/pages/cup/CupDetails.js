@@ -21,11 +21,13 @@ const CupDetails = () => {
     return (
         <div>
             <h1 id="cupName">{cup.name}</h1>
-            {cup["qualifierType"] === "group" ?
-                <CupGroupMatches/> :
-                <CupEliminationMatches/>}
-            <CupSemiFinals/>
-            <CupFinals/>
+            <div className="matchTableContainer">
+                {cup["qualifierType"] === "group" ?
+                    <CupGroupMatches/> :
+                    <CupEliminationMatches/>}
+                <CupSemiFinals/>
+                <CupFinals/>
+            </div>
         </div>
     );
 }
