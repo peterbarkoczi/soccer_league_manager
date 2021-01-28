@@ -1,10 +1,15 @@
 import React, {lazy, Suspense, useContext, useEffect, useState} from "react";
-import {Button, Table} from "react-bootstrap";
+import {Button, ListGroup, Table} from "react-bootstrap";
 import axios from "axios";
 import AddPlayerModal from "../../modals/AddPlayerModal";
 import {DataPackContext} from "../../contexts/DataPackContext";
 import {Link, useParams, useLocation} from "react-router-dom";
 import {hasRole, isAllowed} from "../../util/Auth";
+
+import styled from "styled-components";
+import TableBackground from "../../../soccer-background-grey.jpg";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const usePrefetch = (factory) => {
     const [component, setComponent] = useState(null);
@@ -113,69 +118,85 @@ const TeamDetails = () => {
         return (<h1>Loading...</h1>)
     } else {
         return (
-            <div id="playerList">
-                {isLeague && <h1>{league.split("_").join(" ")}</h1>}
-                <h3>{team.split("_").join(" ")}</h3>
-                {hasRole(["admin", "coach"]) && isAllowed(teamId) &&
-                <AddPlayerModal locationName={locationName} players={playerList} team={team}/>}
-                <Table id="playersTable" striped bordered hover size="sm">
-                    <colgroup>
-                        <col className="playerIndexCell"/>
-                        <col className="playerNumberCell"/>
-                        <col className="playerNameCell"/>
-                        <col className="playerGoalsCell"/>
-                    </colgroup>
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Mezszám</th>
-                        <th>Név</th>
-                        {isLeague &&
-                        <>
-                            <th>Gólok</th>
-                            <th>Sárga lap</th>
-                            <th>Piros lap</th>
-                        </>}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {playerList.map(player => (
-                        <tr key={isLeague ? player["player"].id : player.id}>
-                            <td>{index++}</td>
-                            <td>{isLeague ? player["player"].number : player.number}</td>
-                            <td id="playerName">
-                                <Link to={{
-                                    pathname: `/${locationName}/jatekos/${
-                                        isLeague ? player["player"].name.split(" ").join("_") : player.name.split(" ").join("_")}`,
-                                    hash: isLeague ?  player["player"].id.toString() : player.id.toString()
-                                }}
-                                >
-                                    {isLeague ? player["player"].name : player.name}
-                                </Link>
-                                {'   '}
-                                {hasRole(["admin", "coach"]) && isAllowed(teamId) &&
-                                <Button variant="warning" onClick={() => {
-                                    setIsShown(true);
-                                    setSelectedId(player.id)
-                                }}>
-                                    Törlés
-                                </Button>}
-                                <Suspense fallback={<h1>Loading...</h1>}>
-                                    {isShown && selectedId === setPlayerId(player) &&
-                                    <DeleteModal id={selectedId} name={isLeague ? player["player"].name : player.name} url="player"/>}
-                                </Suspense>
-                            </td>
+            <PlayersStyle>
+                <div className="contentList" id="playerList">
+                    {isLeague && <h1>{league.split("_").join(" ")}</h1>}
+                    <h1>{team.split("_").join(" ")}</h1>
+                    <div id="addPlayer">
+                        {hasRole(["admin", "coach"]) && isAllowed(teamId) &&
+                        <AddPlayerModal locationName={locationName} players={playerList} team={team}/>}
+                    </div>
+                    <Table id="playersTable" striped bordered hover size="sm">
+                        <colgroup>
+                            <col className="playerIndexCell"/>
+                            <col className="playerNumberCell"/>
+                            <col className="playerNameCell"/>
+                            <col className="playerGoalsCell"/>
+                        </colgroup>
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Mezszám</th>
+                            <th>Név</th>
                             {isLeague &&
                             <>
-                                <td>{player["goals"]}</td>
-                                <td>{player["cards"]["Sárga"]}</td>
-                                <td>{player["cards"]["Piros"]}</td>
+                                <th>Gólok</th>
+                                <th>Sárga lap</th>
+                                <th>Piros lap</th>
                             </>}
                         </tr>
-                    ))}
-                    </tbody>
-                </Table>
-            </div>
+                        </thead>
+                        <tbody>
+                        {playerList.map(player => (
+                            <tr key={isLeague ? player["player"].id : player.id}>
+                                <td className="playerIndex">{index++}</td>
+                                <td className="playerNumber">{isLeague ? player["player"].number : player.number}</td>
+                                <td id="playerName">
+                                    <Link to={{
+                                        pathname: `/${locationName}/jatekos/${
+                                            isLeague ? player["player"].name.split(" ").join("_") : player.name.split(" ").join("_")}`,
+                                        hash: isLeague ? player["player"].id.toString() : player.id.toString()
+                                    }}
+                                    >
+                                        {isLeague ? player["player"].name : player.name}
+                                    </Link>
+                                    {hasRole(["admin", "coach"]) && isAllowed(teamId) &&
+                                    <IconButton
+                                        id={"delete-" + player.name}
+                                        className="deletePlayerButton" edge="end" aria-label="delete"
+                                        onClick={() => {
+                                            setIsShown(true);
+                                            setSelectedId(player.id)
+                                        }} style={{color: "yellow"}}>
+                                        <DeleteIcon/>
+                                    </IconButton>}
+                                    {'   '}
+                                    {/*{hasRole(["admin", "coach"]) && isAllowed(teamId) &&*/}
+                                    {/*<Button variant="warning" onClick={() => {*/}
+                                    {/*    setIsShown(true);*/}
+                                    {/*    setSelectedId(player.id)*/}
+                                    {/*}}>*/}
+                                    {/*    Törlés*/}
+                                    {/*</Button>}*/}
+                                    <Suspense fallback={<h1>Loading...</h1>}>
+                                        {isShown && selectedId === setPlayerId(player) &&
+                                        <DeleteModal id={selectedId}
+                                                     name={isLeague ? player["player"].name : player.name}
+                                                     url="player"/>}
+                                    </Suspense>
+                                </td>
+                                {isLeague &&
+                                <>
+                                    <td>{player["goals"]}</td>
+                                    <td>{player["cards"]["Sárga"]}</td>
+                                    <td>{player["cards"]["Piros"]}</td>
+                                </>}
+                            </tr>
+                        ))}
+                        </tbody>
+                    </Table>
+                </div>
+            </PlayersStyle>
         );
     }
 }
