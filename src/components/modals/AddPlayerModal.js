@@ -10,7 +10,7 @@ const AddPlayerModal = (props) => {
     const onSubmit = (data) => {
         console.log(numbers);
         console.log(data);
-        // setIsAdded(true);
+        setIsAdded(true);
         handleClose();
     };
 
@@ -23,7 +23,8 @@ const AddPlayerModal = (props) => {
     const [isAdded, setIsAdded] = useState(false);
     const [playerName, setPlayerName] = useState("");
     const [playerNumber, setPlayerNumber] = useState(0);
-    const [birthDate, setBirthDate] = useState(new Date());
+    // const [birthDate, setBirthDate] = useState(new Date());
+    const [birthDate, setBirthDate] = useState("");
 
     const [numbers, setNumbers] = useState([]);
     let tempBirthDate;
@@ -58,7 +59,7 @@ const AddPlayerModal = (props) => {
     function updateBirthDate(e) {
         console.log(e.target.value);
         tempBirthDate = e.target.value;
-        setBirthDate(new Date(tempBirthDate));
+        setBirthDate(tempBirthDate);
     }
 
     return (
