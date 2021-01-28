@@ -64,7 +64,7 @@ const AddPlayerModal = (props) => {
 
     return (
         <>
-            <Button variant="danger" onClick={handleShow} id="addPlayerButton">
+            <Button variant="danger" onClick={handleShow} className="addButton" id="addPlayerButton">
                 Új játékos hozzáadása
             </Button>
 
