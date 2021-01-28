@@ -123,6 +123,10 @@ const HeaderStyle = styled.div`
       //  font-size: 1em;
       //}
       
+      #logoutButton, #adminPageButton {
+        font-size: 1.5vw;
+      }
+      
       #logout, #adminPage {
         float: right;
       }
@@ -134,7 +138,7 @@ const HeaderStyle = styled.div`
       }
       
       #headerNavMenu a {
-        font-size: 3.5vw;
+        font-size: 5vw;
       }
    }
    

@@ -19,6 +19,39 @@ const usePrefetch = (factory) => {
 
 const importModal = () => import("../../modals/DeleteModal");
 
+const PlayersStyle = styled.div`
+  thead, tbody {
+    background-image: url(${TableBackground});
+  }
+
+  thead {
+    font-size: 1.2vw;
+  }
+
+  tbody {
+    font-size: 1vw;
+  }
+
+  #playerName {
+    //border: none;
+    margin: auto;
+  }
+
+  a {
+    color: white;
+    margin: auto;
+  }
+
+  .playerIndex, .playerNumber {
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  #playersTable {
+    border-collapse: separate;
+  }
+`
+
 const TeamDetails = () => {
 
     const DeleteModal = usePrefetch(importModal);

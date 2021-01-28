@@ -65,10 +65,17 @@ const LocationStyle = styled.div`
     #deleteIcon {
         font-size: 2vw;
     }
-    //
-    //@media screen and (max-width: 900px) {
-    //
-    //}
+
+    @media screen and (max-width: 900px) {
+        h1 {
+          font-size: 4.5vw;
+        }
+        
+        #locationItem a {
+          font-size: 3.5vw;
+        }
+        
+    }
     
 `
 
