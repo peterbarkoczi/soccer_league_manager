@@ -25,7 +25,6 @@ const AddPlayerModal = (props) => {
     const [position, setPosition] = useState("");
     const [foot, setFoot] = useState("");
     const [playerNumber, setPlayerNumber] = useState(0);
-    // const [birthDate, setBirthDate] = useState(new Date());
     const [birthDate, setBirthDate] = useState("");
 
     const [numbers, setNumbers] = useState([]);
@@ -111,11 +110,27 @@ const AddPlayerModal = (props) => {
                                 value={playerNumber}
                                 onChange={updatePlayerNumber}/>
                         </Form.Group>
-                        {errors.playerNumber && errors.playerNumber.type === "validate" && <p className="error">Válassz másik számot</p>}
-                        <Button variant="success" type="submit" onClick={() => {
-                            // setIsAdded(true);
-                            // handleClose()
-                        }} id="addPlayerSubmit">
+                        {errors.playerNumber && errors.playerNumber.type === "validate" &&
+                        <p className="error">Válassz másik számot</p>}
+                        <Form.Group controlId="addPlayerPosition">
+                            <Form.Label>Pozíció</Form.Label>
+                            <Form.Control as="select" onChange={updatePosition}>
+                                <option label="Válassz az alábbiak közül"/>
+                                <option key="kapus" value="kapus" label="kapus"/>
+                                <option key="hátvéd" value="hátvéd" label="hátvéd"/>
+                                <option key="középpályás" value="középpályás" label="középpályás"/>
+                                <option key="csatár" value="csatár" label="csatár"/>
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="addPlayerFoot">
+                            <Form.Label>Ügyesebb láb</Form.Label>
+                            <Form.Control as="select" onChange={updateFoot}>
+                                <option label="Válassz az alábbiak közül"/>
+                                <option key="jobb" value="jobb" label="jobb"/>
+                                <option key="bal" value="bal" label="bal"/>
+                            </Form.Control>
+                        </Form.Group>
+                        <Button variant="success" type="submit" id="addPlayerSubmit">
                             Játékos hozzáadása
                         </Button>
                     </Form>
