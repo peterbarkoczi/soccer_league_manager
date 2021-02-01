@@ -5,31 +5,30 @@ import LeagueMatches from "./LeagueMatches";
 import LeagueTable from "./LeagueTable";
 import {MatchContext} from "../../contexts/MatchContext";
 import {useParams} from "react-router-dom";
-import ButtonGroup from "@material-ui/core/ButtonGroup";
-import Button from "@material-ui/core/Button";
+import {Button, ButtonGroup} from "@material-ui/core";
 import styled from "styled-components";
 import GroupTypeStats from "../../util/GroupTypeStats";
 
 const LeagueDetailsStyle = styled.div`
 
-    #matchDetailsNavButtons {
-        width: fit-content;
-        display: flex;
-        justify-content: center;
-        background: white;
-        color: black;
-        margin-bottom: 2%;
-    }
-    
-    .leagueTitle {
-        color: white;
-        display: flex;
-        justify-content: center;
-    }
+  #matchDetailsNavButtons {
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    background: white;
+    color: black;
+    margin-bottom: 2%;
+  }
 
-    .leagueTableContainer {
-        margin-bottom: 2%;
-    }
+  .leagueTitle {
+    color: white;
+    display: flex;
+    justify-content: center;
+  }
+
+  .leagueTableContainer {
+    margin-bottom: 2%;
+  }
 `;
 
 const LeagueDetails = () => {
@@ -72,9 +71,12 @@ const LeagueDetails = () => {
                     </div>
                     <ButtonGroup size="large" aria-label="large outlined primary button group"
                                  id="matchDetailsNavButtons">
-                        <Button onClick={() => setShowTable(!showTable)}>Tabella</Button>
-                        <Button onClick={() => setShowMatches(!showMatches)}>Meccsek</Button>
-                        <Button onClick={() => setShowStats(!showStats)}>Statisztika</Button>
+                        <Button id="tableButton" onClick={() => setShowTable(!showTable)}
+                                style={{background: showTable ? "green" : null, outline: "none"}}>Tabella</Button>
+                        <Button id="matchesButton" onClick={() => setShowMatches(!showMatches)}
+                                style={{background: showMatches ? "green" : null, outline: "none"}}>Meccsek</Button>
+                        <Button id="statsButton" onClick={() => setShowStats(!showStats)}
+                                style={{background: showStats ? "green" : null, outline: "none"}}>Statisztika</Button>
                     </ButtonGroup>
                     <div className="leagueTableContainer">
                         {showTable && <LeagueTable teams={teams}/>}
@@ -89,6 +91,5 @@ const LeagueDetails = () => {
             </LeagueDetailsStyle>
         )
     }
-
 }
 export default LeagueDetails;
