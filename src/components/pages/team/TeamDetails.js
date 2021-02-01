@@ -1,5 +1,5 @@
 import React, {lazy, Suspense, useContext, useEffect, useState} from "react";
-import {Button, ListGroup, Table} from "react-bootstrap";
+import {Table} from "react-bootstrap";
 import axios from "axios";
 import AddPlayerModal from "../../modals/AddPlayerModal";
 import {DataPackContext} from "../../contexts/DataPackContext";
@@ -171,13 +171,6 @@ const TeamDetails = () => {
                                         <DeleteIcon/>
                                     </IconButton>}
                                     {'   '}
-                                    {/*{hasRole(["admin", "coach"]) && isAllowed(teamId) &&*/}
-                                    {/*<Button variant="warning" onClick={() => {*/}
-                                    {/*    setIsShown(true);*/}
-                                    {/*    setSelectedId(player.id)*/}
-                                    {/*}}>*/}
-                                    {/*    Törlés*/}
-                                    {/*</Button>}*/}
                                     <Suspense fallback={<h1>Loading...</h1>}>
                                         {isShown && selectedId === setPlayerId(player) &&
                                         <DeleteModal id={selectedId}
