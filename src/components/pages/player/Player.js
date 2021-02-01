@@ -16,12 +16,13 @@ const Player = () => {
     const [cups, setCups] = useState([])
 
     useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/player/get_player_details?playerId=${location.hash.substring(1)}`)
+        axios.get(`${process.env.REACT_APP_API_URL}/player/get_player_details`,
+            {params: {playerId: location.hash.substring(1)}})
             .then((response) => {
-                setTeams(response.data.teams);
-                setPlayerDetails(response.data.player);
-                setLeagues(response.data.leagues);
-                setCups(response.data.cups)
+                setTeams(response.data["teams"]);
+                setPlayerDetails(response.data["player"]);
+                setLeagues(response.data["leagues"]);
+                setCups(response.data["cups"])
             })
     }, [])
 

@@ -38,13 +38,14 @@ const AddPlayerModal = (props) => {
 
     useEffect(() => {
         if (isAdded) {
-            axios.post(`${process.env.REACT_APP_API_URL}/player/add_player/${props.locationName.split("_").join(" ")}-${props.team.split("_").join(" ")}`, {
-                name: playerName,
-                number: playerNumber,
-                birthDate: birthDate,
-                position: position,
-                foot: foot
-            })
+            axios.post(`${process.env.REACT_APP_API_URL}/player/add_player/${props.locationName.split("_").join(" ")}-${props.team.split("_").join(" ")}`,
+                {
+                    name: playerName,
+                    number: playerNumber,
+                    birthDate: birthDate,
+                    position: position,
+                    foot: foot
+                })
                 .then(response => console.log("Player added: " + response.data))
                 .then(() => setIsAdded(false))
                 .then(() => setPlayerAdded(true));
