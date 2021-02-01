@@ -36,9 +36,9 @@ const Player = () => {
                     <Card.Body className="playerDetails">
                         <Card.Title>{player.split("_").join(" ")}</Card.Title>
                         <ListGroup>
-                            <ListGroupItem>Szüetési idő: {playerDetails.birthDate}</ListGroupItem>
-                            <ListGroupItem>Poszt: védő</ListGroupItem>
-                            <ListGroupItem>Ügyesebb láb: jobb</ListGroupItem>
+                            <ListGroupItem>Szüetési idő: {playerDetails["birthDate"]}</ListGroupItem>
+                            <ListGroupItem>Poszt: {playerDetails["position"]}</ListGroupItem>
+                            <ListGroupItem>Ügyesebb láb: {playerDetails["foot"]}</ListGroupItem>
                         </ListGroup>
                     </Card.Body>
                     <Card.Body className="playerActivities">
