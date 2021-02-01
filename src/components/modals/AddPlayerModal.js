@@ -22,6 +22,8 @@ const AddPlayerModal = (props) => {
     const {setPlayerAdded} = useContext(DataPackContext);
     const [isAdded, setIsAdded] = useState(false);
     const [playerName, setPlayerName] = useState("");
+    const [position, setPosition] = useState("");
+    const [foot, setFoot] = useState("");
     const [playerNumber, setPlayerNumber] = useState(0);
     // const [birthDate, setBirthDate] = useState(new Date());
     const [birthDate, setBirthDate] = useState("");
@@ -40,7 +42,9 @@ const AddPlayerModal = (props) => {
             axios.post(`${process.env.REACT_APP_API_URL}/player/add_player/${props.locationName.split("_").join(" ")}-${props.team.split("_").join(" ")}`, {
                 name: playerName,
                 number: playerNumber,
-                birthDate: birthDate
+                birthDate: birthDate,
+                position: position,
+                foot: foot
             })
                 .then(response => console.log("Player added: " + response.data))
                 .then(() => setIsAdded(false))
@@ -54,6 +58,14 @@ const AddPlayerModal = (props) => {
 
     function updatePlayerNumber(e) {
         setPlayerNumber(e.target.value);
+    }
+
+    function updatePosition(e) {
+        setPosition(e.target.value);
+    }
+
+    function updateFoot(e) {
+        setFoot(e.target.value);
     }
 
     function updateBirthDate(e) {
