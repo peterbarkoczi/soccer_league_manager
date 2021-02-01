@@ -88,6 +88,7 @@ const AddPlayerModal = (props) => {
                         <Form.Group controlId="addPlayerName">
                             <Form.Label>Játékos neve</Form.Label>
                             <Form.Control
+                                required
                                 type="text"
                                 placeholder="Új játékos"
                                 value={playerName}
@@ -96,6 +97,7 @@ const AddPlayerModal = (props) => {
                         <Form.Group controlId="addPlayerBirthDate">
                             <Form.Label>Születési idő</Form.Label>
                             <Form.Control
+                                required
                                 type="date"
                                 value={tempBirthDate}
                                 onChange={updateBirthDate}/>
@@ -103,10 +105,12 @@ const AddPlayerModal = (props) => {
                         <Form.Group controlId="addPlayerNumber">
                             <Form.Label>Mezszám</Form.Label>
                             <Form.Control
+                                required
+                                style={{border: `3px solid ${numbers.includes(Number(playerNumber)) ? "red" : "green"}`}}
                                 type="number"
                                 placeholder="Mezszám"
                                 name="playerNumber"
-                                ref={register({required: true, validate:data => !numbers.includes(Number(data))})}
+                                ref={register({required: true, validate: data => !numbers.includes(Number(data))})}
                                 value={playerNumber}
                                 onChange={updatePlayerNumber}/>
                         </Form.Group>
