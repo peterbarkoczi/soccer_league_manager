@@ -36,6 +36,10 @@ const LocationStyle = styled.div`
         background-image: url(${TableBackground});
         border: none;
     }
+  
+    #addLocationButton:hover {
+        color: greenyellow;
+    }
     
     .locations {
         width: 40%;
