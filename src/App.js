@@ -19,6 +19,7 @@ import SignIn from "./components/pages/SignIn";
 import {hasRole} from "./components/util/Auth";
 import AdminUsersPage from "./components/pages/AdminUsersPage";
 import axios from "axios";
+import Contact from "./components/pages/contact/Contact";
 
 axios.interceptors.request.use(req => {
     if (localStorage.getItem("user")) req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem("user")).token}`;
@@ -47,6 +48,7 @@ const App = () => {
                             <Route exact path="/:locationName/kupak" component={Cups}/>
                             <Route exact path="/:locationName/kupak/:cupName" component={CupDetails}/>
                             <Route exact path="/:locationName/jatekos/:player" component={Player}/>
+                            <Route exact path="/:locationName/contact" component={Contact}/>
                         </div>
                     </Router>
                 </MatchProvider>
