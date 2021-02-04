@@ -123,7 +123,7 @@ const TeamDetails = () => {
                     {isLeague && <h1>{league.split("_").join(" ")}</h1>}
                     <h1>{team.split("_").join(" ")}</h1>
                     <div id="addPlayer">
-                        {hasRole(["admin", "coach"]) && isAllowed(teamId) &&
+                        {hasRole(["admin", "coach"]) && isAllowed(teamId) && !location.pathname.includes("bajnoksag") &&
                         <AddPlayerModal locationName={locationName} players={playerList} team={team}/>}
                     </div>
                     <Table id="playersTable" striped bordered hover size="sm">
@@ -160,7 +160,7 @@ const TeamDetails = () => {
                                     >
                                         {isLeague ? player["player"].name : player.name}
                                     </Link>
-                                    {hasRole(["admin", "coach"]) && isAllowed(teamId) &&
+                                    {hasRole(["admin", "coach"]) && isAllowed(teamId) && !location.pathname.includes("bajnoksag") &&
                                     <IconButton
                                         id={"delete-" + player.name}
                                         className="deletePlayerButton" edge="end" aria-label="delete"
