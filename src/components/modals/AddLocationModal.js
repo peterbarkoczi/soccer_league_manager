@@ -66,6 +66,8 @@ function AddLocationModal(props) {
                 .then(response => console.log("location added" + response))
                 .then(() => setIsAdded(false));
         }
+
+        return(() => {})
     }, [isAdded])
 
     return (
@@ -138,7 +140,6 @@ function AddLocationModal(props) {
                             <Form.Group controlId="addContactPhone">
                                 <Form.Label>Kontakt telefonszáma</Form.Label>
                                 <PhoneInput country={"hu"} value={contactPhone} onChange={(e) => {
-                                    console.log(e);
                                     setContactPhone(e);
                                 }}/>
                             </Form.Group>
