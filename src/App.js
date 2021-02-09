@@ -38,8 +38,8 @@ const App = () => {
                             <Header/>
                             {hasRole(["admin"]) && <Route exact path="/users" component={AdminUsersPage}/>}
                             <Route exact path="/" component={Location}/>
-                            <Route exact path="/signup" component={SignUp}/>
-                            <Route exact path="/signIn" component={SignIn}/>
+                            <Route exact path="/:locationName/signup" component={SignUp}/>
+                            <Route exact path="/:locationName/signIn" component={SignIn}/>
                             <Route exact path="/:locationName/csapatok" component={Teams}/>
                             <Route exact path={[
                                 "/:locationName/csapat/:team",
