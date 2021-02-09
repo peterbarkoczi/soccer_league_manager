@@ -36,7 +36,7 @@ const App = () => {
                     <Router>
                         <div className="App">
                             <Header/>
-                            {hasRole(["admin"]) && <Route exact path="/users" component={AdminUsersPage}/>}
+                            {hasRole(["admin"]) && <Route exact path="/:locationName/users" component={AdminUsersPage}/>}
                             <Route exact path="/" component={Location}/>
                             <Route exact path="/:locationName/signup" component={SignUp}/>
                             <Route exact path="/:locationName/signIn" component={SignIn}/>

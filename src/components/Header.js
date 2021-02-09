@@ -260,7 +260,7 @@ const Header = () => {
                             {'  '}
                             {hasRole(["admin"]) &&
                             <div id="adminPage">
-                                <Link to="/users">
+                                <Link to={`/${path}/users`}>
                                     <Button variant="success" id="adminPageButton">Felhasználók</Button>
                                 </Link>
                             </div>}
