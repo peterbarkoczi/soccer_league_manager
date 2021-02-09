@@ -17,13 +17,14 @@ function DeleteModal(props) {
         isShown, setIsShown,
         setLeagueIsDeleted,
         setPlayerIsDeleted,
-        setUserIsDeleted
+        setUserIsDeleted,
+        setNewsIsDeleted
     } = useContext(DataPackContext);
 
     const [message, setMessage] = useState("");
 
     const deleteItem = () => {
-        axios.delete(`${process.env.REACT_APP_API_URL}/${props.url}/${Number(props.id)}`)
+        axios.delete(`${process.env.REACT_APP_API_URL}/${props.url}/delete/${Number(props.id)}`)
             .then((response) => {
                 console.log(response.data);
                 setDefaultValues();
@@ -42,6 +43,7 @@ function DeleteModal(props) {
         setLeagueIsDeleted(false);
         setPlayerIsDeleted(false);
         setUserIsDeleted(false);
+        setNewsIsDeleted(false);
     }
 
     const setupMessage = () => {
@@ -64,6 +66,9 @@ function DeleteModal(props) {
                 break;
             case ("delete_user"):
                 setMessage(tempMessage + `felhasználót?`)
+                break;
+            case ("news"):
+                setMessage(tempMessage + `hírt?`)
                 break;
             default:
                 console.log("no item to delete")
@@ -94,6 +99,9 @@ function DeleteModal(props) {
                 break;
             case ("delete_user"):
                 setUserIsDeleted(true);
+                break;
+            case ("news"):
+                setNewsIsDeleted(true);
                 break;
             default:
                 console.log("no item to delete")
