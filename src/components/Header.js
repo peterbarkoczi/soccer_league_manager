@@ -1,12 +1,10 @@
 import React, {useContext, useEffect, useState} from "react";
 import {Link, useLocation, useHistory} from "react-router-dom";
 import styled, {createGlobalStyle} from "styled-components";
-// import background from "../red-soccer-bg2.jpg"
 import background3 from "../soccer-background-office.jpg";
 import background4 from "../soccer-background-dark.jpg";
 import background2 from "../soccerManagerTableBackground.jpg";
 import background from "../soccer-background-office.jpg"
-import {DataPackContext} from "./contexts/DataPackContext";
 import {Button, ButtonGroup} from "react-bootstrap";
 import {hasRole} from "./util/Auth";
 
@@ -115,13 +113,6 @@ const HeaderStyle = styled.div`
    
       
    @media screen and (max-width: 900px) {
-      //.title h2 {
-      //  font-size: 2em;
-      //}
-      
-      //.title h3 {
-      //  font-size: 1em;
-      //}
       
       #logoutButton, #adminPageButton {
         font-size: 1.5vw;
@@ -216,7 +207,7 @@ const Header = () => {
         if (location.pathname === "/signIn" || location.pathname === "/signup" || location.pathname === "/users") return null;
         return (
             <ButtonGroup className="menu" id="headerNavMenu">
-                <Link to={`/${path}/news`}>Hírek
+                <Link to={`/${path}/hirek`}>Hírek
                     {/*<Button variant="danger" size="lg" id="navButtonLeagues" className="navButton">Hírek</Button>*/}
                 </Link>
                 <Link to={`/${path}/bajnoksag`}>Bajnokság
@@ -228,7 +219,7 @@ const Header = () => {
                 <Link to={`/${path}/csapatok`}>Csapatok
                     {/*<Button variant="danger" size="lg" id="navButtonTeams" className="navButton">Csapatok</Button>*/}
                 </Link>
-                <Link to={`/${path}/contact`}>Kapcsolat
+                <Link to={`/${path}/kapcsolat`}>Kapcsolat
                     {/*<Button variant="danger" size="lg" id="navButtonLeagues" className="navButton">Kapcsolat</Button>*/}
                 </Link>
             </ButtonGroup>
