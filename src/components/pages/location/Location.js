@@ -94,7 +94,7 @@ const usePrefetch = (factory) => {
     return component;
 }
 
-const importModal = () => import("../../modals/DeleteModal");
+const deleteLocationModal = () => import("../../modals/DeleteModal");
 
 const Location = () => {
     const {
@@ -107,7 +107,7 @@ const Location = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     const [selectedId, setSelectedId] = useState(0);
-    const DeleteModal = usePrefetch(importModal);
+    const DeleteModal = usePrefetch(deleteLocationModal);
 
     useEffect(() => {
         const CancelToken = axios.CancelToken;
@@ -147,14 +147,14 @@ const Location = () => {
                     {locations.map(location => (
                         <ListGroup.Item id="locationItem" key={location.name}>
                             <Link to={{
-                                pathname: `${location.name.split(" ").join("_")}/bajnoksag`,
+                                pathname: `${location.name.split(" ").join("_")}/hirek`,
                             }} onClick={() => {
                                 setIsSelected(true);
                             }} className="locationLink">{location.name}</Link>
                             {'   '}
                             {hasRole(["admin"]) &&
                             <IconButton
-                                id={"delete-" + location.name}
+                                id={`delete-${location.name}`}
                                 className="deleteLocationButton" edge="end" aria-label="delete"
                                 onClick={() => {
                                 setIsShown(true);
