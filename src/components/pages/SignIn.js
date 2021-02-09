@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import axios from "axios";
-import {useHistory} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 
 const SignIn = () => {
 
@@ -13,6 +13,7 @@ const SignIn = () => {
     const [isAdded, setIsAdded] = useState(false);
 
     const history = useHistory();
+    const {locationName} = useParams();
 
     const {register, handleSubmit, errors} = useForm({reValidateMode: "onBlur"});
     const onSubmit = (data) => {
@@ -29,11 +30,12 @@ const SignIn = () => {
         if (isAdded) {
             axios.post(`${process.env.REACT_APP_API_URL}/auth/signin`, {
                 username: username,
-                password: password
+                password: password,
+                locationName: locationName.split("_").join(" ")
             }).then((response) => {
                 localStorage.setItem("user", JSON.stringify(response.data));
                 setResult("Sikeres bejelentkezés");
-                history.push("/");
+                history.push(`/${locationName}/hirek`);
             }).catch((err) => {
                     setResult(err.response.data);
                 })
