@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import {useForm} from "react-hook-form";
 import axios from "axios";
+import {useParams} from "react-router-dom";
 
 const SignUp = () => {
 
@@ -15,6 +16,8 @@ const SignUp = () => {
     const [result, setResult] = useState("");
 
     const [isAdded, setIsAdded] = useState(false);
+
+    const {locationName} = useParams();
 
     const {register, handleSubmit, errors} = useForm({reValidateMode: "onBlur"});
     const onSubmit = (data) => {
@@ -61,7 +64,11 @@ const SignUp = () => {
 
     useEffect(() => {
         const source = axios.CancelToken.source();
-        axios.get(`${process.env.REACT_APP_API_URL}/auth/getUsers`, {cancelToken: source.token})
+        axios.get(`${process.env.REACT_APP_API_URL}/auth/getUsers`,
+            {
+                cancelToken: source.token,
+                params:{locationName:locationName.split("_").join(" ")}
+            })
             .then(response => getUsernames(response.data));
 
         return () => {
@@ -75,7 +82,8 @@ const SignUp = () => {
             axios.post(`${process.env.REACT_APP_API_URL}/auth/signup`, {
                 username: username,
                 password: password,
-                role: "user"
+                role: "user",
+                locationName: locationName.split("_").join(" ")
             }, {cancelToken: source.token}).then((response) => {
                 setResult(response.data);
             }).then(() => setIsAdded(false));
