@@ -8,6 +8,11 @@ import background from "../soccer-background-office.jpg"
 import {Button, ButtonGroup} from "react-bootstrap";
 import {hasRole} from "./util/Auth";
 
+import CancelPresentationIcon from '@material-ui/icons/CancelPresentation';
+import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
+import PeopleAltOutlinedIcon from '@material-ui/icons/PeopleAltOutlined';
+import IconButton from "@material-ui/core/IconButton";
+
 const HeaderStyle = styled.div`
 
   .header {
@@ -18,7 +23,7 @@ const HeaderStyle = styled.div`
     -o-background-size: cover;
     background-size: cover;
     margin: 2% auto 0;
-    padding: 2%;
+    padding: 0.5%;
     border-radius: 20px;
     opacity: 0.9;
     height: 100%;
@@ -30,7 +35,7 @@ const HeaderStyle = styled.div`
 
   .title h2 {
     color: whitesmoke;
-    font-size: 4vw;
+    font-size: 3em;
     margin-top: 0;
     margin-bottom: 0;
     padding-left: 1%;
@@ -38,7 +43,7 @@ const HeaderStyle = styled.div`
 
   .title h3 {
     color: floralwhite;
-    font-size: 2.5vw;
+    font-size: 2.5em;
     padding-left: 1%;
   }
 
@@ -70,16 +75,78 @@ const HeaderStyle = styled.div`
     vertical-align: middle;
     //margin-right: 1%;
     margin: auto;
+    padding: 1%;
+  }
+
+  #logout {
+    padding-bottom: 0.7%;
   }
 
   #logout, #adminPage {
     //padding-right: 20%;
     margin: auto;
+    padding-left: 0.7%;
     //opacity: 0.8;
+  }
+  
+  //.loggedInButtons button {
+  //  //padding-left: 20%;
+  //  padding-bottom: 20%;
+  //  padding-top: 0;
+  //}
+  
+  #logoutIconButton {
+    padding-top: 0;
+    padding-bottom: 20%;
+    outline: none;
+    border: none;
+  }
+  
+  #logoutIconButton #logoutIconButtonTooltip {
+    visibility: hidden;
+    color: white;
+    position: absolute;
+    z-index: 1;
+    right: 105%;
+    opacity: 0;
+    transition: opacity 1s;
+  }
+
+  #logoutIconButton:hover #logoutIconButtonTooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  #adminPageIconButton #adminPageButtonTooltip {
+    visibility: hidden;
+    color: white;
+    position: absolute;
+    z-index: 1;
+    right: 105%;
+    opacity: 0;
+    transition: opacity 1s;
+  }
+
+  #adminPageIconButton:hover #adminPageButtonTooltip {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  #adminPageIconButton {
+    padding-top: 20%;
+    padding-bottom: 0;
+    outline: none;
+    border: none;
+  }
+  
+  .icon {
+    color: white;
+    font-size: 1.3em;
+    outline: none;
   }
 
   #logoutButton, #adminPageButton {
-    font-size: 1vw;
+    font-size: 1em;
   }
 
   #headerNavMenu {
@@ -92,7 +159,7 @@ const HeaderStyle = styled.div`
   }
 
   #headerNavMenu a {
-    font-size: 2.5vw;
+    font-size: 2.2em;
     padding-top: 0;
     padding-right: 1%;
     padding-left: 1%;
@@ -167,10 +234,6 @@ const Header = () => {
 
     const GlobalStyle = createGlobalStyle`
       body {
-          // background-image: url(${props => setBodyBackground(props.path)});
-        // background-position: center;
-        // background-repeat: no-repeat;
-        // background-size: cover;
         height: 100%;
         width: 100%;
         margin: 0;
@@ -205,21 +268,11 @@ const Header = () => {
         if (location.pathname === `/${path}/signIn` || location.pathname === `/${path}/signup` || location.pathname === `/${path}/users`) return null;
         return (
             <ButtonGroup className="menu" id="headerNavMenu">
-                <Link to={`/${path}/hirek`}>Hírek
-                    {/*<Button variant="danger" size="lg" id="navButtonLeagues" className="navButton">Hírek</Button>*/}
-                </Link>
-                <Link to={`/${path}/bajnoksag`}>Bajnokság
-                    {/*<Button variant="danger" size="lg" id="navButtonLeagues" className="navButton">Bajnokság</Button>*/}
-                </Link>
-                <Link to={`/${path}/kupak`}>Kupák
-                    {/*<Button variant="danger" size="lg" id="navButtonCups"className="navButton">Kupák</Button>*/}
-                </Link>
-                <Link to={`/${path}/csapatok`}>Csapatok
-                    {/*<Button variant="danger" size="lg" id="navButtonTeams" className="navButton">Csapatok</Button>*/}
-                </Link>
-                <Link to={`/${path}/kapcsolat`}>Kapcsolat
-                    {/*<Button variant="danger" size="lg" id="navButtonLeagues" className="navButton">Kapcsolat</Button>*/}
-                </Link>
+                <Link to={`/${path}/hirek`}>Hírek</Link>
+                <Link to={`/${path}/bajnoksag`}>Bajnokság</Link>
+                <Link to={`/${path}/kupak`}>Kupák</Link>
+                <Link to={`/${path}/csapatok`}>Csapatok</Link>
+                <Link to={`/${path}/kapcsolat`}>Kapcsolat</Link>
             </ButtonGroup>
         )
     }
@@ -254,14 +307,21 @@ const Header = () => {
                         </div> :
                         <div className="loggedInButtons">
                             <div id="logout">
-                                <Button variant="success" id="logoutButton"
-                                        onClick={() => logout()}>Kijelentkezés</Button>
+                                <IconButton
+                                    id={"logoutIconButton"}
+                                    onClick={() => logout()}>
+                                    <CancelPresentationIcon className={"icon"} id={"logoutIcon"}/>
+                                    <span id={"logoutIconButtonTooltip"}>Kijelentkezés</span>
+                                </IconButton>
                             </div>
                             {'  '}
                             {hasRole(["admin"]) &&
                             <div id="adminPage">
                                 <Link to={`/${path}/users`}>
-                                    <Button variant="success" id="adminPageButton">Felhasználók</Button>
+                                    <IconButton id={"adminPageIconButton"} >
+                                        <PeopleAltOutlinedIcon className={"icon"} id={"adminPageIcon"}/>
+                                        <span id={"adminPageButtonTooltip"}>Felhasználók</span>
+                                    </IconButton>
                                 </Link>
                             </div>}
                         </div>
